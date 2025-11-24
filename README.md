@@ -1,6 +1,10 @@
-# 18 Cricket Ecosystem - Complete Cricket Platform
+# 18cricket - Complete Cricket Platform
+
+**"A tribute to the legacy of THE KING"**
 
 A comprehensive mobile-first cricket ecosystem platform featuring a multi-vendor marketplace, academy hub, tournament management, ground booking system, and social community features.
+
+**App Name**: 18cricket (for App Store, Play Store, Microsoft Store)
 
 ## 🏏 Features
 
