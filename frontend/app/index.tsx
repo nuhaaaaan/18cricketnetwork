@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   motto: {
     fontSize: 12,
-    color: Colors.gold,
+    color: Colors.silver,
     marginTop: 8,
     textAlign: 'center',
     fontStyle: 'italic',
