@@ -751,6 +751,277 @@ async def like_post(post_id: str, current_user: dict = Depends(get_current_user)
     await db.posts.update_one({"id": post_id}, {"$inc": {"likes": 1}})
     return {"message": "Post liked"}
 
+@api_router.post("/posts/{post_id}/share")
+async def share_post(post_id: str, current_user: dict = Depends(get_current_user)):
+    post = await db.posts.find_one({"id": post_id})
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    await db.posts.update_one({"id": post_id}, {"$inc": {"shares": 1}})
+    return {"message": "Post shared", "share_link": f"/posts/{post_id}"}
+
+@api_router.post("/posts/{post_id}/archive")
+async def archive_post(post_id: str, current_user: dict = Depends(get_current_user)):
+    post = await db.posts.find_one({"id": post_id})
+    if not post or post['user_id'] != str(current_user['_id']):
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    await db.posts.update_one({"id": post_id}, {"$set": {"is_archived": True}})
+    return {"message": "Post archived"}
+
+# ==================== COMMENTS ====================
+
+@api_router.post("/posts/{post_id}/comments")
+async def create_comment(post_id: str, comment: CommentCreate, current_user: dict = Depends(get_current_user)):
+    post = await db.posts.find_one({"id": post_id})
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    comment_dict = comment.dict()
+    comment_dict['id'] = str(uuid.uuid4())
+    comment_dict['post_id'] = post_id
+    comment_dict['user_id'] = str(current_user['_id'])
+    comment_dict['user_name'] = current_user['name']
+    comment_dict['user_image'] = current_user.get('profile_image')
+    comment_dict['likes'] = 0
+    comment_dict['created_at'] = datetime.utcnow()
+    
+    await db.comments.insert_one(comment_dict)
+    await db.posts.update_one({"id": post_id}, {"$inc": {"comments": 1}})
+    
+    return comment_dict
+
+@api_router.get("/posts/{post_id}/comments")
+async def get_comments(post_id: str, limit: int = 50):
+    comments = await db.comments.find({"post_id": post_id}).sort('created_at', -1).limit(limit).to_list(limit)
+    for comment in comments:
+        comment['_id'] = str(comment['_id'])
+    return comments
+
+# ==================== REELS ====================
+
+@api_router.get("/reels")
+async def get_reels(limit: int = 50, skip: int = 0):
+    reels = await db.posts.find({"post_type": "reel", "is_archived": False}).sort('created_at', -1).skip(skip).limit(limit).to_list(limit)
+    for reel in reels:
+        reel['_id'] = str(reel['_id'])
+    return reels
+
+# ==================== STORIES ====================
+
+@api_router.post("/stories")
+async def create_story(story_data: dict, current_user: dict = Depends(get_current_user)):
+    story = Story(
+        user_id=str(current_user['_id']),
+        user_name=current_user['name'],
+        user_image=current_user.get('profile_image'),
+        image=story_data['image'],
+        is_highlight=story_data.get('is_highlight', False),
+        highlight_name=story_data.get('highlight_name')
+    )
+    
+    await db.stories.insert_one(story.dict())
+    return story.dict()
+
+@api_router.get("/stories")
+async def get_stories():
+    # Get stories that haven't expired
+    current_time = datetime.utcnow()
+    stories = await db.stories.find({"expires_at": {"$gt": current_time}, "is_highlight": False}).to_list(100)
+    for story in stories:
+        story['_id'] = str(story['_id'])
+    return stories
+
+@api_router.get("/stories/highlights/{user_id}")
+async def get_highlights(user_id: str):
+    highlights = await db.stories.find({"user_id": user_id, "is_highlight": True}).to_list(100)
+    for highlight in highlights:
+        highlight['_id'] = str(highlight['_id'])
+    return highlights
+
+# ==================== SQUAD (FRIENDS) ====================
+
+@api_router.post("/squad/add/{user_id}")
+async def add_to_squad(user_id: str, current_user: dict = Depends(get_current_user)):
+    target_user = await db.users.find_one({"_id": ObjectId(user_id)})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    squad = Squad(
+        user_id=str(current_user['_id']),
+        squad_member_id=user_id,
+        squad_member_name=target_user['name'],
+        squad_member_image=target_user.get('profile_image')
+    )
+    
+    await db.squad.insert_one(squad.dict())
+    return {"message": f"Added {target_user['name']} to squad"}
+
+@api_router.delete("/squad/remove/{user_id}")
+async def remove_from_squad(user_id: str, current_user: dict = Depends(get_current_user)):
+    await db.squad.delete_one({"user_id": str(current_user['_id']), "squad_member_id": user_id})
+    return {"message": "Removed from squad"}
+
+@api_router.get("/squad")
+async def get_squad(current_user: dict = Depends(get_current_user)):
+    squad_members = await db.squad.find({"user_id": str(current_user['_id'])}).to_list(1000)
+    for member in squad_members:
+        member['_id'] = str(member['_id'])
+    return squad_members
+
+# ==================== DIRECT MESSAGES ====================
+
+@api_router.post("/messages/send")
+async def send_message(message_data: dict, current_user: dict = Depends(get_current_user)):
+    message = DirectMessage(
+        sender_id=str(current_user['_id']),
+        sender_name=current_user['name'],
+        receiver_id=message_data['receiver_id'],
+        content=message_data['content'],
+        images=message_data.get('images', [])
+    )
+    
+    await db.direct_messages.insert_one(message.dict())
+    return message.dict()
+
+@api_router.get("/messages/{user_id}")
+async def get_messages(user_id: str, current_user: dict = Depends(get_current_user)):
+    messages = await db.direct_messages.find({
+        "$or": [
+            {"sender_id": str(current_user['_id']), "receiver_id": user_id},
+            {"sender_id": user_id, "receiver_id": str(current_user['_id'])}
+        ]
+    }).sort('created_at', 1).to_list(1000)
+    
+    for message in messages:
+        message['_id'] = str(message['_id'])
+    
+    # Mark messages as read
+    await db.direct_messages.update_many(
+        {"sender_id": user_id, "receiver_id": str(current_user['_id']), "is_read": False},
+        {"$set": {"is_read": True}}
+    )
+    
+    return messages
+
+@api_router.get("/messages")
+async def get_conversations(current_user: dict = Depends(get_current_user)):
+    # Get unique conversations
+    conversations = await db.direct_messages.aggregate([
+        {
+            "$match": {
+                "$or": [
+                    {"sender_id": str(current_user['_id'])},
+                    {"receiver_id": str(current_user['_id'])}
+                ]
+            }
+        },
+        {
+            "$sort": {"created_at": -1}
+        },
+        {
+            "$group": {
+                "_id": {
+                    "$cond": [
+                        {"$eq": ["$sender_id", str(current_user['_id'])]},
+                        "$receiver_id",
+                        "$sender_id"
+                    ]
+                },
+                "last_message": {"$first": "$$ROOT"}
+            }
+        }
+    ]).to_list(100)
+    
+    return conversations
+
+# ==================== GROUP CHATS ====================
+
+@api_router.post("/groups/create")
+async def create_group(group_data: dict, current_user: dict = Depends(get_current_user)):
+    if len(group_data.get('members', [])) > 100:
+        raise HTTPException(status_code=400, detail="Maximum 100 members allowed")
+    
+    group = GroupChat(
+        name=group_data['name'],
+        creator_id=str(current_user['_id']),
+        members=[str(current_user['_id'])] + group_data.get('members', []),
+        image=group_data.get('image')
+    )
+    
+    await db.group_chats.insert_one(group.dict())
+    return group.dict()
+
+@api_router.post("/groups/{group_id}/add-members")
+async def add_group_members(group_id: str, member_ids: List[str], current_user: dict = Depends(get_current_user)):
+    group = await db.group_chats.find_one({"id": group_id})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    current_members = group['members']
+    if len(current_members) + len(member_ids) > 100:
+        raise HTTPException(status_code=400, detail="Maximum 100 members allowed")
+    
+    await db.group_chats.update_one(
+        {"id": group_id},
+        {"$addToSet": {"members": {"$each": member_ids}}}
+    )
+    
+    return {"message": "Members added to group"}
+
+@api_router.post("/groups/{group_id}/messages")
+async def send_group_message(group_id: str, message_data: dict, current_user: dict = Depends(get_current_user)):
+    group = await db.group_chats.find_one({"id": group_id})
+    if not group or str(current_user['_id']) not in group['members']:
+        raise HTTPException(status_code=403, detail="Not a member of this group")
+    
+    message = GroupMessage(
+        group_id=group_id,
+        sender_id=str(current_user['_id']),
+        sender_name=current_user['name'],
+        content=message_data['content'],
+        images=message_data.get('images', [])
+    )
+    
+    await db.group_messages.insert_one(message.dict())
+    return message.dict()
+
+@api_router.get("/groups/{group_id}/messages")
+async def get_group_messages(group_id: str, current_user: dict = Depends(get_current_user)):
+    group = await db.group_chats.find_one({"id": group_id})
+    if not group or str(current_user['_id']) not in group['members']:
+        raise HTTPException(status_code=403, detail="Not a member of this group")
+    
+    messages = await db.group_messages.find({"group_id": group_id}).sort('created_at', 1).to_list(1000)
+    for message in messages:
+        message['_id'] = str(message['_id'])
+    return messages
+
+@api_router.get("/groups")
+async def get_groups(current_user: dict = Depends(get_current_user)):
+    groups = await db.group_chats.find({"members": str(current_user['_id'])}).to_list(100)
+    for group in groups:
+        group['_id'] = str(group['_id'])
+    return groups
+
+# ==================== PROFILE PHOTO ====================
+
+@api_router.post("/profile/photo")
+async def update_profile_photo(photo_data: dict, current_user: dict = Depends(get_current_user)):
+    await db.users.update_one(
+        {"_id": ObjectId(current_user['_id'])},
+        {"$set": {"profile_image": photo_data['image']}}
+    )
+    return {"message": "Profile photo updated"}
+
+@api_router.delete("/profile/photo")
+async def delete_profile_photo(current_user: dict = Depends(get_current_user)):
+    await db.users.update_one(
+        {"_id": ObjectId(current_user['_id'])},
+        {"$set": {"profile_image": None}}
+    )
+    return {"message": "Profile photo deleted"}
+
 @api_router.post("/teams")
 async def create_team(team: TeamCreate, current_user: dict = Depends(get_current_user)):
     team_dict = team.dict()
