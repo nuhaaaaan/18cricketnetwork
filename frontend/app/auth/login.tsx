@@ -94,7 +94,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   keyboardView: {
     flex: 1,
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.surface,
+    color: Colors.text,
   },
   button: {
     backgroundColor: Colors.primary,
