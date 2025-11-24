@@ -1867,6 +1867,230 @@ async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
 # Include router
+# ==================== CHATBOT MODELS & ENDPOINTS ====================
+
+from openai import OpenAI
+
+# Initialize OpenAI client with Emergent LLM key
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-63076Bb9c045bF69dA')
+openai_client = OpenAI(api_key=EMERGENT_LLM_KEY)
+
+class ChatBotMessage(BaseModel):
+    message: str
+    context: Optional[Dict[str, Any]] = None
+
+class ChatBotResponse(BaseModel):
+    response: str
+    suggestions: Optional[List[str]] = None
+    action: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
+
+async def get_cricket_context(message: str, user_context: Dict = None):
+    """Get relevant cricket data based on user message"""
+    context_data = {}
+    
+    message_lower = message.lower()
+    
+    # Check for product-related queries
+    if any(word in message_lower for word in ['bat', 'ball', 'gear', 'equipment', 'buy', 'shop', 'gloves', 'pads', 'helmet', 'shoes']):
+        products = await db.products.find().limit(5).to_list(length=5)
+        context_data['products'] = [
+            {
+                'name': p.get('name'),
+                'price': p.get('price'),
+                'category': p.get('category'),
+            }
+            for p in products
+        ]
+    
+    # Check for ground-related queries
+    if any(word in message_lower for word in ['ground', 'book', 'field', 'turf', 'practice', 'net']):
+        grounds = await db.grounds.find().limit(5).to_list(length=5)
+        context_data['grounds'] = [
+            {
+                'name': g.get('name'),
+                'location': g.get('location'),
+                'price_per_hour': g.get('price_per_hour'),
+                'ground_type': g.get('ground_type'),
+            }
+            for g in grounds
+        ]
+    
+    # Check for academy-related queries
+    if any(word in message_lower for word in ['academy', 'coaching', 'training', 'coach', 'learn']):
+        academies = await db.academies.find().limit(5).to_list(length=5)
+        context_data['academies'] = [
+            {
+                'name': a.get('name'),
+                'location': a.get('location'),
+                'fee_structure': a.get('fee_structure'),
+            }
+            for a in academies
+        ]
+    
+    # Check for tournament-related queries
+    if any(word in message_lower for word in ['tournament', 'match', 'competition', 'league']):
+        tournaments = await db.tournaments.find().limit(5).to_list(length=5)
+        context_data['tournaments'] = [
+            {
+                'name': t.get('name'),
+                'status': t.get('status'),
+                'start_date': str(t.get('start_date')),
+                'entry_fee': t.get('entry_fee'),
+            }
+            for t in tournaments
+        ]
+    
+    # Check for nutrition-related queries
+    if any(word in message_lower for word in ['nutrition', 'protein', 'supplement', 'diet', 'food']):
+        nutrition_products = await db.products.find({'category': 'nutrition'}).limit(3).to_list(length=3)
+        context_data['nutrition'] = [
+            {
+                'name': p.get('name'),
+                'description': p.get('description'),
+                'price': p.get('price'),
+            }
+            for p in nutrition_products
+        ]
+    
+    return context_data
+
+async def generate_chatbot_response(message: str, context_data: Dict = None, user_context: Dict = None):
+    """Generate AI response using OpenAI"""
+    
+    system_prompt = """You are "18 Cricket AI", an expert cricket assistant for the 18 Cricket Network platform. 
+    
+Your personality:
+- Friendly, knowledgeable, and enthusiastic about cricket
+- Use cricket terminology naturally
+- Keep responses concise and actionable
+- Always try to be helpful and guide users to the right features
+
+You help with:
+1. Cricket Gear: Recommend bats, balls, pads, gloves, shoes based on player level, style, budget
+2. Ground Booking: Help find and book cricket grounds, practice nets, facilities
+3. Academies: Suggest cricket academies for training
+4. Tournaments: Help with tournament information, registration, fixtures
+5. Nutrition & Fitness: Recommend supplements, trainers, physios for cricketers
+6. Social Features: Guide users on creating posts, reels, managing profiles
+7. Vendor Support: Help vendors manage products and orders
+8. General Cricket Knowledge: Answer cricket questions
+
+Guidelines:
+- If you have relevant data, mention specific options
+- Keep recommendations practical
+- Always end with a helpful question or suggestion
+- Use emojis occasionally for friendliness 🏏
+"""
+    
+    user_prompt = f"User message: {message}\n\n"
+    
+    if context_data:
+        user_prompt += "Available relevant data:\n"
+        for key, value in context_data.items():
+            user_prompt += f"\n{key.upper()}:\n{value}\n"
+    
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            max_tokens=500,
+            temperature=0.7,
+        )
+        
+        ai_response = response.choices[0].message.content
+        
+        # Generate suggestions based on message content
+        suggestions = []
+        message_lower = message.lower()
+        
+        if 'gear' in message_lower or 'bat' in message_lower or 'equipment' in message_lower:
+            suggestions = [
+                "Show me top-rated bats",
+                "What about protective gear?",
+                "Recommend shoes for fast bowling"
+            ]
+        elif 'ground' in message_lower or 'book' in message_lower:
+            suggestions = [
+                "Find grounds near me",
+                "Show available time slots",
+                "What's the price range?"
+            ]
+        elif 'academy' in message_lower or 'training' in message_lower:
+            suggestions = [
+                "Find academies for beginners",
+                "Show coaching programs",
+                "What about specialized training?"
+            ]
+        elif 'tournament' in message_lower:
+            suggestions = [
+                "Show upcoming tournaments",
+                "How do I register my team?",
+                "Tournament schedules"
+            ]
+        else:
+            suggestions = [
+                "Find cricket gear",
+                "Book a practice ground",
+                "Explore academies"
+            ]
+        
+        return {
+            "response": ai_response,
+            "suggestions": suggestions[:3]
+        }
+        
+    except Exception as e:
+        logger.error(f"OpenAI API error: {str(e)}")
+        return {
+            "response": "I'm here to help! I can assist you with finding cricket gear, booking grounds, discovering academies, exploring tournaments, and more. What would you like to know?",
+            "suggestions": ["Find cricket gear", "Book a ground", "Find academies"]
+        }
+
+@api_router.post("/chatbot", response_model=ChatBotResponse)
+async def chat_with_bot(chat_message: ChatBotMessage):
+    """
+    AI Chatbot endpoint for 18 Cricket Network
+    
+    Handles:
+    - Cricket gear recommendations
+    - Ground booking assistance
+    - Academy finder
+    - Tournament information
+    - Nutrition and fitness guidance
+    - Social features help
+    - Vendor support
+    """
+    try:
+        # Get relevant context from database
+        context_data = await get_cricket_context(
+            chat_message.message,
+            chat_message.context
+        )
+        
+        # Generate AI response
+        response_data = await generate_chatbot_response(
+            chat_message.message,
+            context_data,
+            chat_message.context
+        )
+        
+        return ChatBotResponse(
+            response=response_data['response'],
+            suggestions=response_data.get('suggestions'),
+            data=context_data if context_data else None
+        )
+        
+    except Exception as e:
+        logger.error(f"Chatbot error: {str(e)}")
+        return ChatBotResponse(
+            response="I apologize, but I'm having trouble processing your request right now. Please try asking your question in a different way, or let me know if you need help with finding gear, booking grounds, or exploring academies!",
+            suggestions=["Find cricket gear", "Book a ground", "Find academies"]
+        )
+
 app.include_router(api_router)
 
 app.add_middleware(
