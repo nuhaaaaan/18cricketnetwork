@@ -5,10 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Image,
   ActivityIndicator,
-  Alert,
+  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,6 +16,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
 import { useAuthStore } from '../../store/authStore';
 import { format } from 'date-fns';
+
+const { width } = Dimensions.get('window');
 
 interface Post {
   id: string;
@@ -35,7 +36,7 @@ export default function SocialScreen() {
   const { user, isAuthenticated } = useAuthStore();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchPosts();
@@ -50,21 +51,30 @@ export default function SocialScreen() {
       console.error('Error fetching posts:', error);
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   };
 
   const handleLike = async (postId: string) => {
     if (!isAuthenticated) {
-      Alert.alert('Login Required', 'Please login to like posts');
       return;
     }
     try {
-      await api.post(`/posts/${postId}/like`);
-      // Update local state
+      const isLiked = likedPosts.has(postId);
+      if (isLiked) {
+        setLikedPosts(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(postId);
+          return newSet;
+        });
+      } else {
+        setLikedPosts(prev => new Set(prev).add(postId));
+        await api.post(`/posts/${postId}/like`);
+      }
       setPosts(
         posts.map((post) =>
-          post.id === postId ? { ...post, likes: post.likes + 1 } : post
+          post.id === postId 
+            ? { ...post, likes: isLiked ? post.likes - 1 : post.likes + 1 } 
+            : post
         )
       );
     } catch (error) {
@@ -74,150 +84,196 @@ export default function SocialScreen() {
 
   const renderPost = (post: Post) => (
     <View key={post.id} style={styles.postCard}>
+      {/* Post Header */}
       <View style={styles.postHeader}>
-        <View style={styles.userInfo}>
+        <View style={styles.postUser}>
           <View style={styles.avatar}>
-            <Ionicons name="person" size={24} color={Colors.primary} />
+            <Ionicons name="person" size={20} color={Colors.primary} />
           </View>
           <View>
             <Text style={styles.userName}>{post.user_name}</Text>
-            <Text style={styles.postTime}>
-              {format(new Date(post.created_at), 'MMM dd, yyyy')}
-            </Text>
+            <Text style={styles.postLocation}>Cricket Ground</Text>
           </View>
         </View>
+        <TouchableOpacity>
+          <Ionicons name="ellipsis-vertical" size={20} color={Colors.text} />
+        </TouchableOpacity>
       </View>
 
-      <Text style={styles.postContent}>{post.content}</Text>
-
-      {post.images.length > 0 && (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {post.images.map((image, index) => (
-            <Image
-              key={index}
-              source={{ uri: image }}
-              style={styles.postImage}
-              resizeMode="cover"
-            />
-          ))}
-        </ScrollView>
+      {/* Post Image */}
+      {post.images.length > 0 ? (
+        <Image
+          source={{ uri: post.images[0] }}
+          style={styles.postImage}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={styles.postImagePlaceholder}>
+          <Ionicons name="baseball" size={80} color={Colors.textSecondary} />
+        </View>
       )}
 
+      {/* Post Actions */}
       <View style={styles.postActions}>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => handleLike(post.id)}
-        >
-          <Ionicons name="heart-outline" size={20} color={Colors.text} />
-          <Text style={styles.actionText}>{post.likes}</Text>
+        <View style={styles.leftActions}>
+          <TouchableOpacity onPress={() => handleLike(post.id)} style={styles.actionButton}>
+            <Ionicons 
+              name={likedPosts.has(post.id) ? "heart" : "heart-outline"} 
+              size={28} 
+              color={likedPosts.has(post.id) ? Colors.like : Colors.text} 
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+            <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+            <Ionicons name="paper-plane-outline" size={26} color={Colors.text} />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity>
+          <Ionicons name="bookmark-outline" size={26} color={Colors.text} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="chatbubble-outline" size={20} color={Colors.text} />
-          <Text style={styles.actionText}>{post.comments}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="share-outline" size={20} color={Colors.text} />
-        </TouchableOpacity>
+      </View>
+
+      {/* Post Info */}
+      <View style={styles.postInfo}>
+        <Text style={styles.likes}>{post.likes.toLocaleString()} likes</Text>
+        <View style={styles.captionContainer}>
+          <Text style={styles.captionUsername}>{post.user_name}</Text>
+          <Text style={styles.caption}> {post.content}</Text>
+        </View>
+        {post.comments > 0 && (
+          <TouchableOpacity>
+            <Text style={styles.viewComments}>View all {post.comments} comments</Text>
+          </TouchableOpacity>
+        )}
+        <Text style={styles.timestamp}>
+          {format(new Date(post.created_at), 'MMMM d, yyyy')}
+        </Text>
       </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Community</Text>
-        {isAuthenticated && (
-          <TouchableOpacity
-            style={styles.createPostButton}
-            onPress={() => router.push('/social/create-post' as any)}
-          >
-            <Ionicons name="add-circle" size={24} color={Colors.primary} />
+        <Text style={styles.logo}>18Cricket</Text>
+        <View style={styles.headerIcons}>
+          {isAuthenticated && (
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={() => router.push('/social/create-post' as any)}
+            >
+              <Ionicons name="add-circle-outline" size={28} color={Colors.text} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="chatbubble-ellipses-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
-        )}
+        </View>
       </View>
 
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity style={styles.tabActive}>
-          <Text style={styles.tabTextActive}>Feed</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Teams</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Used Gear</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Stories */}
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.storiesContainer}
+      >
+        {[1, 2, 3, 4, 5, 6].map((item) => (
+          <TouchableOpacity key={item} style={styles.storyItem}>
+            <View style={styles.storyBorder}>
+              <View style={styles.storyAvatar}>
+                <Ionicons name="person" size={24} color={Colors.primary} />
+              </View>
+            </View>
+            <Text style={styles.storyName}>User{item}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
+      {/* Posts Feed */}
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={Colors.primary} />
+          <ActivityIndicator size="large" color={Colors.text} />
         </View>
       ) : posts.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Ionicons name="chatbubbles-outline" size={64} color={Colors.textSecondary} />
+          <Ionicons name="images-outline" size={64} color={Colors.textSecondary} />
           <Text style={styles.emptyText}>No posts yet</Text>
-          <Text style={styles.emptySubtext}>Be the first to share something!</Text>
+          <Text style={styles.emptySubtext}>Start sharing your cricket moments!</Text>
         </View>
       ) : (
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.postsContainer}
-          refreshing={refreshing}
-          onRefresh={() => {
-            setRefreshing(true);
-            fetchPosts();
-          }}
         >
           {posts.map(renderPost)}
         </ScrollView>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
   },
-  headerTitle: {
-    fontSize: 20,
+  logo: {
+    fontSize: 24,
     fontWeight: 'bold',
     color: Colors.text,
   },
-  createPostButton: {
-    padding: 8,
-  },
-  tabsContainer: {
+  headerIcons: {
     flexDirection: 'row',
-    padding: 16,
     gap: 16,
   },
-  tab: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+  iconButton: {
+    padding: 4,
   },
-  tabActive: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
+  createButton: {
+    padding: 4,
   },
-  tabText: {
-    fontSize: 14,
-    color: Colors.textSecondary,
+  storiesContainer: {
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
-  tabTextActive: {
-    fontSize: 14,
-    color: Colors.primary,
-    fontWeight: '600',
+  storyItem: {
+    alignItems: 'center',
+    marginHorizontal: 6,
+  },
+  storyBorder: {
+    padding: 2,
+    borderRadius: 36,
+    borderWidth: 2,
+    borderColor: Colors.primary,
+  },
+  storyAvatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Colors.background,
+  },
+  storyName: {
+    fontSize: 11,
+    color: Colors.text,
+    marginTop: 4,
   },
   loadingContainer: {
     flex: 1,
@@ -231,7 +287,7 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: Colors.text,
     marginTop: 16,
@@ -245,28 +301,24 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   postCard: {
-    backgroundColor: Colors.white,
-    marginBottom: 8,
-    borderBottomWidth: 8,
-    borderBottomColor: Colors.surface,
-    paddingVertical: 16,
+    marginBottom: 16,
   },
   postHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
-  userInfo: {
+  postUser: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: Colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
@@ -276,37 +328,67 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.text,
   },
-  postTime: {
-    fontSize: 12,
+  postLocation: {
+    fontSize: 11,
     color: Colors.textSecondary,
-    marginTop: 2,
-  },
-  postContent: {
-    fontSize: 14,
-    color: Colors.text,
-    lineHeight: 20,
-    paddingHorizontal: 16,
-    marginBottom: 12,
   },
   postImage: {
-    width: 300,
-    height: 200,
-    borderRadius: 8,
-    marginLeft: 16,
+    width: width,
+    height: width,
+    backgroundColor: Colors.surface,
+  },
+  postImagePlaceholder: {
+    width: width,
+    height: width,
+    backgroundColor: Colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   postActions: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
-    marginTop: 12,
-    gap: 24,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  leftActions: {
+    flexDirection: 'row',
+    gap: 12,
   },
   actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
+    padding: 4,
   },
-  actionText: {
+  postInfo: {
+    paddingHorizontal: 12,
+  },
+  likes: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.text,
+    marginBottom: 4,
+  },
+  captionContainer: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  captionUsername: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.text,
+  },
+  caption: {
     fontSize: 14,
     color: Colors.text,
+    flex: 1,
+  },
+  viewComments: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    marginVertical: 4,
+  },
+  timestamp: {
+    fontSize: 11,
+    color: Colors.textSecondary,
+    marginTop: 4,
   },
 });
