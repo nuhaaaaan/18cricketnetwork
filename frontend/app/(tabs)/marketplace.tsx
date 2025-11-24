@@ -79,7 +79,7 @@ export default function MarketplaceScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>Cricket Shop</Text>
+        <Logo size="small" />
         <View style={styles.headerIcons}>
           {user?.user_type === 'vendor' && (
             <TouchableOpacity
