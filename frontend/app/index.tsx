@@ -29,9 +29,15 @@ export default function WelcomeScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Ionicons name="baseball" size={80} color={Colors.primary} />
-          <Text style={styles.title}>18Cricket</Text>
-          <Text style={styles.subtitle}>Your Complete Cricket Ecosystem</Text>
+          {/* Logo */}
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoNumber}>18</Text>
+            <View style={styles.crownIcon}>
+              <Text style={styles.crown}>👑</Text>
+            </View>
+          </View>
+          <Text style={styles.title}>CRICKET COMPANY</Text>
+          <Text style={styles.motto}>A tribute to the legacy of THE KING</Text>
         </View>
 
         <View style={styles.featuresContainer}>
