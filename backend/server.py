@@ -427,7 +427,8 @@ async def create_product(product: ProductCreate, current_user: dict = Depends(ge
     product_dict['rating'] = 0.0
     product_dict['reviews_count'] = 0
     
-    await db.products.insert_one(product_dict)
+    result = await db.products.insert_one(product_dict)
+    product_dict['_id'] = str(result.inserted_id)
     return product_dict
 
 @api_router.get("/products")
