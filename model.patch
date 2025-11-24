@@ -1,141 +1,236 @@
-diff --git a/frontend/app/(tabs)/home.tsx b/frontend/app/(tabs)/home.tsx
-index 8bbd118..6da4964 100644
---- a/frontend/app/(tabs)/home.tsx
-+++ b/frontend/app/(tabs)/home.tsx
-@@ -31,10 +31,10 @@ export default function HomeScreen() {
-       <View style={styles.header}>
-         <Text style={styles.logo}>18Cricket</Text>
-         <View style={styles.headerIcons}>
--          <TouchableOpacity style={styles.iconButton}>
--            <Ionicons name="heart-outline" size={26} color={Colors.text} />
-+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reels' as any)}>
-+            <Ionicons name="film-outline" size={26} color={Colors.text} />
-           </TouchableOpacity>
--          <TouchableOpacity style={styles.iconButton}>
-+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/messages' as any)}>
-             <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
-           </TouchableOpacity>
-         </View>
+diff --git a/frontend/constants/Colors.ts b/frontend/constants/Colors.ts
+index 7b9d6f4..89a873e 100644
+--- a/frontend/constants/Colors.ts
++++ b/frontend/constants/Colors.ts
+@@ -1,40 +1,48 @@
+ export default {
+-  // Instagram-inspired colors
+-  primary: '#1a472a', // Cricket green
+-  secondary: '#2e7d32',
+-  accent: '#4caf50',
+-  
+-  // Instagram UI colors
+-  background: '#000000',
+-  surface: '#121212',
+-  card: '#1a1a1a',
+-  
+-  // Text colors for dark theme
+-  text: '#ffffff',
+-  textSecondary: '#a8a8a8',
+-  textTertiary: '#737373',
+-  
+-  // Border and dividers
+-  border: '#2a2a2a',
+-  divider: '#262626',
+-  
+-  // Status colors
+-  error: '#ed4956',
+-  success: '#2e7d32',
+-  warning: '#f57c00',
+-  info: '#0095f6',
+-  
+-  // Brand colors
++  // 18 Cricket Brand Colors - Premium & Trustworthy
++  primary: '#1a1a1a',        // Deep Black (Nike-inspired)
++  secondary: '#FFD700',      // Royal Gold (King's tribute)
++  accent: '#0066CC',         // Trust Blue
++  cricket: '#1a472a',        // Cricket Green
++  
++  // Nike-like dark theme
++  background: '#000000',     // Pure Black
++  surface: '#1a1a1a',        // Dark Gray
++  card: '#2a2a2a',           // Card Gray
++  
++  // Text - High Contrast
++  text: '#ffffff',           // Pure White
++  textSecondary: '#b3b3b3',  // Light Gray
++  textTertiary: '#808080',   // Medium Gray
++  
++  // Borders - Subtle
++  border: '#333333',
++  divider: '#2a2a2a',
++  
++  // Status Colors
++  error: '#dc2626',
++  success: '#16a34a',
++  warning: '#f59e0b',
++  info: '#0066CC',
++  
++  // Brand Colors
++  gold: '#FFD700',           // King's Gold
++  silver: '#C0C0C0',         // Silver
++  bronze: '#CD7F32',         // Bronze
++  
++  // Base
+   white: '#ffffff',
+   black: '#000000',
+-  gray: '#8e8e8e',
+-  lightGray: '#262626',
+-  darkGray: '#121212',
+-  
+-  // Action colors
+-  like: '#ed4956',
+-  link: '#0095f6',
+-  gradient1: '#833ab4',
+-  gradient2: '#fd1d1d',
+-  gradient3: '#fcb045',
++  gray: '#808080',
++  lightGray: '#333333',
++  darkGray: '#1a1a1a',
++  
++  // Actions
++  like: '#dc2626',
++  link: '#0066CC',
++  
++  // Premium Gradients
++  gradientGold: ['#FFD700', '#FFA500'],
++  gradientBlue: ['#0066CC', '#003d7a'],
++  gradientBlack: ['#1a1a1a', '#000000'],
+ };
+\ No newline at end of file
 diff --git a/model.patch b/model.patch
-index ad3c5c9..e69de29 100644
+index 2f6b2b3..e69de29 100644
 --- a/model.patch
 +++ b/model.patch
-@@ -1,118 +0,0 @@
+@@ -1,141 +0,0 @@
+-diff --git a/frontend/app/(tabs)/home.tsx b/frontend/app/(tabs)/home.tsx
+-index 8bbd118..6da4964 100644
+---- a/frontend/app/(tabs)/home.tsx
+-+++ b/frontend/app/(tabs)/home.tsx
+-@@ -31,10 +31,10 @@ export default function HomeScreen() {
+-       <View style={styles.header}>
+-         <Text style={styles.logo}>18Cricket</Text>
+-         <View style={styles.headerIcons}>
+--          <TouchableOpacity style={styles.iconButton}>
+--            <Ionicons name="heart-outline" size={26} color={Colors.text} />
+-+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reels' as any)}>
+-+            <Ionicons name="film-outline" size={26} color={Colors.text} />
+-           </TouchableOpacity>
+--          <TouchableOpacity style={styles.iconButton}>
+-+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/messages' as any)}>
+-             <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
+-           </TouchableOpacity>
+-         </View>
 -diff --git a/model.patch b/model.patch
--index 3a25545..e69de29 100644
+-index ad3c5c9..e69de29 100644
 ---- a/model.patch
 -+++ b/model.patch
--@@ -1,113 +0,0 @@
---diff --git a/README.md b/README.md
---index 3786c8a..14db799 100644
------ a/README.md
---+++ b/README.md
---@@ -1 +1,107 @@
----# Here are your Instructions
---+# 18 Cricket Ecosystem - Complete Cricket Platform
---+
---+A comprehensive mobile-first cricket ecosystem platform featuring a multi-vendor marketplace, academy hub, tournament management, ground booking system, and social community features.
---+
---+## 🏏 Features
---+
---+### 1. **Multi-Vendor Marketplace**
---+- Buy cricket gear from trusted vendors across India
---+- Categories: Bats, Balls, Pads, Gloves, Shoes, Accessories
---+- New and used equipment marketplace
---+- Shopping cart and wishlist
---+- Secure payment integration with Razorpay
---+- Order tracking and management
---+
---+### 2. **Academy Hub**
---+- Discover cricket academies in your city
---+- View academy profiles with fees, schedules, and facilities
---+- Lead generation system for academies
---+- Direct contact with academy owners
---+
---+### 3. **Tournament Management**
---+- Browse upcoming, ongoing, and completed tournaments
---+- Register teams for tournaments
---+- View fixtures, points tables, and match schedules
---+- Track MVP players and team performance
---+
---+### 4. **Ground Booking System**
---+- Find and book cricket grounds
---+- Filter by ground type: Turf, Mat, Concrete
---+- View facilities and pricing
---+- Real-time availability checking
---+- Booking management
---+
---+### 5. **Social & Community**
---+- Share posts, reels, and match highlights
---+- Create and manage cricket teams
---+- Team chat and discussions
---+- Community engagement with likes and comments
---+
---+## 🛠 Tech Stack
---+
---+**Frontend**: Expo (React Native), Zustand, Axios, React Native Maps  
---+**Backend**: FastAPI (Python), MongoDB, JWT Auth, Razorpay  
---+
---+## 🚀 Quick Start
---+
---+### Backend:
---+```bash
---+cd backend
---+pip install -r requirements.txt
---+# Add Razorpay keys to .env
---+uvicorn server:app --host 0.0.0.0 --port 8001
---+```
---+
---+### Frontend:
---+```bash
---+cd frontend
---+yarn install
---+expo start
---+```
---+
---+## 💳 Razorpay Setup
---+
---+1. **Sign up**: [https://dashboard.razorpay.com/signup](https://dashboard.razorpay.com/signup)
---+2. **Get Test Keys**: Settings → API Keys → Test Mode
---+3. **Add to .env**:
---+   ```
---+   RAZORPAY_KEY_ID="rzp_test_xxxxx"
---+   RAZORPAY_KEY_SECRET="your_secret"
---+   ```
---+4. **Test Card**: 4111 1111 1111 1111
---+
---+## 📱 App Deployment
---+
---+### Google Play Store
---+```bash
---+eas build --platform android
---+```
---+- Requires: Google Play Console account ($25)
---+- Submit AAB file for review
---+
---+### Apple App Store
---+```bash
---+eas build --platform ios
---+```
---+- Requires: Apple Developer account ($99/year)
---+- Submit IPA via App Store Connect
---+
---+## 📊 API Documentation
---+
---+Visit: `http://localhost:8001/docs` for interactive API docs
---+
---+## 🧪 Test Account
---+
---+- **Phone**: 9876543210
---+- **Password**: test123
---+- **Type**: Vendor
---+
---+## 📞 Support
---+
---+- Razorpay: [https://razorpay.com/support/](https://razorpay.com/support/)
---+- Expo: [https://docs.expo.dev/](https://docs.expo.dev/)
---+
---+---
---+
---+**Version**: 1.0.0  
---+Built with ❤️ for Cricket
+-@@ -1,118 +0,0 @@
+--diff --git a/model.patch b/model.patch
+--index 3a25545..e69de29 100644
+----- a/model.patch
+--+++ b/model.patch
+--@@ -1,113 +0,0 @@
+---diff --git a/README.md b/README.md
+---index 3786c8a..14db799 100644
+------ a/README.md
+---+++ b/README.md
+---@@ -1 +1,107 @@
+----# Here are your Instructions
+---+# 18 Cricket Ecosystem - Complete Cricket Platform
+---+
+---+A comprehensive mobile-first cricket ecosystem platform featuring a multi-vendor marketplace, academy hub, tournament management, ground booking system, and social community features.
+---+
+---+## 🏏 Features
+---+
+---+### 1. **Multi-Vendor Marketplace**
+---+- Buy cricket gear from trusted vendors across India
+---+- Categories: Bats, Balls, Pads, Gloves, Shoes, Accessories
+---+- New and used equipment marketplace
+---+- Shopping cart and wishlist
+---+- Secure payment integration with Razorpay
+---+- Order tracking and management
+---+
+---+### 2. **Academy Hub**
+---+- Discover cricket academies in your city
+---+- View academy profiles with fees, schedules, and facilities
+---+- Lead generation system for academies
+---+- Direct contact with academy owners
+---+
+---+### 3. **Tournament Management**
+---+- Browse upcoming, ongoing, and completed tournaments
+---+- Register teams for tournaments
+---+- View fixtures, points tables, and match schedules
+---+- Track MVP players and team performance
+---+
+---+### 4. **Ground Booking System**
+---+- Find and book cricket grounds
+---+- Filter by ground type: Turf, Mat, Concrete
+---+- View facilities and pricing
+---+- Real-time availability checking
+---+- Booking management
+---+
+---+### 5. **Social & Community**
+---+- Share posts, reels, and match highlights
+---+- Create and manage cricket teams
+---+- Team chat and discussions
+---+- Community engagement with likes and comments
+---+
+---+## 🛠 Tech Stack
+---+
+---+**Frontend**: Expo (React Native), Zustand, Axios, React Native Maps  
+---+**Backend**: FastAPI (Python), MongoDB, JWT Auth, Razorpay  
+---+
+---+## 🚀 Quick Start
+---+
+---+### Backend:
+---+```bash
+---+cd backend
+---+pip install -r requirements.txt
+---+# Add Razorpay keys to .env
+---+uvicorn server:app --host 0.0.0.0 --port 8001
+---+```
+---+
+---+### Frontend:
+---+```bash
+---+cd frontend
+---+yarn install
+---+expo start
+---+```
+---+
+---+## 💳 Razorpay Setup
+---+
+---+1. **Sign up**: [https://dashboard.razorpay.com/signup](https://dashboard.razorpay.com/signup)
+---+2. **Get Test Keys**: Settings → API Keys → Test Mode
+---+3. **Add to .env**:
+---+   ```
+---+   RAZORPAY_KEY_ID="rzp_test_xxxxx"
+---+   RAZORPAY_KEY_SECRET="your_secret"
+---+   ```
+---+4. **Test Card**: 4111 1111 1111 1111
+---+
+---+## 📱 App Deployment
+---+
+---+### Google Play Store
+---+```bash
+---+eas build --platform android
+---+```
+---+- Requires: Google Play Console account ($25)
+---+- Submit AAB file for review
+---+
+---+### Apple App Store
+---+```bash
+---+eas build --platform ios
+---+```
+---+- Requires: Apple Developer account ($99/year)
+---+- Submit IPA via App Store Connect
+---+
+---+## 📊 API Documentation
+---+
+---+Visit: `http://localhost:8001/docs` for interactive API docs
+---+
+---+## 🧪 Test Account
+---+
+---+- **Phone**: 9876543210
+---+- **Password**: test123
+---+- **Type**: Vendor
+---+
+---+## 📞 Support
+---+
+---+- Razorpay: [https://razorpay.com/support/](https://razorpay.com/support/)
+---+- Expo: [https://docs.expo.dev/](https://docs.expo.dev/)
+---+
+---+---
+---+
+---+**Version**: 1.0.0  
+---+Built with ❤️ for Cricket
