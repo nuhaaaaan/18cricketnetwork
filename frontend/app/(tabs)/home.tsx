@@ -5,6 +5,7 @@ import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '../../store/authStore';
 import { LinearGradient } from 'expo-linear-gradient';
+import Logo from '../../components/Logo';
 
 export default function HomeScreen() {
   const router = useRouter();
