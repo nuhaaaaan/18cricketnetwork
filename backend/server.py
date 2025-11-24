@@ -260,12 +260,74 @@ class Post(BaseModel):
     post_type: str = "post"  # post, reel, highlight
     likes: int = 0
     comments: int = 0
+    shares: int = 0
+    video_url: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    is_archived: bool = False
 
 class PostCreate(BaseModel):
     content: str
     images: List[str] = []
     post_type: str = "post"
+    video_url: Optional[str] = None
+
+class Comment(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    post_id: str
+    user_id: str
+    user_name: str
+    user_image: Optional[str] = None
+    content: str
+    likes: int = 0
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class CommentCreate(BaseModel):
+    content: str
+
+class DirectMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    sender_id: str
+    sender_name: str
+    receiver_id: str
+    content: str
+    images: List[str] = []
+    is_read: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class Squad(BaseModel):
+    user_id: str
+    squad_member_id: str
+    squad_member_name: str
+    squad_member_image: Optional[str] = None
+    added_at: datetime = Field(default_factory=datetime.utcnow)
+
+class GroupChat(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    creator_id: str
+    members: List[str] = []  # user_ids
+    image: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class GroupMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    group_id: str
+    sender_id: str
+    sender_name: str
+    content: str
+    images: List[str] = []
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class Story(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    user_name: str
+    user_image: Optional[str] = None
+    image: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(hours=24))
+    is_highlight: bool = False
+    highlight_name: Optional[str] = None
 
 class Team(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
