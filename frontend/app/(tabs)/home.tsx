@@ -139,7 +139,8 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
-    </View>
+      </View>
+    </ChatBotWrapper>
   );
 }
 
