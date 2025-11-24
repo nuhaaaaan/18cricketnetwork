@@ -88,18 +88,31 @@ class Product(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     vendor_id: str
     vendor_name: str
+    vendor_type: str = "general"  # general, nutrition, training, health
     name: str
     description: str
-    category: str  # bat, ball, pads, gloves, shoes, accessories
+    category: str  # Equipment: bat, ball, pads, gloves, shoes, accessories
+                   # Nutrition: protein, supplements, energy, recovery, hydration
+                   # Training: strength, conditioning, agility, equipment
+                   # Health: physio, doctor, wellness, recovery
+    sub_category: Optional[str] = None
     price: float
     original_price: Optional[float] = None
     stock: int
-    images: List[str] = []  # base64 images
+    images: List[str] = []
     brand: Optional[str] = None
+    is_featured: bool = False
+    is_new_arrival: bool = False
+    is_best_seller: bool = False
     is_used: bool = False
+    specifications: Dict[str, Any] = {}
+    ingredients: Optional[List[str]] = None  # For nutrition products
+    usage_instructions: Optional[str] = None
+    certifications: List[str] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
     rating: float = 0.0
     reviews_count: int = 0
+    commission_rate: float = 0.15
 
 class ProductCreate(BaseModel):
     name: str
