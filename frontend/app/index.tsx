@@ -31,13 +31,7 @@ export default function WelcomeScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           {/* Logo */}
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoNumber}>18</Text>
-            <View style={styles.crownIcon}>
-              <Text style={styles.crown}>👑</Text>
-            </View>
-          </View>
-          <Text style={styles.title}>CRICKET COMPANY</Text>
+          <Logo size="xlarge" />
           <Text style={styles.motto}>A tribute to the legacy of THE KING</Text>
         </View>
 
