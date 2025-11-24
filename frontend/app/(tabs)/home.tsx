@@ -30,7 +30,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>18Cricket</Text>
+        <Logo size="small" />
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reels' as any)}>
             <Ionicons name="film-outline" size={26} color={Colors.text} />
