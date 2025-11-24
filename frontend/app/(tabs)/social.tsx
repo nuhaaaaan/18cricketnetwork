@@ -16,6 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
 import { useAuthStore } from '../../store/authStore';
 import { format } from 'date-fns';
+import Logo from '../../components/Logo';
 
 const { width } = Dimensions.get('window');
 
