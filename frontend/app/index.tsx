@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
 
         <View style={styles.featuresContainer}>
           <LinearGradient
-            colors={['#833ab4', '#fd1d1d', '#fcb045']}
+            colors={[Colors.primary, Colors.accent]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.featureCard}
@@ -53,7 +53,7 @@ export default function WelcomeScreen() {
           </LinearGradient>
 
           <LinearGradient
-            colors={['#f09433', '#e6683c', '#dc2743']}
+            colors={[Colors.secondary, Colors.primary]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.featureCard}
@@ -64,7 +64,7 @@ export default function WelcomeScreen() {
           </LinearGradient>
 
           <LinearGradient
-            colors={['#4158d0', '#c850c0', '#ffcc70']}
+            colors={[Colors.accent, Colors.ballRedDark]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.featureCard}
@@ -75,7 +75,7 @@ export default function WelcomeScreen() {
           </LinearGradient>
 
           <LinearGradient
-            colors={['#0575e6', '#021b79']}
+            colors={[Colors.primary, Colors.secondary]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.featureCard}
