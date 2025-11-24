@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
 import { useCartStore } from '../../store/cartStore';
 import { useAuthStore } from '../../store/authStore';
+import Logo from '../../components/Logo';
 
 const { width } = Dimensions.get('window');
 const itemWidth = (width - 3) / 3;
