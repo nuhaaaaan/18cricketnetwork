@@ -206,6 +206,8 @@ class Match(BaseModel):
 class Ground(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     owner_id: str
+    owner_name: str
+    owner_phone: str
     name: str
     description: str
     location: str
@@ -214,12 +216,17 @@ class Ground(BaseModel):
     longitude: Optional[float] = None
     ground_type: str  # turf, mat, concrete
     facilities: List[str] = []  # nets, pavilion, lighting, parking
-    pricing: Dict[str, float] = {}  # {"hourly": 1000, "match": 5000}
+    pricing: Dict[str, float] = {}  # {"hourly": 1000, "match": 5000, "session": 800}
     images: List[str] = []
-    availability: List[str] = []  # time slots
+    time_slots: List[Dict[str, Any]] = []  # [{"day": "Monday", "slots": ["6-8AM", "8-10AM"]}]
     contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     rating: float = 0.0
+    reviews_count: int = 0
+    is_verified: bool = False
+    commission_rate: float = 0.15  # 15% platform commission
 
 class GroundCreate(BaseModel):
     name: str
@@ -232,8 +239,130 @@ class GroundCreate(BaseModel):
     facilities: List[str] = []
     pricing: Dict[str, float]
     images: List[str] = []
-    availability: List[str] = []
+    time_slots: List[Dict[str, Any]] = []
     contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+
+# Training Facilities
+class TrainingFacility(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    owner_id: str
+    owner_name: str
+    facility_type: str  # practice_nets, indoor_facility, academy, gym
+    name: str
+    description: str
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    facilities: List[str] = []  # bowling_machine, nets, gym, coaching
+    pricing: Dict[str, float] = {}
+    images: List[str] = []
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    rating: float = 0.0
+    is_verified: bool = False
+    commission_rate: float = 0.12  # 12% platform commission
+
+class TrainingFacilityCreate(BaseModel):
+    facility_type: str
+    name: str
+    description: str
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    facilities: List[str] = []
+    pricing: Dict[str, float]
+    images: List[str] = []
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+
+# Personal Trainers
+class PersonalTrainer(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    name: str
+    bio: str
+    specialization: List[str] = []  # batting, bowling, fielding, fitness
+    experience_years: int
+    certifications: List[str] = []
+    pricing: Dict[str, float] = {}  # {"per_hour": 1500, "per_session": 2000, "monthly": 15000}
+    images: List[str] = []
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+    availability: List[str] = []
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    rating: float = 0.0
+    reviews_count: int = 0
+    is_verified: bool = False
+    commission_rate: float = 0.10  # 10% platform commission
+
+class PersonalTrainerCreate(BaseModel):
+    name: str
+    bio: str
+    specialization: List[str]
+    experience_years: int
+    certifications: List[str] = []
+    pricing: Dict[str, float]
+    images: List[str] = []
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+    availability: List[str] = []
+
+# Cricket Gyms
+class CricketGym(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    owner_id: str
+    owner_name: str
+    name: str
+    description: str
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    facilities: List[str] = []  # strength_training, cardio, yoga, physiotherapy
+    pricing: Dict[str, float] = {}  # {"monthly": 3000, "quarterly": 8000, "yearly": 25000}
+    images: List[str] = []
+    trainers: List[str] = []
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+    opening_hours: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    rating: float = 0.0
+    is_verified: bool = False
+    commission_rate: float = 0.12  # 12% platform commission
+
+class CricketGymCreate(BaseModel):
+    name: str
+    description: str
+    location: str
+    city: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    facilities: List[str]
+    pricing: Dict[str, float]
+    images: List[str] = []
+    trainers: List[str] = []
+    contact_phone: str
+    contact_email: Optional[str] = None
+    whatsapp: Optional[str] = None
+    opening_hours: str
 
 class Booking(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
