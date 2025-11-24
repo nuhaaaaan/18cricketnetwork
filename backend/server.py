@@ -1047,6 +1047,208 @@ async def delete_profile_photo(current_user: dict = Depends(get_current_user)):
     )
     return {"message": "Profile photo deleted"}
 
+# ==================== LIVE STREAMING ====================
+
+@api_router.post("/livestreams")
+async def create_livestream(stream: LiveStreamCreate, current_user: dict = Depends(get_current_user)):
+    stream_dict = stream.dict()
+    stream_dict['id'] = str(uuid.uuid4())
+    stream_dict['broadcaster_id'] = str(current_user['_id'])
+    stream_dict['broadcaster_name'] = current_user['name']
+    stream_dict['is_live'] = True
+    stream_dict['viewers'] = 0
+    stream_dict['started_at'] = datetime.utcnow()
+    
+    await db.livestreams.insert_one(stream_dict)
+    return stream_dict
+
+@api_router.get("/livestreams")
+async def get_livestreams(region: Optional[str] = None, is_live: bool = True):
+    query = {"is_live": is_live}
+    if region:
+        query['region'] = region
+    
+    streams = await db.livestreams.find(query).sort('started_at', -1).to_list(50)
+    for stream in streams:
+        stream['_id'] = str(stream['_id'])
+    return streams
+
+@api_router.get("/livestreams/{stream_id}")
+async def get_livestream(stream_id: str):
+    stream = await db.livestreams.find_one({"id": stream_id})
+    if not stream:
+        raise HTTPException(status_code=404, detail="Stream not found")
+    stream['_id'] = str(stream['_id'])
+    return stream
+
+@api_router.post("/livestreams/{stream_id}/join")
+async def join_livestream(stream_id: str, current_user: dict = Depends(get_current_user)):
+    await db.livestreams.update_one({"id": stream_id}, {"$inc": {"viewers": 1}})
+    return {"message": "Joined stream"}
+
+@api_router.post("/livestreams/{stream_id}/leave")
+async def leave_livestream(stream_id: str, current_user: dict = Depends(get_current_user)):
+    await db.livestreams.update_one({"id": stream_id}, {"$inc": {"viewers": -1}})
+    return {"message": "Left stream"}
+
+@api_router.post("/livestreams/{stream_id}/end")
+async def end_livestream(stream_id: str, current_user: dict = Depends(get_current_user)):
+    stream = await db.livestreams.find_one({"id": stream_id})
+    if not stream or stream['broadcaster_id'] != str(current_user['_id']):
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    await db.livestreams.update_one({"id": stream_id}, {"$set": {"is_live": False}})
+    return {"message": "Stream ended"}
+
+# ==================== ADVANCED SEARCH ====================
+
+@api_router.get("/search")
+async def search(
+    query: str,
+    type: Optional[str] = None,  # users, products, academies, tournaments, grounds
+    region: Optional[str] = None,
+    limit: int = 50
+):
+    results = {
+        "users": [],
+        "products": [],
+        "academies": [],
+        "tournaments": [],
+        "grounds": [],
+        "livestreams": []
+    }
+    
+    search_regex = {"$regex": query, "$options": "i"}
+    
+    if not type or type == "users":
+        users = await db.users.find({
+            "$or": [
+                {"name": search_regex},
+                {"phone": search_regex}
+            ]
+        }).limit(limit).to_list(limit)
+        for user in users:
+            user['_id'] = str(user['_id'])
+            user.pop('password', None)
+        results['users'] = users
+    
+    if not type or type == "products":
+        products = await db.products.find({
+            "$or": [
+                {"name": search_regex},
+                {"description": search_regex},
+                {"brand": search_regex}
+            ]
+        }).limit(limit).to_list(limit)
+        for product in products:
+            product['_id'] = str(product['_id'])
+        results['products'] = products
+    
+    if not type or type == "academies":
+        academies = await db.academies.find({
+            "$or": [
+                {"name": search_regex},
+                {"city": search_regex},
+                {"description": search_regex}
+            ]
+        }).limit(limit).to_list(limit)
+        for academy in academies:
+            academy['_id'] = str(academy['_id'])
+        results['academies'] = academies
+    
+    if not type or type == "tournaments":
+        tournaments = await db.tournaments.find({
+            "$or": [
+                {"name": search_regex},
+                {"city": search_regex},
+                {"description": search_regex}
+            ]
+        }).limit(limit).to_list(limit)
+        for tournament in tournaments:
+            tournament['_id'] = str(tournament['_id'])
+        results['tournaments'] = tournaments
+    
+    if not type or type == "grounds":
+        grounds = await db.grounds.find({
+            "$or": [
+                {"name": search_regex},
+                {"city": search_regex},
+                {"description": search_regex}
+            ]
+        }).limit(limit).to_list(limit)
+        for ground in grounds:
+            ground['_id'] = str(ground['_id'])
+        results['grounds'] = grounds
+    
+    if not type or type == "livestreams":
+        livestreams = await db.livestreams.find({
+            "$and": [
+                {"is_live": True},
+                {"$or": [
+                    {"title": search_regex},
+                    {"broadcaster_name": search_regex}
+                ]}
+            ]
+        }).limit(limit).to_list(limit)
+        for stream in livestreams:
+            stream['_id'] = str(stream['_id'])
+        results['livestreams'] = livestreams
+    
+    return results
+
+# ==================== VERIFICATION ====================
+
+@api_router.post("/users/{user_id}/verify")
+async def verify_user(user_id: str, verification_data: dict, current_user: dict = Depends(get_current_user)):
+    if current_user['user_type'] != 'admin':
+        raise HTTPException(status_code=403, detail="Only admins can verify users")
+    
+    verification_type = verification_data.get('type', 'verified')  # verified, official
+    
+    await db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {
+            "is_verified": True,
+            "verification_type": verification_type,
+            "verified_at": datetime.utcnow()
+        }}
+    )
+    
+    return {"message": f"User verified as {verification_type}"}
+
+@api_router.get("/users/verified")
+async def get_verified_users(type: Optional[str] = None):
+    query = {"is_verified": True}
+    if type:
+        query['verification_type'] = type
+    
+    users = await db.users.find(query).to_list(100)
+    for user in users:
+        user['_id'] = str(user['_id'])
+        user.pop('password', None)
+    return users
+
+# ==================== REGIONS ====================
+
+@api_router.get("/regions")
+async def get_regions():
+    return {
+        "regions": [
+            {"code": "IN", "name": "India", "flag": "🇮🇳"},
+            {"code": "US", "name": "United States", "flag": "🇺🇸"},
+            {"code": "AU", "name": "Australia", "flag": "🇦🇺"},
+            {"code": "UK", "name": "United Kingdom", "flag": "🇬🇧"},
+            {"code": "CA", "name": "Canada", "flag": "🇨🇦"},
+            {"code": "NZ", "name": "New Zealand", "flag": "🇳🇿"},
+            {"code": "SA", "name": "South Africa", "flag": "🇿🇦"},
+            {"code": "PK", "name": "Pakistan", "flag": "🇵🇰"},
+            {"code": "BD", "name": "Bangladesh", "flag": "🇧🇩"},
+            {"code": "SL", "name": "Sri Lanka", "flag": "🇱🇰"},
+            {"code": "WI", "name": "West Indies", "flag": "🏴"},
+            {"code": "AF", "name": "Afghanistan", "flag": "🇦🇫"},
+        ]
+    }
+
 @api_router.post("/teams")
 async def create_team(team: TeamCreate, current_user: dict = Depends(get_current_user)):
     team_dict = team.dict()
