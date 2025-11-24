@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   primaryButton: {
-    backgroundColor: Colors.info,
+    backgroundColor: Colors.primary,
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
@@ -198,9 +198,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   secondaryButtonText: {
-    color: Colors.info,
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
   },
