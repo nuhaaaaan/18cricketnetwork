@@ -159,7 +159,7 @@ export default function SocialScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>18Cricket</Text>
+        <Logo size="small" />
         <View style={styles.headerIcons}>
           {isAuthenticated && (
             <TouchableOpacity
