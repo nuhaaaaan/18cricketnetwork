@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   logoNumber: {
     fontSize: 120,
     fontWeight: '900',
-    color: Colors.gold,
+    color: Colors.primary,
     letterSpacing: -5,
   },
   crownIcon: {
