@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
 import { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -29,34 +30,54 @@ export default function WelcomeScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <Ionicons name="baseball" size={80} color={Colors.primary} />
-          <Text style={styles.title}>18 Cricket</Text>
+          <Text style={styles.title}>18Cricket</Text>
           <Text style={styles.subtitle}>Your Complete Cricket Ecosystem</Text>
         </View>
 
         <View style={styles.featuresContainer}>
-          <View style={styles.featureCard}>
-            <Ionicons name="cart" size={40} color={Colors.primary} />
-            <Text style={styles.featureTitle}>Marketplace</Text>
-            <Text style={styles.featureDesc}>Buy cricket gear from trusted vendors</Text>
-          </View>
+          <LinearGradient
+            colors={['#833ab4', '#fd1d1d', '#fcb045']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.featureCard}
+          >
+            <Ionicons name="cart" size={40} color={Colors.white} />
+            <Text style={styles.featureTitle}>Shop Cricket Gear</Text>
+            <Text style={styles.featureDesc}>Buy from trusted vendors</Text>
+          </LinearGradient>
 
-          <View style={styles.featureCard}>
-            <Ionicons name="school" size={40} color={Colors.primary} />
-            <Text style={styles.featureTitle}>Academies</Text>
-            <Text style={styles.featureDesc}>Find the best cricket academies</Text>
-          </View>
+          <LinearGradient
+            colors={['#f09433', '#e6683c', '#dc2743']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.featureCard}
+          >
+            <Ionicons name="school" size={40} color={Colors.white} />
+            <Text style={styles.featureTitle}>Find Academies</Text>
+            <Text style={styles.featureDesc}>Train with the best</Text>
+          </LinearGradient>
 
-          <View style={styles.featureCard}>
-            <Ionicons name="trophy" size={40} color={Colors.primary} />
-            <Text style={styles.featureTitle}>Tournaments</Text>
-            <Text style={styles.featureDesc}>Join and track tournaments</Text>
-          </View>
+          <LinearGradient
+            colors={['#4158d0', '#c850c0', '#ffcc70']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.featureCard}
+          >
+            <Ionicons name="trophy" size={40} color={Colors.white} />
+            <Text style={styles.featureTitle}>Join Tournaments</Text>
+            <Text style={styles.featureDesc}>Compete and win</Text>
+          </LinearGradient>
 
-          <View style={styles.featureCard}>
-            <Ionicons name="location" size={40} color={Colors.primary} />
-            <Text style={styles.featureTitle}>Ground Booking</Text>
-            <Text style={styles.featureDesc}>Book cricket grounds easily</Text>
-          </View>
+          <LinearGradient
+            colors={['#0575e6', '#021b79']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.featureCard}
+          >
+            <Ionicons name="people" size={40} color={Colors.white} />
+            <Text style={styles.featureTitle}>Cricket Community</Text>
+            <Text style={styles.featureDesc}>Share your moments</Text>
+          </LinearGradient>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -64,14 +85,14 @@ export default function WelcomeScreen() {
             style={styles.primaryButton}
             onPress={() => router.push('/auth/register')}
           >
-            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <Text style={styles.primaryButtonText}>Create Account</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.secondaryButton}
             onPress={() => router.push('/auth/login')}
           >
-            <Text style={styles.secondaryButtonText}>Login</Text>
+            <Text style={styles.secondaryButtonText}>Log In</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -82,7 +103,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   scrollContent: {
     flexGrow: 1,
@@ -96,7 +117,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: Colors.primary,
+    color: Colors.text,
     marginTop: 16,
   },
   subtitle: {
@@ -111,33 +132,33 @@ const styles = StyleSheet.create({
   },
   featuresContainer: {
     marginBottom: 40,
+    gap: 12,
   },
   featureCard: {
-    backgroundColor: Colors.surface,
     padding: 20,
     borderRadius: 12,
-    marginBottom: 16,
     alignItems: 'center',
   },
   featureTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colors.white,
     marginTop: 12,
   },
   featureDesc: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Colors.white,
     marginTop: 4,
     textAlign: 'center',
+    opacity: 0.9,
   },
   buttonContainer: {
     gap: 12,
   },
   primaryButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.info,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 8,
     alignItems: 'center',
   },
   primaryButtonText: {
@@ -146,15 +167,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   secondaryButton: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 8,
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: Colors.primary,
   },
   secondaryButtonText: {
-    color: Colors.primary,
+    color: Colors.info,
     fontSize: 16,
     fontWeight: '600',
   },

@@ -6,47 +6,41 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.primary,
+        tabBarActiveTintColor: Colors.text,
         tabBarInactiveTintColor: Colors.textSecondary,
         tabBarStyle: {
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.background,
           borderTopColor: Colors.border,
+          borderTopWidth: 1,
+          height: 50,
+          paddingBottom: 0,
         },
-        headerStyle: {
-          backgroundColor: Colors.primary,
-        },
-        headerTintColor: Colors.white,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        tabBarShowLabel: false,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={26} color={color} />,
         }}
       />
       <Tabs.Screen
         name="marketplace"
         options={{
-          title: 'Shop',
-          tabBarIcon: ({ color, size }) => <Ionicons name="cart" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="search" size={26} color={color} />,
         }}
       />
       <Tabs.Screen
         name="social"
         options={{
-          title: 'Community',
-          tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" size={30} color={color} />,
         }}
       />
     </Tabs>
