@@ -115,35 +115,10 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginBottom: 50,
   },
-  logoContainer: {
-    position: 'relative',
-    marginBottom: 20,
-  },
-  logoNumber: {
-    fontSize: 120,
-    fontWeight: '900',
-    color: Colors.primary,
-    letterSpacing: -5,
-  },
-  crownIcon: {
-    position: 'absolute',
-    top: -20,
-    right: -10,
-  },
-  crown: {
-    fontSize: 40,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.text,
-    letterSpacing: 8,
-    marginTop: 10,
-  },
   motto: {
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.silver,
-    marginTop: 8,
+    marginTop: 20,
     textAlign: 'center',
     fontStyle: 'italic',
     letterSpacing: 1,
