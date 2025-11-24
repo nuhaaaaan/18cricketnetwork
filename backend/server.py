@@ -1080,6 +1080,12 @@ async def create_booking(booking_data: dict, current_user: dict = Depends(get_cu
     if not ground:
         raise HTTPException(status_code=404, detail="Ground not found")
     
+    # Calculate commission automatically
+    total_amount = booking_data['total_amount']
+    commission_rate = ground.get('commission_rate', 0.15)
+    platform_commission = total_amount * commission_rate
+    owner_payout = total_amount - platform_commission
+    
     booking = Booking(
         ground_id=booking_data['ground_id'],
         user_id=str(current_user['_id']),
@@ -1088,11 +1094,67 @@ async def create_booking(booking_data: dict, current_user: dict = Depends(get_cu
         booking_date=booking_data['booking_date'],
         time_slot=booking_data['time_slot'],
         booking_type=booking_data['booking_type'],
-        total_amount=booking_data['total_amount']
+        total_amount=total_amount
     )
     
-    await db.bookings.insert_one(booking.dict())
-    return booking.dict()
+    booking_dict = booking.dict()
+    booking_dict['platform_commission'] = platform_commission
+    booking_dict['owner_payout'] = owner_payout
+    booking_dict['commission_rate'] = commission_rate
+    
+    await db.bookings.insert_one(booking_dict)
+    return booking_dict
+
+# ==================== CONTACT OWNERS DIRECTLY ====================
+
+@api_router.post("/contact-owner")
+async def contact_owner(contact_data: dict, current_user: dict = Depends(get_current_user)):
+    """
+    Send contact request to ground/facility/trainer owner
+    contact_data: {
+        "owner_id": str,
+        "owner_type": "ground" | "facility" | "trainer" | "gym",
+        "message": str,
+        "contact_method": "phone" | "whatsapp" | "email"
+    }
+    """
+    message = {
+        "id": str(uuid.uuid4()),
+        "from_user_id": str(current_user['_id']),
+        "from_user_name": current_user['name'],
+        "from_user_phone": current_user['phone'],
+        "to_owner_id": contact_data['owner_id'],
+        "owner_type": contact_data['owner_type'],
+        "message": contact_data['message'],
+        "contact_method": contact_data.get('contact_method', 'phone'),
+        "created_at": datetime.utcnow(),
+        "status": "sent"
+    }
+    
+    await db.contact_requests.insert_one(message)
+    
+    # Get owner contact details
+    owner_collection = None
+    if contact_data['owner_type'] == 'ground':
+        owner_collection = db.grounds
+    elif contact_data['owner_type'] == 'facility':
+        owner_collection = db.training_facilities
+    elif contact_data['owner_type'] == 'trainer':
+        owner_collection = db.personal_trainers
+    elif contact_data['owner_type'] == 'gym':
+        owner_collection = db.cricket_gyms
+    
+    if owner_collection:
+        owner = await owner_collection.find_one({"id": contact_data['owner_id']})
+        if owner:
+            return {
+                "message": "Contact request sent",
+                "owner_phone": owner.get('contact_phone'),
+                "owner_whatsapp": owner.get('whatsapp'),
+                "owner_email": owner.get('contact_email')
+            }
+    
+    return {"message": "Contact request sent"}
 
 @api_router.get("/bookings")
 async def get_bookings(current_user: dict = Depends(get_current_user)):
