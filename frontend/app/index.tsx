@@ -117,20 +117,41 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 40,
+    marginTop: 60,
+    marginBottom: 50,
+  },
+  logoContainer: {
+    position: 'relative',
+    marginBottom: 20,
+  },
+  logoNumber: {
+    fontSize: 120,
+    fontWeight: '900',
+    color: Colors.gold,
+    letterSpacing: -5,
+  },
+  crownIcon: {
+    position: 'absolute',
+    top: -20,
+    right: -10,
+  },
+  crown: {
+    fontSize: 40,
   },
   title: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: 'bold',
     color: Colors.text,
-    marginTop: 16,
+    letterSpacing: 8,
+    marginTop: 10,
   },
-  subtitle: {
-    fontSize: 16,
-    color: Colors.textSecondary,
+  motto: {
+    fontSize: 12,
+    color: Colors.gold,
     marginTop: 8,
     textAlign: 'center',
+    fontStyle: 'italic',
+    letterSpacing: 1,
   },
   loadingText: {
     fontSize: 18,
