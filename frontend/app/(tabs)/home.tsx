@@ -19,10 +19,10 @@ export default function HomeScreen() {
   ];
 
   const quickActions = [
-    { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: ['#833ab4', '#fd1d1d'] },
-    { id: 'academy', name: 'Academy', icon: 'school', route: '/academies/list', gradient: ['#f09433', '#e6683c'] },
-    { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list', gradient: ['#4158d0', '#c850c0'] },
-    { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds/list', gradient: ['#0575e6', '#021b79'] },
+    { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: [Colors.primary, Colors.accent] },
+    { id: 'academy', name: 'Academy', icon: 'school', route: '/academies/list', gradient: [Colors.secondary, Colors.primary] },
+    { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list', gradient: [Colors.accent, Colors.ballRedDark] },
+    { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds/list', gradient: [Colors.primary, Colors.secondary] },
   ];
 
   return (
