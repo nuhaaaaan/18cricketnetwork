@@ -348,6 +348,31 @@ class TeamCreate(BaseModel):
     logo: Optional[str] = None
     city: str
 
+# Live Streaming Models
+class LiveStream(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    broadcaster_id: str
+    broadcaster_name: str
+    broadcaster_type: str  # official, local, verified
+    title: str
+    description: Optional[str] = None
+    thumbnail: Optional[str] = None
+    stream_url: str
+    is_live: bool = True
+    viewers: int = 0
+    started_at: datetime = Field(default_factory=datetime.utcnow)
+    region: str = "India"  # India, US, Australia, Canada, UK, etc.
+    match_info: Optional[Dict[str, Any]] = None
+
+class LiveStreamCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    thumbnail: Optional[str] = None
+    stream_url: str
+    broadcaster_type: str = "local"
+    region: str = "India"
+    match_info: Optional[Dict[str, Any]] = None
+
 # Order Models
 class OrderItem(BaseModel):
     product_id: str
