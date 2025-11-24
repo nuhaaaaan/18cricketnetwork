@@ -1,40 +1,48 @@
 export default {
-  // Instagram-inspired colors
-  primary: '#1a472a', // Cricket green
-  secondary: '#2e7d32',
-  accent: '#4caf50',
+  // 18 Cricket Brand Colors - Premium & Trustworthy
+  primary: '#1a1a1a',        // Deep Black (Nike-inspired)
+  secondary: '#FFD700',      // Royal Gold (King's tribute)
+  accent: '#0066CC',         // Trust Blue
+  cricket: '#1a472a',        // Cricket Green
   
-  // Instagram UI colors
-  background: '#000000',
-  surface: '#121212',
-  card: '#1a1a1a',
+  // Nike-like dark theme
+  background: '#000000',     // Pure Black
+  surface: '#1a1a1a',        // Dark Gray
+  card: '#2a2a2a',           // Card Gray
   
-  // Text colors for dark theme
-  text: '#ffffff',
-  textSecondary: '#a8a8a8',
-  textTertiary: '#737373',
+  // Text - High Contrast
+  text: '#ffffff',           // Pure White
+  textSecondary: '#b3b3b3',  // Light Gray
+  textTertiary: '#808080',   // Medium Gray
   
-  // Border and dividers
-  border: '#2a2a2a',
-  divider: '#262626',
+  // Borders - Subtle
+  border: '#333333',
+  divider: '#2a2a2a',
   
-  // Status colors
-  error: '#ed4956',
-  success: '#2e7d32',
-  warning: '#f57c00',
-  info: '#0095f6',
+  // Status Colors
+  error: '#dc2626',
+  success: '#16a34a',
+  warning: '#f59e0b',
+  info: '#0066CC',
   
-  // Brand colors
+  // Brand Colors
+  gold: '#FFD700',           // King's Gold
+  silver: '#C0C0C0',         // Silver
+  bronze: '#CD7F32',         // Bronze
+  
+  // Base
   white: '#ffffff',
   black: '#000000',
-  gray: '#8e8e8e',
-  lightGray: '#262626',
-  darkGray: '#121212',
+  gray: '#808080',
+  lightGray: '#333333',
+  darkGray: '#1a1a1a',
   
-  // Action colors
-  like: '#ed4956',
-  link: '#0095f6',
-  gradient1: '#833ab4',
-  gradient2: '#fd1d1d',
-  gradient3: '#fcb045',
+  // Actions
+  like: '#dc2626',
+  link: '#0066CC',
+  
+  // Premium Gradients
+  gradientGold: ['#FFD700', '#FFA500'],
+  gradientBlue: ['#0066CC', '#003d7a'],
+  gradientBlack: ['#1a1a1a', '#000000'],
 };
