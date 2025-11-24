@@ -4,53 +4,85 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '../../store/authStore';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
-  const categories = [
-    { id: 'marketplace', name: 'Marketplace', icon: 'cart', route: '/(tabs)/marketplace' },
-    { id: 'academies', name: 'Academies', icon: 'school', route: '/academies/list' },
-    { id: 'tournaments', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list' },
-    { id: 'grounds', name: 'Grounds', icon: 'location', route: '/grounds/list' },
+  const stories = [
+    { id: '1', name: 'Your Story', hasStory: false },
+    { id: '2', name: 'Virat', hasStory: true },
+    { id: '3', name: 'Rohit', hasStory: true },
+    { id: '4', name: 'Dhoni', hasStory: true },
+    { id: '5', name: 'KL Rahul', hasStory: true },
+  ];
+
+  const quickActions = [
+    { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: ['#833ab4', '#fd1d1d'] },
+    { id: 'academy', name: 'Academy', icon: 'school', route: '/academies/list', gradient: ['#f09433', '#e6683c'] },
+    { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list', gradient: ['#4158d0', '#c850c0'] },
+    { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds/list', gradient: ['#0575e6', '#021b79'] },
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>Welcome back,</Text>
-            <Text style={styles.userName}>{user?.name || 'Cricket Fan'}!</Text>
-          </View>
-          <TouchableOpacity style={styles.notificationButton}>
-            <Ionicons name="notifications-outline" size={24} color={Colors.text} />
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.logo}>18Cricket</Text>
+        <View style={styles.headerIcons}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="heart-outline" size={26} color={Colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
         </View>
+      </View>
 
-        {/* Hero Section */}
-        <View style={styles.heroSection}>
-          <Text style={styles.heroTitle}>Your Complete Cricket Ecosystem</Text>
-          <Text style={styles.heroSubtitle}>
-            Buy gear, find academies, join tournaments, book grounds
-          </Text>
-        </View>
-
-        {/* Quick Actions */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
-          <View style={styles.categoryGrid}>
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category.id}
-                style={styles.categoryCard}
-                onPress={() => router.push(category.route as any)}
-              >
-                <View style={styles.iconContainer}>
-                  <Ionicons name={category.icon as any} size={32} color={Colors.primary} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Stories */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.storiesContainer}
+        >
+          {stories.map((story) => (
+            <TouchableOpacity key={story.id} style={styles.storyItem}>
+              <View style={[styles.storyBorder, story.hasStory && styles.storyBorderActive]}>
+                <View style={styles.storyAvatar}>
+                  <Ionicons name="person" size={32} color={Colors.primary} />
                 </View>
-                <Text style={styles.categoryName}>{category.name}</Text>
+              </View>
+              {!story.hasStory && (
+                <View style={styles.addStoryButton}>
+                  <Ionicons name="add" size={16} color={Colors.white} />
+                </View>
+              )}
+              <Text style={styles.storyName}>{story.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Quick Actions Grid */}
+        <View style={styles.quickActionsContainer}>
+          <Text style={styles.sectionTitle}>Explore Cricket</Text>
+          <View style={styles.quickActionsGrid}>
+            {quickActions.map((action) => (
+              <TouchableOpacity
+                key={action.id}
+                style={styles.actionCard}
+                onPress={() => router.push(action.route as any)}
+              >
+                <LinearGradient
+                  colors={action.gradient}
+                  style={styles.actionGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Ionicons name={action.icon as any} size={32} color={Colors.white} />
+                </LinearGradient>
+                <Text style={styles.actionName}>{action.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -59,208 +91,246 @@ export default function HomeScreen() {
         {/* Featured Products */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Featured Products</Text>
+            <Text style={styles.sectionTitle}>Trending Gear</Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/marketplace')}>
               <Text style={styles.seeAll}>See All</Text>
             </TouchableOpacity>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {[1, 2, 3].map((item) => (
+            {[1, 2, 3, 4].map((item) => (
               <TouchableOpacity
                 key={item}
                 style={styles.productCard}
                 onPress={() => router.push('/(tabs)/marketplace')}
               >
-                <View style={styles.productImagePlaceholder}>
+                <View style={styles.productImage}>
                   <Ionicons name="baseball" size={40} color={Colors.primary} />
                 </View>
-                <Text style={styles.productName}>Cricket Bat</Text>
-                <Text style={styles.productPrice}>₹2,500</Text>
+                <View style={styles.productInfo}>
+                  <Text style={styles.productName}>Cricket Bat</Text>
+                  <Text style={styles.productPrice}>₹2,500</Text>
+                </View>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
 
-        {/* Popular Academies */}
+        {/* Live Tournaments */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Popular Academies</Text>
-            <TouchableOpacity onPress={() => router.push('/academies/list' as any)}>
+            <Text style={styles.sectionTitle}>Live Tournaments</Text>
+            <TouchableOpacity onPress={() => router.push('/tournaments/list' as any)}>
               <Text style={styles.seeAll}>See All</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {[1, 2].map((item) => (
-              <TouchableOpacity
-                key={item}
-                style={styles.academyCard}
-                onPress={() => router.push('/academies/list' as any)}
-              >
-                <View style={styles.academyIconContainer}>
-                  <Ionicons name="school" size={32} color={Colors.white} />
-                </View>
-                <Text style={styles.academyName}>Cricket Academy</Text>
-                <Text style={styles.academyLocation}>Bengaluru</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <View style={styles.liveTournament}>
+            <View style={styles.liveIndicator}>
+              <View style={styles.liveDot} />
+              <Text style={styles.liveText}>LIVE</Text>
+            </View>
+            <Text style={styles.tournamentTitle}>Bengaluru Premier League</Text>
+            <Text style={styles.tournamentInfo}>Match 3 • Mumbai vs Chennai</Text>
+            <TouchableOpacity style={styles.watchButton}>
+              <Text style={styles.watchButtonText}>Watch Now</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
-  },
-  scrollContent: {
-    paddingBottom: 24,
+    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
-  greeting: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-  },
-  userName: {
-    fontSize: 20,
+  logo: {
+    fontSize: 24,
     fontWeight: 'bold',
+    color: Colors.text,
+    fontFamily: 'System',
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  iconButton: {
+    padding: 4,
+  },
+  storiesContainer: {
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  storyItem: {
+    alignItems: 'center',
+    marginHorizontal: 8,
+    position: 'relative',
+  },
+  storyBorder: {
+    padding: 2,
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: Colors.border,
+  },
+  storyBorderActive: {
+    borderColor: Colors.primary,
+  },
+  storyAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: Colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: Colors.background,
+  },
+  addStoryButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 0,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: Colors.info,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Colors.background,
+  },
+  storyName: {
+    fontSize: 12,
     color: Colors.text,
     marginTop: 4,
   },
-  notificationButton: {
-    padding: 8,
+  quickActionsContainer: {
+    padding: 16,
   },
-  heroSection: {
-    backgroundColor: Colors.primary,
-    padding: 24,
-    marginHorizontal: 16,
-    borderRadius: 16,
-    marginBottom: 24,
-  },
-  heroTitle: {
-    fontSize: 22,
+  sectionTitle: {
+    fontSize: 16,
     fontWeight: 'bold',
-    color: Colors.white,
+    color: Colors.text,
+    marginBottom: 16,
+  },
+  quickActionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  actionCard: {
+    width: '48%',
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  actionGradient: {
+    width: '100%',
+    height: 100,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 8,
   },
-  heroSubtitle: {
+  actionName: {
     fontSize: 14,
-    color: Colors.white,
-    opacity: 0.9,
+    fontWeight: '600',
+    color: Colors.text,
   },
   section: {
-    marginBottom: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.text,
-    paddingHorizontal: 16,
-    marginBottom: 12,
+    marginBottom: 16,
   },
   seeAll: {
     fontSize: 14,
-    color: Colors.primary,
+    color: Colors.info,
     fontWeight: '600',
-  },
-  categoryGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 8,
-  },
-  categoryCard: {
-    width: '47%',
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
-    padding: 20,
-    margin: 8,
-    alignItems: 'center',
-  },
-  iconContainer: {
-    width: 64,
-    height: 64,
-    backgroundColor: Colors.white,
-    borderRadius: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  categoryName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    textAlign: 'center',
   },
   productCard: {
-    width: 150,
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    marginLeft: 16,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    width: 140,
+    marginRight: 12,
+    backgroundColor: Colors.card,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
-  productImagePlaceholder: {
-    height: 150,
+  productImage: {
+    height: 140,
     backgroundColor: Colors.surface,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  productInfo: {
+    padding: 12,
   },
   productName: {
     fontSize: 14,
     fontWeight: '600',
     color: Colors.text,
-    padding: 12,
-    paddingBottom: 4,
+    marginBottom: 4,
   },
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
     color: Colors.primary,
-    paddingHorizontal: 12,
-    paddingBottom: 12,
   },
-  academyCard: {
-    width: 200,
-    backgroundColor: Colors.white,
+  liveTournament: {
+    backgroundColor: Colors.card,
     borderRadius: 12,
-    marginLeft: 16,
     padding: 16,
-    borderWidth: 1,
-    borderColor: Colors.border,
   },
-  academyIconContainer: {
-    width: 56,
-    height: 56,
-    backgroundColor: Colors.primary,
-    borderRadius: 28,
-    justifyContent: 'center',
+  liveIndicator: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
-  academyName: {
-    fontSize: 16,
-    fontWeight: '600',
+  liveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.error,
+    marginRight: 6,
+  },
+  liveText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: Colors.error,
+  },
+  tournamentTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
     color: Colors.text,
     marginBottom: 4,
   },
-  academyLocation: {
+  tournamentInfo: {
     fontSize: 14,
     color: Colors.textSecondary,
+    marginBottom: 12,
+  },
+  watchButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 10,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  watchButtonText: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });
