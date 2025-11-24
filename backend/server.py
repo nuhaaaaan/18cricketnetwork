@@ -819,24 +819,68 @@ async def create_ground(ground: GroundCreate, current_user: dict = Depends(get_c
     ground_dict = ground.dict()
     ground_dict['id'] = str(uuid.uuid4())
     ground_dict['owner_id'] = str(current_user['_id'])
+    ground_dict['owner_name'] = current_user['name']
+    ground_dict['owner_phone'] = current_user['phone']
     ground_dict['created_at'] = datetime.utcnow()
     ground_dict['rating'] = 0.0
+    ground_dict['reviews_count'] = 0
+    ground_dict['is_verified'] = False
+    ground_dict['commission_rate'] = 0.15
     
     await db.grounds.insert_one(ground_dict)
     return ground_dict
 
 @api_router.get("/grounds")
-async def get_grounds(city: Optional[str] = None, ground_type: Optional[str] = None, limit: int = 50):
+async def get_grounds(
+    city: Optional[str] = None, 
+    ground_type: Optional[str] = None,
+    latitude: Optional[float] = None,
+    longitude: Optional[float] = None,
+    radius_km: float = 10,
+    limit: int = 50
+):
     query = {}
     if city:
         query['city'] = {'$regex': city, '$options': 'i'}
     if ground_type:
         query['ground_type'] = ground_type
     
+    # Nearby search using coordinates
+    if latitude is not None and longitude is not None:
+        query['latitude'] = {'$exists': True}
+        query['longitude'] = {'$exists': True}
+        # Simple distance calculation (for production, use MongoDB geospatial queries)
+        grounds = await db.grounds.find(query).to_list(200)
+        
+        # Calculate distance and filter
+        nearby_grounds = []
+        for ground in grounds:
+            if ground.get('latitude') and ground.get('longitude'):
+                # Haversine formula approximation
+                lat_diff = abs(ground['latitude'] - latitude)
+                lon_diff = abs(ground['longitude'] - longitude)
+                distance = ((lat_diff ** 2 + lon_diff ** 2) ** 0.5) * 111  # rough km
+                if distance <= radius_km:
+                    ground['distance_km'] = round(distance, 2)
+                    ground['_id'] = str(ground['_id'])
+                    nearby_grounds.append(ground)
+        
+        nearby_grounds.sort(key=lambda x: x.get('distance_km', 999))
+        return nearby_grounds[:limit]
+    
     grounds = await db.grounds.find(query).limit(limit).to_list(limit)
     for ground in grounds:
         ground['_id'] = str(ground['_id'])
     return grounds
+
+@api_router.get("/grounds/nearby")
+async def get_nearby_grounds(
+    latitude: float,
+    longitude: float,
+    radius_km: float = 10,
+    ground_type: Optional[str] = None
+):
+    return await get_grounds(latitude=latitude, longitude=longitude, radius_km=radius_km, ground_type=ground_type)
 
 @api_router.get("/grounds/{ground_id}")
 async def get_ground(ground_id: str):
@@ -845,6 +889,190 @@ async def get_ground(ground_id: str):
         raise HTTPException(status_code=404, detail="Ground not found")
     ground['_id'] = str(ground['_id'])
     return ground
+
+@api_router.put("/grounds/{ground_id}")
+async def update_ground(ground_id: str, ground_update: GroundCreate, current_user: dict = Depends(get_current_user)):
+    ground = await db.grounds.find_one({"id": ground_id})
+    if not ground or ground['owner_id'] != str(current_user['_id']):
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    update_data = ground_update.dict(exclude_unset=True)
+    await db.grounds.update_one({"id": ground_id}, {"$set": update_data})
+    return {"message": "Ground updated"}
+
+# ==================== TRAINING FACILITIES ====================
+
+@api_router.post("/training-facilities")
+async def create_training_facility(facility: TrainingFacilityCreate, current_user: dict = Depends(get_current_user)):
+    facility_dict = facility.dict()
+    facility_dict['id'] = str(uuid.uuid4())
+    facility_dict['owner_id'] = str(current_user['_id'])
+    facility_dict['owner_name'] = current_user['name']
+    facility_dict['created_at'] = datetime.utcnow()
+    facility_dict['rating'] = 0.0
+    facility_dict['is_verified'] = False
+    facility_dict['commission_rate'] = 0.12
+    
+    await db.training_facilities.insert_one(facility_dict)
+    return facility_dict
+
+@api_router.get("/training-facilities")
+async def get_training_facilities(
+    city: Optional[str] = None,
+    facility_type: Optional[str] = None,
+    latitude: Optional[float] = None,
+    longitude: Optional[float] = None,
+    radius_km: float = 10,
+    limit: int = 50
+):
+    query = {}
+    if city:
+        query['city'] = {'$regex': city, '$options': 'i'}
+    if facility_type:
+        query['facility_type'] = facility_type
+    
+    if latitude is not None and longitude is not None:
+        facilities = await db.training_facilities.find(query).to_list(200)
+        nearby_facilities = []
+        for facility in facilities:
+            if facility.get('latitude') and facility.get('longitude'):
+                lat_diff = abs(facility['latitude'] - latitude)
+                lon_diff = abs(facility['longitude'] - longitude)
+                distance = ((lat_diff ** 2 + lon_diff ** 2) ** 0.5) * 111
+                if distance <= radius_km:
+                    facility['distance_km'] = round(distance, 2)
+                    facility['_id'] = str(facility['_id'])
+                    nearby_facilities.append(facility)
+        nearby_facilities.sort(key=lambda x: x.get('distance_km', 999))
+        return nearby_facilities[:limit]
+    
+    facilities = await db.training_facilities.find(query).limit(limit).to_list(limit)
+    for facility in facilities:
+        facility['_id'] = str(facility['_id'])
+    return facilities
+
+@api_router.get("/training-facilities/{facility_id}")
+async def get_training_facility(facility_id: str):
+    facility = await db.training_facilities.find_one({"id": facility_id})
+    if not facility:
+        raise HTTPException(status_code=404, detail="Facility not found")
+    facility['_id'] = str(facility['_id'])
+    return facility
+
+# ==================== PERSONAL TRAINERS ====================
+
+@api_router.post("/personal-trainers")
+async def create_personal_trainer(trainer: PersonalTrainerCreate, current_user: dict = Depends(get_current_user)):
+    trainer_dict = trainer.dict()
+    trainer_dict['id'] = str(uuid.uuid4())
+    trainer_dict['user_id'] = str(current_user['_id'])
+    trainer_dict['created_at'] = datetime.utcnow()
+    trainer_dict['rating'] = 0.0
+    trainer_dict['reviews_count'] = 0
+    trainer_dict['is_verified'] = False
+    trainer_dict['commission_rate'] = 0.10
+    
+    await db.personal_trainers.insert_one(trainer_dict)
+    return trainer_dict
+
+@api_router.get("/personal-trainers")
+async def get_personal_trainers(
+    city: Optional[str] = None,
+    specialization: Optional[str] = None,
+    latitude: Optional[float] = None,
+    longitude: Optional[float] = None,
+    radius_km: float = 10,
+    limit: int = 50
+):
+    query = {}
+    if city:
+        query['city'] = {'$regex': city, '$options': 'i'}
+    if specialization:
+        query['specialization'] = specialization
+    
+    if latitude is not None and longitude is not None:
+        trainers = await db.personal_trainers.find(query).to_list(200)
+        nearby_trainers = []
+        for trainer in trainers:
+            if trainer.get('latitude') and trainer.get('longitude'):
+                lat_diff = abs(trainer['latitude'] - latitude)
+                lon_diff = abs(trainer['longitude'] - longitude)
+                distance = ((lat_diff ** 2 + lon_diff ** 2) ** 0.5) * 111
+                if distance <= radius_km:
+                    trainer['distance_km'] = round(distance, 2)
+                    trainer['_id'] = str(trainer['_id'])
+                    nearby_trainers.append(trainer)
+        nearby_trainers.sort(key=lambda x: x.get('distance_km', 999))
+        return nearby_trainers[:limit]
+    
+    trainers = await db.personal_trainers.find(query).limit(limit).to_list(limit)
+    for trainer in trainers:
+        trainer['_id'] = str(trainer['_id'])
+    return trainers
+
+@api_router.get("/personal-trainers/{trainer_id}")
+async def get_personal_trainer(trainer_id: str):
+    trainer = await db.personal_trainers.find_one({"id": trainer_id})
+    if not trainer:
+        raise HTTPException(status_code=404, detail="Trainer not found")
+    trainer['_id'] = str(trainer['_id'])
+    return trainer
+
+# ==================== CRICKET GYMS ====================
+
+@api_router.post("/cricket-gyms")
+async def create_cricket_gym(gym: CricketGymCreate, current_user: dict = Depends(get_current_user)):
+    gym_dict = gym.dict()
+    gym_dict['id'] = str(uuid.uuid4())
+    gym_dict['owner_id'] = str(current_user['_id'])
+    gym_dict['owner_name'] = current_user['name']
+    gym_dict['created_at'] = datetime.utcnow()
+    gym_dict['rating'] = 0.0
+    gym_dict['is_verified'] = False
+    gym_dict['commission_rate'] = 0.12
+    
+    await db.cricket_gyms.insert_one(gym_dict)
+    return gym_dict
+
+@api_router.get("/cricket-gyms")
+async def get_cricket_gyms(
+    city: Optional[str] = None,
+    latitude: Optional[float] = None,
+    longitude: Optional[float] = None,
+    radius_km: float = 10,
+    limit: int = 50
+):
+    query = {}
+    if city:
+        query['city'] = {'$regex': city, '$options': 'i'}
+    
+    if latitude is not None and longitude is not None:
+        gyms = await db.cricket_gyms.find(query).to_list(200)
+        nearby_gyms = []
+        for gym in gyms:
+            if gym.get('latitude') and gym.get('longitude'):
+                lat_diff = abs(gym['latitude'] - latitude)
+                lon_diff = abs(gym['longitude'] - longitude)
+                distance = ((lat_diff ** 2 + lon_diff ** 2) ** 0.5) * 111
+                if distance <= radius_km:
+                    gym['distance_km'] = round(distance, 2)
+                    gym['_id'] = str(gym['_id'])
+                    nearby_gyms.append(gym)
+        nearby_gyms.sort(key=lambda x: x.get('distance_km', 999))
+        return nearby_gyms[:limit]
+    
+    gyms = await db.cricket_gyms.find(query).limit(limit).to_list(limit)
+    for gym in gyms:
+        gym['_id'] = str(gym['_id'])
+    return gyms
+
+@api_router.get("/cricket-gyms/{gym_id}")
+async def get_cricket_gym(gym_id: str):
+    gym = await db.cricket_gyms.find_one({"id": gym_id})
+    if not gym:
+        raise HTTPException(status_code=404, detail="Gym not found")
+    gym['_id'] = str(gym['_id'])
+    return gym
 
 @api_router.post("/bookings")
 async def create_booking(booking_data: dict, current_user: dict = Depends(get_current_user)):
