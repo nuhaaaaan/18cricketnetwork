@@ -28,9 +28,10 @@ export default function HomeScreen() {
   ];
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+    <ChatBotWrapper>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
         <Logo size="small" />
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reels' as any)}>
