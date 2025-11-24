@@ -31,10 +31,10 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <Text style={styles.logo}>18Cricket</Text>
         <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="heart-outline" size={26} color={Colors.text} />
+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/reels' as any)}>
+            <Ionicons name="film-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/messages' as any)}>
             <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
         </View>
