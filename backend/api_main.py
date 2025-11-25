@@ -218,14 +218,44 @@ class TokenResponse(BaseModel):
 @api_v1.post("/auth/register", response_model=TokenResponse, tags=["Auth"])
 async def register(request: RegisterRequest):
     """Register new user with role"""
-    # TODO: Hash password, save to database
-    user_data = {
-        "id": "user_123",
+    # Check if user already exists
+    existing_user = await db.users.find_one({"email": request.email})
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+    
+    # Create user document
+    user_doc = {
+        "id": str(uuid.uuid4()),
         "email": request.email,
+        "password": hash_password(request.password),
         "name": request.name,
-        "role": request.role.value
+        "phone": request.phone,
+        "role": request.role.value,
+        "created_at": datetime.utcnow(),
+        "is_verified": False,
+        "profile_image": None,
+        "location": None,
+        "wishlist": [],
+        "cart": []
     }
-    token = create_access_token(user_data)
+    
+    # Insert into database
+    result = await db.users.insert_one(user_doc)
+    
+    # Prepare user data for response (without password)
+    user_data = {
+        "id": user_doc["id"],
+        "email": user_doc["email"],
+        "name": user_doc["name"],
+        "role": user_doc["role"]
+    }
+    
+    # Create JWT token
+    token = create_access_token({"email": request.email, "role": request.role.value})
+    
     return {
         "access_token": token,
         "token_type": "bearer",
@@ -235,13 +265,32 @@ async def register(request: RegisterRequest):
 @api_v1.post("/auth/login", response_model=TokenResponse, tags=["Auth"])
 async def login(request: LoginRequest):
     """Login with email and password"""
-    # TODO: Verify credentials against database
+    # Find user by email
+    user = await db.users.find_one({"email": request.email})
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+    
+    # Verify password
+    if not verify_password(request.password, user['password']):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+    
+    # Prepare user data for response
     user_data = {
-        "id": "user_123",
-        "email": request.email,
-        "role": "player"
+        "id": user.get("id", str(user["_id"])),
+        "email": user["email"],
+        "name": user["name"],
+        "role": user["role"]
     }
-    token = create_access_token(user_data)
+    
+    # Create JWT token
+    token = create_access_token({"email": user["email"], "role": user["role"]})
+    
     return {
         "access_token": token,
         "token_type": "bearer",
