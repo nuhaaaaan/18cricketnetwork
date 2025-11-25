@@ -161,7 +161,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     user.pop('password', None)  # Remove password from response
     return user
 
-async def require_role(required_roles: List[UserRole]):
+def require_role(required_roles: List[UserRole]):
     """Dependency to check user role"""
     async def role_checker(current_user: Dict = Depends(get_current_user)):
         user_role = current_user.get("role")
