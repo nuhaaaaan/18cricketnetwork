@@ -103,25 +103,126 @@
 #====================================================================================================
 
 user_problem_statement: |
-  Update the 18 Cricket Network app with the following requirements:
-  1. Change app name to "18cricket" for all app stores (Play Store, App Store, Microsoft Store)
-  2. Apply the logo-based theme throughout the app (Red #DC2626, Black #000000, Silver #C0C0C0)
-  3. Update all screens to use the premium brand colors
-  4. Ensure consistent theming across authentication, main tabs, and all features
-  5. Maintain the motto: "A tribute to the legacy of THE KING"
+  Build complete REST API backend for 18 Cricket Network:
+  1. Implement versioned REST API (/api/v1/) with proper routing
+  2. Complete authentication system with JWT and password hashing
+  3. User management endpoints (register, login, profile, verification)
+  4. Squad/Friends system with request/accept flow
+  5. Chat system with threads, messages, and meetings
+  6. Marketplace endpoints for products
+  7. Teams and leagues management
+  8. Services (grounds, coaches, facilities)
+  9. AI features (chatbot, highlights generation)
+  10. Proper MongoDB integration for all operations
 
 backend:
-  - task: "Backend API endpoints"
+  - task: "New versioned API structure (api_main.py)"
     implemented: true
-    working: true
-    file: "backend/server.py"
+    working: "NA"
+    file: "backend/api_main.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
+      - working: "NA"
         agent: "main"
-        comment: "All backend endpoints are functional. No changes made in this iteration as focus was on UI theming."
+        comment: "Created new api_main.py with complete REST API structure. Implemented MongoDB integration, JWT auth, password hashing, and all core endpoints."
+
+  - task: "Authentication endpoints (JWT + bcrypt)"
+    implemented: true
+    working: "NA"
+    file: "backend/api_main.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/auth/register, /login, /logout, /refresh with bcrypt password hashing and JWT tokens. Includes database storage and retrieval."
+
+  - task: "User management endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_main.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/users/me (GET, PATCH), /users/{user_id}, /users/{user_id}/role, /users/{user_id}/verify. All endpoints use MongoDB."
+
+  - task: "Squad system endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_main.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/squad/requests (POST), /squad/requests/{id}/accept (POST), /squad/list (GET). Handles friend requests and mutual connections."
+
+  - task: "Chat system endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_main.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/chat/threads (POST, GET), /chat/threads/{id}/messages (GET, POST), /meetings/my. Full chat and meeting scheduling."
+
+  - task: "Marketplace endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_routers.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/marketplace/products (CRUD operations). Includes filtering by category, search, and vendor management."
+
+  - task: "Teams & Leagues endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_routers.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/teams and /api/v1/leagues endpoints. Includes team creation, member management, league registration."
+
+  - task: "Services endpoints (grounds)"
+    implemented: true
+    working: "NA"
+    file: "backend/api_routers.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/services/grounds endpoints for ground listing, creation, and search with filters."
+
+  - task: "AI features endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/api_routers.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/v1/ai/chatbot and /ai/highlights endpoints. Placeholder implementation ready for AI model integration."
 
 frontend:
   - task: "App name change to 18cricket"
