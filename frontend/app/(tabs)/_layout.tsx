@@ -32,6 +32,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="navigate"
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="navigate" size={26} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="social"
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color={color} />,
