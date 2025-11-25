@@ -316,7 +316,6 @@ async def refresh_token(current_user: Dict = Depends(get_current_user)):
 @api_v1.get("/users/me", tags=["Users"])
 async def get_my_profile(current_user: Dict = Depends(get_current_user)):
     """Get current user profile"""
-    # TODO: Fetch from database
     return {"success": True, "data": current_user}
 
 @api_v1.patch("/users/me", tags=["Users"])
@@ -325,14 +324,37 @@ async def update_my_profile(
     current_user: Dict = Depends(get_current_user)
 ):
     """Update current user profile"""
-    # TODO: Update database
+    # Remove fields that shouldn't be updated this way
+    updates.pop('password', None)
+    updates.pop('email', None)
+    updates.pop('role', None)
+    updates['updated_at'] = datetime.utcnow()
+    
+    # Update database
+    await db.users.update_one(
+        {"email": current_user["email"]},
+        {"$set": updates}
+    )
+    
     return {"success": True, "message": "Profile updated", "data": updates}
 
 @api_v1.get("/users/{user_id}", tags=["Users"])
 async def get_user_profile(user_id: str):
     """Get user profile by ID (public info)"""
-    # TODO: Fetch from database
-    return {"success": True, "data": {"id": user_id, "name": "Player Name"}}
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Return only public info
+    public_user = {
+        "id": user.get("id", str(user["_id"])),
+        "name": user["name"],
+        "role": user["role"],
+        "profile_image": user.get("profile_image"),
+        "is_verified": user.get("is_verified", False)
+    }
+    
+    return {"success": True, "data": public_user}
 
 @api_v1.patch("/users/{user_id}/role", tags=["Users"])
 async def change_user_role(
@@ -341,7 +363,14 @@ async def change_user_role(
     current_user: Dict = Depends(require_role([UserRole.SUPER_ADMIN]))
 ):
     """Change user role (admin only)"""
-    # TODO: Update database
+    result = await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"role": new_role.value, "updated_at": datetime.utcnow()}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
     return {
         "success": True,
         "message": f"User role changed to {new_role.value}",
@@ -356,7 +385,18 @@ async def verify_user(
     current_user: Dict = Depends(get_current_user)
 ):
     """Submit verification documents (KYC/seller/league)"""
-    # TODO: Save verification request to database
+    verification_doc = {
+        "id": str(uuid.uuid4()),
+        "user_id": user_id,
+        "verification_type": verification_type,
+        "documents": documents or [],
+        "status": "pending",
+        "submitted_at": datetime.utcnow(),
+        "submitted_by": current_user["id"]
+    }
+    
+    await db.verifications.insert_one(verification_doc)
+    
     return {
         "success": True,
         "message": "Verification submitted",
