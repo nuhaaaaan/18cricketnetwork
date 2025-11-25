@@ -11,14 +11,30 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
 from enum import Enum
+from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
+from dotenv import load_dotenv
+from pathlib import Path
+import bcrypt
 import jwt
 import os
+import uuid
+
+# Load environment variables
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
 
 # ==================== CONFIGURATION ====================
 
 SECRET_KEY = os.getenv("JWT_SECRET", "cricket-network-secret-2025")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
+
+# MongoDB connection
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DB_NAME", "test_database")
+mongo_client = AsyncIOMotorClient(MONGO_URL)
+db = mongo_client[DB_NAME]
 
 # ==================== APP INITIALIZATION ====================
 
