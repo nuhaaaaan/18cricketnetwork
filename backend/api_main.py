@@ -706,8 +706,19 @@ async def get_my_meetings(
     
     return {"success": True, "data": {"meetings": meetings}}
 
-# Include router
+# Include main router
 app.include_router(api_v1)
+
+# Include additional routers
+try:
+    from api_routers import marketplace_router, teams_router, leagues_router, services_router, ai_router
+    app.include_router(marketplace_router)
+    app.include_router(teams_router)
+    app.include_router(leagues_router)
+    app.include_router(services_router)
+    app.include_router(ai_router)
+except ImportError as e:
+    print(f"Warning: Could not import additional routers: {e}")
 
 # ==================== ERROR HANDLERS ====================
 
