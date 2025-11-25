@@ -1,38 +1,16 @@
 {
   "expo": {
-    "name": "18cricket",
-    "slug": "18cricket",
+    "name": "frontend",
+    "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "frontend",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "18 Cricket Network needs your location to show nearby grounds, academies, and provide navigation.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "18 Cricket Network uses your location to help you navigate to grounds and cricket venues."
-      },
-      "config": {
-        "googleMapsApiKey": ""
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
-      },
-      "edgeToEdgeEnabled": true,
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
-      ],
-      "config": {
-        "googleMaps": {
-          "apiKey": ""
-        }
-      }
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
     },
     "web": {
       "bundler": "metro",
@@ -47,19 +25,16 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#000000"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
-  }
-}
-{
-  "expo": {
+    },
+
     "extra": {
-      "EXPO_PUBLIC_BACKEND_URL": "https://one8cricketnetwork-1.onrender.com/api"
+      "EXPO_PUBLIC_BACKEND_URL": "https://one8cricketnetwork-1.onrender.com"
     }
   }
 }
