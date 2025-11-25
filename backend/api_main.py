@@ -415,7 +415,28 @@ async def send_squad_request(
     current_user: Dict = Depends(get_current_user)
 ):
     """Send squad (friend) request"""
-    # TODO: Save to database, send notification
+    # Check if request already exists
+    existing = await db.squad_requests.find_one({
+        "from_user_id": current_user["id"],
+        "to_user_id": request.to_user_id,
+        "status": "pending"
+    })
+    if existing:
+        raise HTTPException(status_code=400, detail="Request already sent")
+    
+    # Create squad request
+    squad_request = {
+        "id": str(uuid.uuid4()),
+        "from_user_id": current_user["id"],
+        "from_user_name": current_user["name"],
+        "to_user_id": request.to_user_id,
+        "message": request.message,
+        "status": "pending",
+        "created_at": datetime.utcnow()
+    }
+    
+    await db.squad_requests.insert_one(squad_request)
+    
     return {
         "success": True,
         "message": "Squad request sent",
@@ -428,19 +449,69 @@ async def accept_squad_request(
     current_user: Dict = Depends(get_current_user)
 ):
     """Accept squad request"""
-    # TODO: Update database, create mutual connection
+    # Find the request
+    request_doc = await db.squad_requests.find_one({"id": request_id})
+    if not request_doc or request_doc["to_user_id"] != current_user["id"]:
+        raise HTTPException(status_code=404, detail="Request not found")
+    
+    # Update request status
+    await db.squad_requests.update_one(
+        {"id": request_id},
+        {"$set": {"status": "accepted", "accepted_at": datetime.utcnow()}}
+    )
+    
+    # Create mutual squad connections
+    squad_connection_1 = {
+        "user_id": current_user["id"],
+        "squad_member_id": request_doc["from_user_id"],
+        "added_at": datetime.utcnow()
+    }
+    squad_connection_2 = {
+        "user_id": request_doc["from_user_id"],
+        "squad_member_id": current_user["id"],
+        "added_at": datetime.utcnow()
+    }
+    
+    await db.squad.insert_many([squad_connection_1, squad_connection_2])
+    
     return {"success": True, "message": "Squad request accepted"}
 
 @api_v1.get("/squad/list", tags=["Squad"])
 async def get_my_squad(current_user: Dict = Depends(get_current_user)):
     """Get my squad list"""
-    # TODO: Fetch from database
+    # Get squad members
+    squad_docs = await db.squad.find({"user_id": current_user["id"]}).to_list(1000)
+    squad_ids = [doc["squad_member_id"] for doc in squad_docs]
+    
+    # Get user details for squad members
+    squad_members = []
+    for user_id in squad_ids:
+        user = await db.users.find_one({"id": user_id})
+        if user:
+            squad_members.append({
+                "id": user.get("id", str(user["_id"])),
+                "name": user["name"],
+                "profile_image": user.get("profile_image"),
+                "role": user["role"]
+            })
+    
+    # Get pending requests
+    pending_sent = await db.squad_requests.find({
+        "from_user_id": current_user["id"],
+        "status": "pending"
+    }).to_list(100)
+    
+    pending_received = await db.squad_requests.find({
+        "to_user_id": current_user["id"],
+        "status": "pending"
+    }).to_list(100)
+    
     return {
         "success": True,
         "data": {
-            "squad": [],
-            "pending_sent": [],
-            "pending_received": []
+            "squad": squad_members,
+            "pending_sent": pending_sent,
+            "pending_received": pending_received
         }
     }
 
