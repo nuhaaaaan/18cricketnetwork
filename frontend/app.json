@@ -59,7 +59,7 @@
 {
   "expo": {
     "extra": {
-      "EXPO_PUBLIC_BACKEND_URL": "https://one8cricketnetwork-1.onrender.com"
+      "EXPO_PUBLIC_BACKEND_URL": "https://one8cricketnetwork-1.onrender.com/api"
     }
   }
 }
