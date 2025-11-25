@@ -17,6 +17,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import SearchBar from '@/components/Navigation/SearchBar';
 import LocationInfoCard from '@/components/Navigation/LocationInfoCard';
@@ -36,6 +37,7 @@ const INITIAL_REGION = {
 };
 
 export default function NavigateScreen() {
+  const params = useLocalSearchParams();
   const mapRef = useRef<MapView>(null);
   const [currentLocation, setCurrentLocation] = useState<Location.LocationObject | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(null);
@@ -51,6 +53,18 @@ export default function NavigateScreen() {
   useEffect(() => {
     initializeLocation();
   }, []);
+
+  // Handle location params from navigation
+  useEffect(() => {
+    if (params.locationData && typeof params.locationData === 'string') {
+      try {
+        const location = JSON.parse(params.locationData) as LocationData;
+        handleSelectLocation(location);
+      } catch (error) {
+        console.error('Error parsing location data:', error);
+      }
+    }
+  }, [params.locationData]);
 
   const initializeLocation = async () => {
     try {
