@@ -113,6 +113,14 @@ class PaginationParams(BaseModel):
 
 # ==================== AUTHENTICATION HELPERS ====================
 
+def hash_password(password: str) -> str:
+    """Hash a password using bcrypt"""
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a password against a hash"""
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -142,7 +150,16 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     """Extract and validate JWT token"""
     token = credentials.credentials
     payload = decode_token(token)
-    return payload
+    # Fetch user from database
+    user = await db.users.find_one({"email": payload.get("email")})
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found"
+        )
+    user['_id'] = str(user['_id'])
+    user.pop('password', None)  # Remove password from response
+    return user
 
 async def require_role(required_roles: List[UserRole]):
     """Dependency to check user role"""
