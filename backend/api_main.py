@@ -526,18 +526,36 @@ async def create_chat_thread(
     current_user: Dict = Depends(get_current_user)
 ):
     """Create chat thread (1:1 or group)"""
-    # TODO: Verify all participants are in squad, save to database
+    # Create thread document
+    thread_doc = {
+        "id": str(uuid.uuid4()),
+        "name": request.name,
+        "participants": [current_user["id"]] + request.participants,
+        "is_group": request.is_group,
+        "created_by": current_user["id"],
+        "created_at": datetime.utcnow(),
+        "last_message_at": None
+    }
+    
+    await db.chat_threads.insert_one(thread_doc)
+    
     return {
         "success": True,
         "message": "Chat thread created",
-        "data": {"thread_id": "thread_123", "participants": request.participants}
+        "data": {"thread_id": thread_doc["id"], "participants": thread_doc["participants"]}
     }
 
 @api_v1.get("/chat/threads", tags=["Chat"])
 async def get_chat_threads(current_user: Dict = Depends(get_current_user)):
     """Get all chat threads for current user"""
-    # TODO: Fetch from database
-    return {"success": True, "data": {"threads": []}}
+    threads = await db.chat_threads.find({
+        "participants": current_user["id"]
+    }).sort("last_message_at", -1).to_list(100)
+    
+    for thread in threads:
+        thread['_id'] = str(thread['_id'])
+    
+    return {"success": True, "data": {"threads": threads}}
 
 @api_v1.get("/chat/threads/{thread_id}/messages", tags=["Chat"])
 async def get_thread_messages(
@@ -547,14 +565,29 @@ async def get_thread_messages(
     current_user: Dict = Depends(get_current_user)
 ):
     """Get messages from a thread"""
-    # TODO: Verify user is participant, fetch messages
+    # Verify user is participant
+    thread = await db.chat_threads.find_one({"id": thread_id})
+    if not thread or current_user["id"] not in thread["participants"]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    # Fetch messages
+    skip = (page - 1) * page_size
+    messages = await db.chat_messages.find({
+        "thread_id": thread_id
+    }).sort("created_at", -1).skip(skip).limit(page_size).to_list(page_size)
+    
+    total = await db.chat_messages.count_documents({"thread_id": thread_id})
+    
+    for message in messages:
+        message['_id'] = str(message['_id'])
+    
     return {
         "success": True,
         "data": {
-            "messages": [],
+            "messages": messages,
             "page": page,
             "page_size": page_size,
-            "total": 0
+            "total": total
         }
     }
 
@@ -570,16 +603,41 @@ async def send_message(
     current_user: Dict = Depends(get_current_user)
 ):
     """Send message to thread"""
-    # TODO: Verify participant, save message, send real-time via WebSocket
+    # Verify participant
+    thread = await db.chat_threads.find_one({"id": thread_id})
+    if not thread or current_user["id"] not in thread["participants"]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    # Create message
+    message_doc = {
+        "id": str(uuid.uuid4()),
+        "thread_id": thread_id,
+        "sender_id": current_user["id"],
+        "sender_name": current_user["name"],
+        "content": request.content,
+        "message_type": request.message_type,
+        "metadata": request.metadata,
+        "created_at": datetime.utcnow(),
+        "is_read": False
+    }
+    
+    await db.chat_messages.insert_one(message_doc)
+    
+    # Update thread last message time
+    await db.chat_threads.update_one(
+        {"id": thread_id},
+        {"$set": {"last_message_at": datetime.utcnow()}}
+    )
+    
     return {
         "success": True,
         "message": "Message sent",
         "data": {
-            "message_id": "msg_123",
+            "message_id": message_doc["id"],
             "thread_id": thread_id,
             "sender_id": current_user["id"],
             "content": request.content,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": message_doc["created_at"].isoformat()
         }
     }
 
@@ -598,12 +656,27 @@ async def create_meeting(
     current_user: Dict = Depends(get_current_user)
 ):
     """Schedule meeting/practice session"""
-    # TODO: Save meeting, send invites
+    meeting_doc = {
+        "id": str(uuid.uuid4()),
+        "thread_id": thread_id,
+        "title": request.title,
+        "description": request.description,
+        "start_time": request.start_time,
+        "end_time": request.end_time,
+        "participants": request.participants,
+        "location": request.location,
+        "created_by": current_user["id"],
+        "created_at": datetime.utcnow(),
+        "status": "scheduled"
+    }
+    
+    await db.meetings.insert_one(meeting_doc)
+    
     return {
         "success": True,
         "message": "Meeting scheduled",
         "data": {
-            "meeting_id": "meeting_123",
+            "meeting_id": meeting_doc["id"],
             "title": request.title,
             "start_time": request.start_time.isoformat()
         }
@@ -615,8 +688,23 @@ async def get_my_meetings(
     current_user: Dict = Depends(get_current_user)
 ):
     """Get my meetings/events"""
-    # TODO: Fetch from database
-    return {"success": True, "data": {"meetings": []}}
+    query = {"participants": current_user["id"]}
+    
+    if upcoming:
+        query["start_time"] = {"$gte": datetime.utcnow()}
+        sort_order = 1  # Ascending
+    else:
+        query["start_time"] = {"$lt": datetime.utcnow()}
+        sort_order = -1  # Descending
+    
+    meetings = await db.meetings.find(query).sort("start_time", sort_order).to_list(100)
+    
+    for meeting in meetings:
+        meeting['_id'] = str(meeting['_id'])
+        meeting['start_time'] = meeting['start_time'].isoformat()
+        meeting['end_time'] = meeting['end_time'].isoformat()
+    
+    return {"success": True, "data": {"meetings": meetings}}
 
 # Include router
 app.include_router(api_v1)
