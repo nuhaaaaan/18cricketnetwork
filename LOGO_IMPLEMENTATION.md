@@ -252,7 +252,7 @@ The logo implementation considers:
 ## Website/App URLs
 
 ### Development Preview:
-**Website URL**: https://cricket-connect-7.preview.emergentagent.com
+**Website URL**: https://cricketapp-3.preview.emergentagent.com
 
 This is your live development environment where you can:
 - View the app in a browser

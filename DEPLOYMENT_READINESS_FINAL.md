@@ -298,7 +298,7 @@ Navigation:           Instant
 ## 🌐 URLs & Access
 
 ### Development
-- **Frontend**: https://cricket-connect-7.preview.emergentagent.com
+- **Frontend**: https://cricketapp-3.preview.emergentagent.com
 - **Backend**: Internal port 8001
 - **API Docs**: `[backend-url]/docs`
 

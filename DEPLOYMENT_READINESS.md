@@ -116,7 +116,7 @@
 
 ### Frontend (.env)
 ```
-EXPO_PACKAGER_HOSTNAME=https://cricket-connect-7.preview.emergentagent.com
+EXPO_PACKAGER_HOSTNAME=https://cricketapp-3.preview.emergentagent.com
 EXPO_PACKAGER_PROXY_URL=[configured]
 EXPO_PUBLIC_BACKEND_URL=[configured]
 ```
