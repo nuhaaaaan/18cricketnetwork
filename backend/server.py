@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+import os
+from pathlib import Path
+
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
 from fastapi import FastAPI, APIRouter, HTTPException, UploadFile, File, Form, Query, Depends, Header
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
