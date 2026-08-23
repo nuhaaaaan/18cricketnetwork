@@ -22,6 +22,7 @@ export default function HomeScreen() {
 
   const quickActions = [
     { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: [Colors.primary, Colors.accent] },
+    { id: 'coaching', name: 'Coaching', icon: 'ribbon', route: '/coaching', gradient: [Colors.secondary, Colors.accent] },
     { id: 'academy', name: 'Academy', icon: 'school', route: '/academies/list', gradient: [Colors.secondary, Colors.primary] },
     { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list', gradient: [Colors.accent, Colors.ballRedDark] },
     { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds/list', gradient: [Colors.primary, Colors.secondary] },
