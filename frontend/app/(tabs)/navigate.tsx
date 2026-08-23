@@ -18,7 +18,7 @@ import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { Colors } from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 import SearchBar from '@/components/Navigation/SearchBar';
 import LocationInfoCard from '@/components/Navigation/LocationInfoCard';
 import {
