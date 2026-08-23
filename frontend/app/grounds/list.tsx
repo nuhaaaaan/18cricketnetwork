@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
+import EmptyState from '../../components/ui/EmptyState';
 
 interface Ground {
   id: string;
@@ -135,10 +136,13 @@ export default function GroundsListScreen() {
             </TouchableOpacity>
           ))}
           {grounds.length === 0 && (
-            <View style={styles.emptyContainer}>
-              <Ionicons name="location-outline" size={64} color={Colors.textSecondary} />
-              <Text style={styles.emptyText}>No grounds found</Text>
-            </View>
+            <EmptyState
+              icon="location-outline"
+              title="No grounds yet"
+              message="Ground owners haven't listed any venues here yet. As they register, grounds near you will appear."
+              actionLabel="List a Ground"
+              onAction={() => router.push('/(tabs)/create' as any)}
+            />
           )}
         </ScrollView>
       )}

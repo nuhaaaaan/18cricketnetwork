@@ -32,12 +32,12 @@ interface Tournament {
 }
 
 const QUICK_ACTIONS = [
-  { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: gradients.brand },
+  { id: 'shop', name: 'Shop', icon: 'cart', route: '/marketplace', gradient: gradients.brand },
   { id: 'coaching', name: 'Coaching', icon: 'ribbon', route: '/coaching', gradient: gradients.brandBright },
-  { id: 'academy', name: 'Academies', icon: 'school', route: '/academies/list', gradient: gradients.brand },
-  { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments/list', gradient: gradients.brandBright },
-  { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds/list', gradient: gradients.brand },
-  { id: 'social', name: 'Community', icon: 'people', route: '/(tabs)/social', gradient: gradients.brandBright },
+  { id: 'academy', name: 'Academies', icon: 'school', route: '/academies', gradient: gradients.brand },
+  { id: 'tournament', name: 'Tournaments', icon: 'trophy', route: '/tournaments', gradient: gradients.brandBright },
+  { id: 'ground', name: 'Grounds', icon: 'location', route: '/grounds', gradient: gradients.brand },
+  { id: 'community', name: 'Community', icon: 'people', route: '/community', gradient: gradients.brandBright },
 ] as const;
 
 function greeting(): string {
@@ -116,7 +116,7 @@ export default function HomeScreen() {
 
           {/* Trending Gear (real data) */}
           <View style={styles.section}>
-            <SectionHeader title="Trending Gear" actionLabel="See all" onAction={() => router.push('/(tabs)/marketplace')} />
+            <SectionHeader title="Trending Gear" actionLabel="See all" onAction={() => router.push('/marketplace' as any)} />
             {loading ? (
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {[0, 1, 2].map((i) => (
@@ -128,7 +128,13 @@ export default function HomeScreen() {
                 ))}
               </ScrollView>
             ) : products.length === 0 ? (
-              <EmptyState icon="bag-handle-outline" title="No products available in your area" message="New cricket gear from local sellers will appear here." />
+              <EmptyState
+                icon="bag-handle-outline"
+                title="Marketplace is opening soon"
+                message="No cricket gear has been listed yet. Verified sellers will appear here once approved."
+                actionLabel="Become a Seller"
+                onAction={() => router.push('/sellers/register' as any)}
+              />
             ) : (
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {products.map((product) => (
@@ -155,7 +161,7 @@ export default function HomeScreen() {
 
           {/* Tournaments (real data) */}
           <View style={styles.section}>
-            <SectionHeader title="Tournaments" actionLabel="See all" onAction={() => router.push('/tournaments/list' as any)} />
+            <SectionHeader title="Tournaments" actionLabel="See all" onAction={() => router.push('/tournaments' as any)} />
             {loading ? (
               <Skeleton height={90} radius={radius.lg} />
             ) : tournaments.length === 0 ? (

@@ -30,6 +30,16 @@ export default function RootLayout() {
         {/* Screens that render their own <Screen> header */}
         <Stack.Screen name="cart" options={{ headerShown: false }} />
         <Stack.Screen name="checkout" options={{ headerShown: false }} />
+        <Stack.Screen name="community" options={{ headerShown: false }} />
+        <Stack.Screen name="sellers/register" options={{ headerShown: false }} />
+
+        {/* Clean-URL redirect aliases */}
+        <Stack.Screen name="signup" options={{ headerShown: false }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="marketplace" options={{ headerShown: false }} />
+        <Stack.Screen name="academies/index" options={{ headerShown: false }} />
+        <Stack.Screen name="tournaments/index" options={{ headerShown: false }} />
+        <Stack.Screen name="grounds/index" options={{ headerShown: false }} />
         <Stack.Screen name="products/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="tournaments/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="academies/[id]" options={{ headerShown: false }} />
