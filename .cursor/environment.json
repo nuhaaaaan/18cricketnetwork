@@ -6,7 +6,7 @@
   "terminals": [
     {
       "name": "backend",
-      "command": "cd backend && MONGO_URL=\"mongodb://localhost:27017\" DB_NAME=\"18cricketnetwork\" JWT_SECRET=\"dev-secret\" ./.venv/bin/uvicorn server:app --host 0.0.0.0 --port 8001 --reload"
+      "command": "cd backend && MONGO_URL=\"${MONGO_URL:-mongodb://localhost:27017}\" DB_NAME=\"${DB_NAME:-18cricketnetwork}\" JWT_SECRET=\"${JWT_SECRET:-dev-secret}\" ./.venv/bin/uvicorn server:app --host 0.0.0.0 --port 8001 --reload"
     },
     {
       "name": "frontend",
