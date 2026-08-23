@@ -65,7 +65,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         phone,
         name,
-        email,
+        // Omit email entirely when blank — the backend rejects an empty string.
+        ...(email ? { email } : {}),
         password,
         user_type: userType,
       });
