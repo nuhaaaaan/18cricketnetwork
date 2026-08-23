@@ -651,17 +651,29 @@ async def get_me(current_user: dict = Depends(get_current_user)):
 
 @api_router.post("/products")
 async def create_product(product: ProductCreate, current_user: dict = Depends(get_current_user)):
-    if current_user['user_type'] not in ['vendor', 'admin']:
-        raise HTTPException(status_code=403, detail="Only vendors can create products")
-    
+    is_admin = current_user['user_type'] == 'admin'
+    seller = await db.sellers.find_one({"user_id": str(current_user['_id'])})
+    # Legacy 'vendor' user_type is treated as an implicitly-approved seller.
+    is_approved_seller = is_admin or current_user['user_type'] == 'vendor' or (seller and seller.get('status') == 'approved')
+
+    if not (is_approved_seller or (seller and seller.get('status') in ('pending_review', 'draft'))):
+        raise HTTPException(
+            status_code=403,
+            detail="Register as a seller to list products. Your store must be approved before products go live.",
+        )
+
     product_dict = product.dict()
     product_dict['id'] = str(uuid.uuid4())
     product_dict['vendor_id'] = str(current_user['_id'])
-    product_dict['vendor_name'] = current_user['name']
+    product_dict['vendor_name'] = (seller.get('store_name') if seller else None) or current_user['name']
+    product_dict['seller_id'] = seller['id'] if seller else None
+    # Only approved sellers/admin publish live; otherwise the listing awaits review.
+    product_dict['status'] = 'active' if is_approved_seller else 'pending_review'
     product_dict['created_at'] = datetime.utcnow()
+    product_dict['updated_at'] = datetime.utcnow()
     product_dict['rating'] = 0.0
     product_dict['reviews_count'] = 0
-    
+
     result = await db.products.insert_one(product_dict)
     product_dict['_id'] = str(result.inserted_id)
     return product_dict
@@ -673,18 +685,22 @@ async def get_products(
     search: Optional[str] = None,
     limit: int = 50
 ):
-    query = {}
+    # Public marketplace only shows live listings. Legacy records without a
+    # status field are treated as active for backward compatibility.
+    query: Dict[str, Any] = {"$or": [{"status": "active"}, {"status": {"$exists": False}}]}
     if category:
         query['category'] = category
     if is_used is not None:
         query['is_used'] = is_used
     if search:
-        query['$or'] = [
-            {'name': {'$regex': search, '$options': 'i'}},
-            {'description': {'$regex': search, '$options': 'i'}},
-            {'brand': {'$regex': search, '$options': 'i'}}
-        ]
-    
+        query['$and'] = [{
+            '$or': [
+                {'name': {'$regex': search, '$options': 'i'}},
+                {'description': {'$regex': search, '$options': 'i'}},
+                {'brand': {'$regex': search, '$options': 'i'}},
+            ]
+        }]
+
     products = await db.products.find(query).limit(limit).to_list(limit)
     for product in products:
         product['_id'] = str(product['_id'])
@@ -2124,6 +2140,93 @@ async def list_coaching_sessions(
     for session in sessions:
         session['_id'] = str(session['_id'])
     return sessions
+
+# ==================== SELLER MODELS & ROUTES ====================
+
+SELLER_STATUSES = ["draft", "pending_review", "approved", "rejected", "suspended"]
+
+
+class SellerRegister(BaseModel):
+    store_name: str
+    seller_type: str = "individual"  # individual | business
+    contact_name: str
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    location: Optional[str] = None
+    description: Optional[str] = None
+    logo: Optional[str] = None
+    shipping_regions: List[str] = []
+    return_policy: Optional[str] = None
+    terms_accepted: bool = False
+
+
+class SellerProfile(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    store_name: str
+    seller_type: str = "individual"
+    contact_name: str
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    location: Optional[str] = None
+    description: Optional[str] = None
+    logo: Optional[str] = None
+    shipping_regions: List[str] = []
+    return_policy: Optional[str] = None
+    status: str = "pending_review"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+@api_router.post("/sellers/register")
+async def register_seller(data: SellerRegister, current_user: dict = Depends(get_current_user)):
+    if not data.terms_accepted:
+        raise HTTPException(status_code=400, detail="You must accept the seller terms to continue.")
+
+    user_id = str(current_user['_id'])
+    payload = data.dict()
+    payload.pop('terms_accepted', None)
+    payload['user_id'] = user_id
+    payload['phone'] = data.phone or current_user.get('phone')
+    payload['updated_at'] = datetime.utcnow()
+
+    existing = await db.sellers.find_one({"user_id": user_id})
+    if existing:
+        # Re-applying resets to pending_review unless already approved.
+        if existing.get('status') != 'approved':
+            payload['status'] = 'pending_review'
+            await db.sellers.update_one({"id": existing['id']}, {"$set": payload})
+        else:
+            payload.pop('status', None)
+            await db.sellers.update_one({"id": existing['id']}, {"$set": payload})
+        seller = await db.sellers.find_one({"id": existing['id']})
+    else:
+        seller = SellerProfile(**payload).dict()
+        await db.sellers.insert_one(seller)
+
+    await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"is_seller": True}})
+    seller['_id'] = str(seller['_id']) if seller.get('_id') else None
+    seller.pop('_id', None)
+    return seller
+
+
+@api_router.get("/sellers/me")
+async def my_seller_profile(current_user: dict = Depends(get_current_user)):
+    seller = await db.sellers.find_one({"user_id": str(current_user['_id'])})
+    if not seller:
+        return None
+    seller['_id'] = str(seller['_id'])
+    return seller
+
+
+@api_router.get("/sellers/{seller_id}")
+async def get_seller(seller_id: str):
+    seller = await db.sellers.find_one({"id": seller_id, "status": "approved"})
+    if not seller:
+        raise HTTPException(status_code=404, detail="Seller not found")
+    seller['_id'] = str(seller['_id'])
+    return seller
+
 
 # Include router
 # ==================== CHATBOT MODELS & ENDPOINTS ====================
