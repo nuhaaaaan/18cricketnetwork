@@ -107,7 +107,7 @@ export default function GroundsListScreen() {
                     <Ionicons name="location" size={48} color={Colors.primary} />
                   </View>
                 )}
-                <View style={styles.typebadge}>
+                <View style={styles.typeBadge}>
                   <Text style={styles.typeBadgeText}>{ground.ground_type}</Text>
                 </View>
               </View>

@@ -40,7 +40,7 @@ const FloatingChatButton: React.FC<FloatingChatButtonProps> = ({ onPress, isOpen
     >
       <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
         <LinearGradient
-          colors={isOpen ? [Colors.accent, Colors.ballRedDark] : Colors.gradientRed}
+          colors={(isOpen ? [Colors.accent, Colors.ballRedDark] : Colors.gradientRed) as [string, string]}
           style={styles.button}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}

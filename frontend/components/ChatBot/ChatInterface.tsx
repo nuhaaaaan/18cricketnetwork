@@ -274,7 +274,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isVisible, onClose }) => 
               disabled={!inputText.trim()}
             >
               <LinearGradient
-                colors={inputText.trim() ? Colors.gradientRed : [Colors.surface, Colors.surface]}
+                colors={(inputText.trim() ? Colors.gradientRed : [Colors.surface, Colors.surface]) as [string, string]}
                 style={styles.sendButtonGradient}
               >
                 <Ionicons
