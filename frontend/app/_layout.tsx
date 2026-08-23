@@ -32,6 +32,10 @@ export default function RootLayout() {
         <Stack.Screen name="tournaments/[id]" options={{ title: 'Tournament Details' }} />
         <Stack.Screen name="grounds/[id]" options={{ title: 'Ground Details' }} />
         <Stack.Screen name="checkout" options={{ title: 'Checkout' }} />
+        <Stack.Screen name="coaching/index" options={{ headerShown: false }} />
+        <Stack.Screen name="coaching/[category]" options={{ headerShown: false }} />
+        <Stack.Screen name="coaching/become-coach" options={{ headerShown: false }} />
+        <Stack.Screen name="coaching/my-sessions" options={{ headerShown: false }} />
       </Stack>
     </GestureHandlerRootView>
   );
