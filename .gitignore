@@ -164,3 +164,7 @@ android-sdk/ -e
 !*.env.example
 backend/.env
 frontend/.metro-cache/
+
+# Expo web export artifacts
+frontend/dist/
+frontend/.export-cache/

@@ -1,0 +1,72 @@
+name: Deploy to Azure
+
+# Deploys the 18 Cricket Network stack to Azure:
+#   - Backend (FastAPI)  -> Azure App Service (Linux, Python)
+#   - Frontend (Expo web) -> Azure Static Web Apps
+#
+# Run manually (Actions tab -> "Deploy to Azure" -> Run workflow) or on push to
+# main. Configure the required repo secrets/variables first — see docs/DEPLOYMENT.md.
+#
+# Required repository VARIABLES:
+#   AZURE_WEBAPP_NAME   name of your Azure App Service (backend)
+#   BACKEND_URL         public base URL of the backend, e.g. https://<app>.azurewebsites.net
+# Required repository SECRETS:
+#   AZURE_WEBAPP_PUBLISH_PROFILE          publish profile of the App Service
+#   AZURE_STATIC_WEB_APPS_API_TOKEN       deployment token of the Static Web App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-backend:
+    name: Backend -> Azure App Service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies (build check)
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: backend
+          startup-command: 'gunicorn -k uvicorn.workers.UvicornWorker server:app --bind=0.0.0.0:8000 --workers 2 --timeout 120'
+
+  deploy-frontend:
+    name: Frontend -> Azure Static Web Apps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build Expo web export
+        working-directory: frontend
+        env:
+          # Baked into the client bundle at build time.
+          EXPO_PUBLIC_BACKEND_URL: ${{ vars.BACKEND_URL }}
+        run: |
+          corepack enable
+          yarn install --network-timeout 600000
+          npx expo export --platform web --output-dir dist
+          cp staticwebapp.config.json dist/staticwebapp.config.json
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: 'frontend/dist'
+          skip_app_build: true
+          skip_api_build: true
