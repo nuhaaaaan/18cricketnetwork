@@ -1872,6 +1872,258 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
+# ==================== COACHING MODELS ====================
+
+COACHING_CATEGORIES = {
+    "technique": {
+        "id": "technique",
+        "title": "Technique Coaching",
+        "description": "Refine your batting, bowling and fielding technique with expert coaches.",
+        "icon": "tennisball-outline",
+    },
+    "mindset": {
+        "id": "mindset",
+        "title": "Mindset Coaching",
+        "description": "Build mental toughness, focus and match temperament with specialist mentors.",
+        "icon": "bulb-outline",
+    },
+}
+
+
+class CoachRegister(BaseModel):
+    name: str
+    category: str  # technique | mindset
+    bio: str
+    specializations: List[str] = []
+    experience_years: int = 0
+    city: str
+    hourly_rate: float = 0.0   # price for a one-on-one session
+    group_rate: float = 0.0    # per-participant price for a group session
+    languages: List[str] = []
+    contact_phone: Optional[str] = None
+    image: Optional[str] = None
+
+
+class Coach(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    name: str
+    category: str
+    bio: str
+    specializations: List[str] = []
+    experience_years: int = 0
+    city: str
+    hourly_rate: float = 0.0
+    group_rate: float = 0.0
+    languages: List[str] = []
+    contact_phone: Optional[str] = None
+    image: Optional[str] = None
+    rating: float = 0.0
+    reviews_count: int = 0
+    sessions_count: int = 0
+    is_listed: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class CoachingSessionCreate(BaseModel):
+    coach_id: str
+    session_type: str  # one_on_one | group
+    title: Optional[str] = None
+    scheduled_at: datetime
+    duration_minutes: int = 60
+    mode: str = "in_person"  # in_person | online
+    location: Optional[str] = None
+    max_participants: int = 6  # only used for group sessions
+    notes: Optional[str] = None
+
+
+# ==================== COACHING ROUTES ====================
+
+@api_router.get("/coaching/categories")
+async def get_coaching_categories():
+    return list(COACHING_CATEGORIES.values())
+
+
+@api_router.post("/coaches/register")
+async def register_coach(data: CoachRegister, current_user: dict = Depends(get_current_user)):
+    if data.category not in COACHING_CATEGORIES:
+        raise HTTPException(status_code=400, detail="Invalid category. Use 'technique' or 'mindset'.")
+
+    user_id = str(current_user['_id'])
+    coach_dict = data.dict()
+    coach_dict['user_id'] = user_id
+    coach_dict['contact_phone'] = data.contact_phone or current_user.get('phone')
+
+    existing = await db.coaches.find_one({"user_id": user_id})
+    if existing:
+        await db.coaches.update_one({"id": existing['id']}, {"$set": coach_dict})
+        coach = await db.coaches.find_one({"id": existing['id']})
+    else:
+        coach = Coach(**coach_dict).dict()
+        await db.coaches.insert_one(coach)
+
+    await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"is_coach": True}})
+    coach.pop('_id', None)
+    return coach
+
+
+@api_router.get("/coaches")
+async def list_coaches(
+    category: Optional[str] = None,
+    city: Optional[str] = None,
+    search: Optional[str] = None,
+    limit: int = 50,
+):
+    query: Dict[str, Any] = {"is_listed": True}
+    if category:
+        query['category'] = category
+    if city:
+        query['city'] = city
+    if search:
+        query['$or'] = [
+            {'name': {'$regex': search, '$options': 'i'}},
+            {'bio': {'$regex': search, '$options': 'i'}},
+            {'specializations': {'$regex': search, '$options': 'i'}},
+        ]
+    coaches = await db.coaches.find(query).limit(limit).to_list(limit)
+    for coach in coaches:
+        coach['_id'] = str(coach['_id'])
+    return coaches
+
+
+# NOTE: /coaches/me must be declared before /coaches/{coach_id}
+@api_router.get("/coaches/me")
+async def my_coach_profile(current_user: dict = Depends(get_current_user)):
+    coach = await db.coaches.find_one({"user_id": str(current_user['_id'])})
+    if not coach:
+        return None
+    coach['_id'] = str(coach['_id'])
+    return coach
+
+
+@api_router.get("/coaches/{coach_id}")
+async def get_coach(coach_id: str):
+    coach = await db.coaches.find_one({"id": coach_id})
+    if not coach:
+        raise HTTPException(status_code=404, detail="Coach not found")
+    coach['_id'] = str(coach['_id'])
+    return coach
+
+
+@api_router.post("/coaching/sessions")
+async def create_coaching_session(data: CoachingSessionCreate, current_user: dict = Depends(get_current_user)):
+    coach = await db.coaches.find_one({"id": data.coach_id})
+    if not coach:
+        raise HTTPException(status_code=404, detail="Coach not found")
+    if data.session_type not in ("one_on_one", "group"):
+        raise HTTPException(status_code=400, detail="session_type must be 'one_on_one' or 'group'")
+
+    is_group = data.session_type == "group"
+    max_participants = max(2, data.max_participants) if is_group else 1
+    price_per_person = coach.get('group_rate', 0.0) if is_group else coach.get('hourly_rate', 0.0)
+
+    default_title = (
+        f"Group {COACHING_CATEGORIES.get(coach['category'], {}).get('title', 'Coaching')} with {coach['name']}"
+        if is_group else f"1-on-1 with {coach['name']}"
+    )
+    creator = {
+        "user_id": str(current_user['_id']),
+        "name": current_user.get('name'),
+        "phone": current_user.get('phone'),
+        "joined_at": datetime.utcnow(),
+    }
+    session = {
+        "id": str(uuid.uuid4()),
+        "coach_id": coach['id'],
+        "coach_name": coach['name'],
+        "category": coach['category'],
+        "created_by": str(current_user['_id']),
+        "session_type": data.session_type,
+        "title": data.title or default_title,
+        "scheduled_at": data.scheduled_at,
+        "duration_minutes": data.duration_minutes,
+        "mode": data.mode,
+        "location": data.location,
+        "max_participants": max_participants,
+        "participants": [creator],
+        "price_per_person": price_per_person,
+        "status": "open",
+        "notes": data.notes,
+        "created_at": datetime.utcnow(),
+    }
+    await db.coaching_sessions.insert_one(session)
+    await db.coaches.update_one({"id": coach['id']}, {"$inc": {"sessions_count": 1}})
+    session.pop('_id', None)
+    return session
+
+
+@api_router.post("/coaching/sessions/{session_id}/join")
+async def join_coaching_session(session_id: str, current_user: dict = Depends(get_current_user)):
+    session = await db.coaching_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    if session['session_type'] != "group":
+        raise HTTPException(status_code=400, detail="Only group sessions can be joined")
+    if session.get('status') != "open":
+        raise HTTPException(status_code=400, detail="This session is not open for joining")
+
+    user_id = str(current_user['_id'])
+    if any(p.get('user_id') == user_id for p in session.get('participants', [])):
+        raise HTTPException(status_code=400, detail="You have already joined this session")
+    if len(session.get('participants', [])) >= session.get('max_participants', 1):
+        raise HTTPException(status_code=400, detail="This session is already full")
+
+    participant = {
+        "user_id": user_id,
+        "name": current_user.get('name'),
+        "phone": current_user.get('phone'),
+        "joined_at": datetime.utcnow(),
+    }
+    await db.coaching_sessions.update_one({"id": session_id}, {"$push": {"participants": participant}})
+    updated = await db.coaching_sessions.find_one({"id": session_id})
+    if len(updated.get('participants', [])) >= updated.get('max_participants', 1):
+        await db.coaching_sessions.update_one({"id": session_id}, {"$set": {"status": "full"}})
+        updated = await db.coaching_sessions.find_one({"id": session_id})
+    updated['_id'] = str(updated['_id'])
+    return updated
+
+
+@api_router.post("/coaching/sessions/{session_id}/cancel")
+async def cancel_coaching_session(session_id: str, current_user: dict = Depends(get_current_user)):
+    session = await db.coaching_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    if session['created_by'] != str(current_user['_id']):
+        raise HTTPException(status_code=403, detail="Only the organiser can cancel this session")
+    await db.coaching_sessions.update_one({"id": session_id}, {"$set": {"status": "cancelled"}})
+    return {"status": "cancelled", "id": session_id}
+
+
+@api_router.get("/coaching/sessions")
+async def list_coaching_sessions(
+    scope: str = "open_groups",
+    category: Optional[str] = None,
+    coach_id: Optional[str] = None,
+    current_user: dict = Depends(get_current_user),
+):
+    user_id = str(current_user['_id'])
+    if scope == "mine":
+        query: Dict[str, Any] = {"$or": [{"created_by": user_id}, {"participants.user_id": user_id}]}
+    elif scope == "coaching":
+        coach = await db.coaches.find_one({"user_id": user_id})
+        query = {"coach_id": coach['id'] if coach else "__none__"}
+    else:  # open_groups
+        query = {"session_type": "group", "status": "open"}
+    if category:
+        query['category'] = category
+    if coach_id:
+        query['coach_id'] = coach_id
+
+    sessions = await db.coaching_sessions.find(query).sort('scheduled_at', 1).limit(100).to_list(100)
+    for session in sessions:
+        session['_id'] = str(session['_id'])
+    return sessions
+
 # Include router
 # ==================== CHATBOT MODELS & ENDPOINTS ====================
 
