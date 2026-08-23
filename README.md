@@ -1,111 +1,77 @@
-# 18cricket - Complete Cricket Platform
+# 18 Cricket Network
 
-**"A tribute to the legacy of THE KING"**
+One cricket ecosystem — scoring, tournaments, teams, community, discovery, coaching, and a gear marketplace — in a single mobile-first product. 18 Cricket Network is built independently, with its own architecture and dark-first visual language.
 
-A comprehensive mobile-first cricket ecosystem platform featuring a multi-vendor marketplace, academy hub, tournament management, ground booking system, and social community features.
+## Vision
 
-**App Name**: 18cricket (for App Store, Play Store, Microsoft Store)
+Unify the strongest capabilities of several category-leading products into one cricket platform (each is a **functional reference only** — no cloning of code, design, or assets):
 
-## 🏏 Features
+- **CricHeroes** — scoring, stats, tournaments.
+- **MSCL / league sites** — leagues, seasons, governance.
+- **Brewing Cricket** — grassroots community and local discovery.
+- **Amazon** — marketplace and commerce.
+- **Instagram** — social graph and media.
+- **Google Maps** — location-based discovery.
+- **18 Cricket AI** — a native intelligence + voice layer (our differentiator).
 
-### 1. **Multi-Vendor Marketplace**
-- Buy cricket gear from trusted vendors across India
-- Categories: Bats, Balls, Pads, Gloves, Shoes, Accessories
-- New and used equipment marketplace
-- Shopping cart and wishlist
-- Secure payment integration with Razorpay
-- Order tracking and management
+## Tech stack
 
-### 2. **Academy Hub**
-- Discover cricket academies in your city
-- View academy profiles with fees, schedules, and facilities
-- Lead generation system for academies
-- Direct contact with academy owners
+- **Client**: Expo / React Native `0.79.5`, React `19`, expo-router v5 (file-based, `typedRoutes`), Zustand, axios (`utils/api.ts` attaches the JWT). Configured via `EXPO_PUBLIC_BACKEND_URL`.
+- **Backend**: FastAPI (monolithic `backend/server.py`, single `APIRouter(prefix="/api")`), MongoDB via `motor`. Auth is phone + password with JWT (PyJWT) and bcrypt.
+- **Design system**: `constants/theme.ts` (dark-first tokens) + `components/ui` primitives; `utils/format.ts` centralizes currency.
 
-### 3. **Tournament Management**
-- Browse upcoming, ongoing, and completed tournaments
-- Register teams for tournaments
-- View fixtures, points tables, and match schedules
-- Track MVP players and team performance
+## Architecture summary
 
-### 4. **Ground Booking System**
-- Find and book cricket grounds
-- Filter by ground type: Turf, Mat, Concrete
-- View facilities and pricing
-- Real-time availability checking
-- Booking management
+```
+Expo / React Native client  ──HTTPS + Bearer JWT──▶  FastAPI (/api)  ──motor──▶  MongoDB
+```
 
-### 5. **Social & Community**
-- Share posts, reels, and match highlights
-- Create and manage cricket teams
-- Team chat and discussions
-- Community engagement with likes and comments
+Clients never connect to MongoDB directly — all data access goes through the `/api` layer. See `docs/ARCHITECTURE.md`.
 
-## 🛠 Tech Stack
+## Core principle — MongoDB is the source of truth
 
-**Frontend**: Expo (React Native), Zustand, Axios, React Native Maps  
-**Backend**: FastAPI (Python), MongoDB, JWT Auth, Razorpay  
+There is **no fake runtime data**. When a collection is empty, the app shows a premium empty state rather than placeholder content. The dev seed script (`backend/seed_database.py`) is **manual / opt-in only** and must never auto-populate the database.
 
-## 🚀 Quick Start
+## Quick start (local dev)
 
-### Backend:
+Backend (FastAPI + MongoDB). Copy `backend/.env.example` to `backend/.env` and fill in values (at minimum `MONGO_URL` and `DB_NAME`; `JWT_SECRET`, and optional `EMERGENT_LLM_KEY`/`OPENAI_API_KEY` and `RAZORPAY_*`):
+
 ```bash
 cd backend
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# Add Razorpay keys to .env
 uvicorn server:app --host 0.0.0.0 --port 8001
 ```
 
-### Frontend:
+Frontend (Expo, web target):
+
 ```bash
 cd frontend
 yarn install
-expo start
+# set EXPO_PUBLIC_BACKEND_URL to your backend URL (e.g. http://localhost:8001)
+yarn expo start --web
 ```
 
-## 💳 Razorpay Setup
+Optional — seed demo data for local development only (never in production):
 
-1. **Sign up**: [https://dashboard.razorpay.com/signup](https://dashboard.razorpay.com/signup)
-2. **Get Test Keys**: Settings → API Keys → Test Mode
-3. **Add to .env**:
-   ```
-   RAZORPAY_KEY_ID="rzp_test_xxxxx"
-   RAZORPAY_KEY_SECRET="your_secret"
-   ```
-4. **Test Card**: 4111 1111 1111 1111
-
-## 📱 App Deployment
-
-### Google Play Store
 ```bash
-eas build --platform android
+python backend/seed_database.py
 ```
-- Requires: Google Play Console account ($25)
-- Submit AAB file for review
 
-### Apple App Store
-```bash
-eas build --platform ios
-```
-- Requires: Apple Developer account ($99/year)
-- Submit IPA via App Store Connect
+Interactive API docs are available at `http://localhost:8001/docs`.
 
-## 📊 API Documentation
+## Documentation
 
-Visit: `http://localhost:8001/docs` for interactive API docs
+- [`docs/CRICKET_PLATFORM_FEATURE_MATRIX.md`](docs/CRICKET_PLATFORM_FEATURE_MATRIX.md) — capabilities vs. reference products, current status, priority.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — phased roadmap (A–J) and feature flags.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — layering, folders, request/auth flow.
+- [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) — collections and target additions.
+- [`docs/ROLES_AND_PERMISSIONS.md`](docs/ROLES_AND_PERMISSIONS.md) — current vs. target RBAC.
+- [`docs/API_OVERVIEW.md`](docs/API_OVERVIEW.md) — endpoints by domain.
+- [`docs/MARKETPLACE_ARCHITECTURE.md`](docs/MARKETPLACE_ARCHITECTURE.md) — seller + product lifecycles.
+- [`docs/TOURNAMENT_ARCHITECTURE.md`](docs/TOURNAMENT_ARCHITECTURE.md) — tournaments, stages, standings.
+- [`docs/CURRENT_STATE_AUDIT.md`](docs/CURRENT_STATE_AUDIT.md) · [`docs/CRICHEROES_FEATURE_GAP_ANALYSIS.md`](docs/CRICHEROES_FEATURE_GAP_ANALYSIS.md).
 
-## 🧪 Test Account
+## Secrets
 
-- **Phone**: 9876543210
-- **Password**: test123
-- **Type**: Vendor
-
-## 📞 Support
-
-- Razorpay: [https://razorpay.com/support/](https://razorpay.com/support/)
-- Expo: [https://docs.expo.dev/](https://docs.expo.dev/)
-
----
-
-**Version**: 1.0.0  
-Built with ❤️ for Cricket
+Configuration comes from environment variables (see `backend/.env.example` and `EXPO_PUBLIC_BACKEND_URL`). Never commit real secrets.
