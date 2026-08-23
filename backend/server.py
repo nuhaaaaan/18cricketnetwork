@@ -1754,8 +1754,9 @@ async def create_order(order_data: OrderCreate, current_user: dict = Depends(get
             logging.error(f"Razorpay error: {e}")
     
     order_dict = order.dict()
-    await db.orders.insert_one(order_dict)
-    
+    result = await db.orders.insert_one(order_dict)
+    order_dict['_id'] = str(result.inserted_id)
+
     return order_dict
 
 @api_router.get("/orders")
