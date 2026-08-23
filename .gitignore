@@ -157,3 +157,10 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+# --- 18 Cricket: env & build caches (added in Phase A) ---
+*.env
+*.env.*
+!*.env.example
+backend/.env
+frontend/.metro-cache/

@@ -2129,9 +2129,9 @@ async def list_coaching_sessions(
 
 from openai import OpenAI
 
-# Initialize OpenAI client with Emergent LLM key
-EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-63076Bb9c045bF69dA')
-openai_client = OpenAI(api_key=EMERGENT_LLM_KEY)
+# Initialize OpenAI client from environment. Never hard-code API keys.
+AI_API_KEY = os.environ.get('EMERGENT_LLM_KEY') or os.environ.get('OPENAI_API_KEY')
+openai_client = OpenAI(api_key=AI_API_KEY) if AI_API_KEY else None
 
 class ChatBotMessage(BaseModel):
     message: str
@@ -2215,7 +2215,13 @@ async def get_cricket_context(message: str, user_context: Dict = None):
 
 async def generate_chatbot_response(message: str, context_data: Dict = None, user_context: Dict = None):
     """Generate AI response using OpenAI"""
-    
+
+    if openai_client is None:
+        return {
+            "response": "18 Cricket AI isn't configured yet. Set the EMERGENT_LLM_KEY (or OPENAI_API_KEY) environment variable to enable it.",
+            "suggestions": ["Find cricket gear", "Book a ground", "Find academies"],
+        }
+
     system_prompt = """You are "18 Cricket AI", an expert cricket assistant for the 18 Cricket Network platform. 
     
 Your personality:
