@@ -6,6 +6,8 @@ A comprehensive mobile-first cricket ecosystem platform featuring a multi-vendor
 
 **App Name**: 18cricket (for App Store, Play Store, Microsoft Store)
 
+The mobile app now covers the full player loop: register/login, shop and checkout, academy enquiries, tournament team registration, ground booking, social posts, and profile orders/bookings. Demo data is seeded automatically when the database is empty.
+
 ## 🏏 Features
 
 ### 1. **Multi-Vendor Marketplace**

@@ -1,24 +1,36 @@
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '../../store/authStore';
 import { LinearGradient } from 'expo-linear-gradient';
 import Logo from '../../components/Logo';
 import ChatBotWrapper from '../../components/ChatBot/ChatBotWrapper';
+import api from '../../utils/api';
 
 export default function HomeScreen() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
+  const [featured, setFeatured] = useState<{ products: any[]; tournaments: any[]; stories: any[]; matches: any[] }>({
+    products: [],
+    tournaments: [],
+    stories: [],
+    matches: [],
+  });
 
-  const stories = [
-    { id: '1', name: 'Your Story', hasStory: false },
-    { id: '2', name: 'Virat', hasStory: true },
-    { id: '3', name: 'Rohit', hasStory: true },
-    { id: '4', name: 'Dhoni', hasStory: true },
-    { id: '5', name: 'KL Rahul', hasStory: true },
-  ];
+  useEffect(() => {
+    api.get('/featured')
+      .then((response) => setFeatured(response.data))
+      .catch(() => undefined);
+  }, []);
+
+  const stories = featured.stories.length
+    ? featured.stories.map((story: any) => ({ id: story.id, name: story.user_name, hasStory: true }))
+    : [
+        { id: '1', name: user?.name || 'Your Story', hasStory: false },
+        { id: '2', name: 'Arjun', hasStory: true },
+      ];
 
   const quickActions = [
     { id: 'shop', name: 'Shop', icon: 'cart', route: '/(tabs)/marketplace', gradient: [Colors.primary, Colors.accent] },
@@ -100,18 +112,22 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {[1, 2, 3, 4].map((item) => (
+            {(featured.products.length ? featured.products : [{ id: 'placeholder', name: 'Cricket Bat', price: 2500, images: [] }]).map((item: any) => (
               <TouchableOpacity
-                key={item}
+                key={item.id}
                 style={styles.productCard}
-                onPress={() => router.push('/(tabs)/marketplace')}
+                onPress={() => item.price && item.id !== 'placeholder' ? router.push(`/products/${item.id}` as any) : router.push('/(tabs)/marketplace')}
               >
-                <View style={styles.productImage}>
-                  <Ionicons name="baseball" size={40} color={Colors.primary} />
-                </View>
+                {item.images?.[0] ? (
+                  <Image source={{ uri: item.images[0] }} style={styles.productImagePhoto} />
+                ) : (
+                  <View style={styles.productImage}>
+                    <Ionicons name="baseball" size={40} color={Colors.primary} />
+                  </View>
+                )}
                 <View style={styles.productInfo}>
-                  <Text style={styles.productName}>Cricket Bat</Text>
-                  <Text style={styles.productPrice}>₹2,500</Text>
+                  <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
+                  <Text style={styles.productPrice}>₹{item.price}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -131,10 +147,19 @@ export default function HomeScreen() {
               <View style={styles.liveDot} />
               <Text style={styles.liveText}>LIVE</Text>
             </View>
-            <Text style={styles.tournamentTitle}>Bengaluru Premier League</Text>
-            <Text style={styles.tournamentInfo}>Match 3 • Mumbai vs Chennai</Text>
-            <TouchableOpacity style={styles.watchButton}>
-              <Text style={styles.watchButtonText}>Watch Now</Text>
+            <Text style={styles.tournamentTitle}>
+              {featured.tournaments[0]?.name || featured.matches[0]?.venue || 'Bengaluru Premier League'}
+            </Text>
+            <Text style={styles.tournamentInfo}>
+              {featured.matches[0]
+                ? `${featured.matches[0].team1_name} vs ${featured.matches[0].team2_name}`
+                : featured.tournaments[0]?.city || 'Match day'}
+            </Text>
+            <TouchableOpacity
+              style={styles.watchButton}
+              onPress={() => router.push((featured.tournaments[0] ? `/tournaments/${featured.tournaments[0].id}` : '/tournaments/list') as any)}
+            >
+              <Text style={styles.watchButtonText}>Open tournament</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -278,6 +303,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  productImagePhoto: {
+    height: 140,
+    width: '100%',
+    backgroundColor: Colors.surface,
   },
   productInfo: {
     padding: 12,

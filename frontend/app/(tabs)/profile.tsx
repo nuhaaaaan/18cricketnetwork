@@ -10,20 +10,36 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
+import api from '../../utils/api';
 
 const { width } = Dimensions.get('window');
 const itemWidth = (width - 3) / 3;
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { user, logout, isAuthenticated } = useAuthStore();
+  const [stats, setStats] = useState([
+    { label: 'Posts', value: '0' },
+    { label: 'Orders', value: '0' },
+    { label: 'Bookings', value: '0' },
+  ]);
 
-  const stats = [
-    { label: 'Posts', value: '12' },
-    { label: 'Orders', value: '8' },
-    { label: 'Bookings', value: '5' },
-  ];
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    Promise.all([
+      api.get('/stats/dashboard').catch(() => ({ data: {} })),
+      api.get('/posts').catch(() => ({ data: [] })),
+    ]).then(([dashboard, posts]) => {
+      const ownPosts = (posts.data || []).filter((post: any) => post.user_name === user?.name);
+      setStats([
+        { label: 'Posts', value: String(ownPosts.length) },
+        { label: 'Orders', value: String(dashboard.data.orders || 0) },
+        { label: 'Bookings', value: String(dashboard.data.bookings || 0) },
+      ]);
+    });
+  }, [isAuthenticated, user?.name]);
 
   const handleLogout = async () => {
     await logout();
@@ -76,11 +92,11 @@ export default function ProfileScreen() {
           </View>
 
           <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.editButton}>
-              <Text style={styles.editButtonText}>Edit Profile</Text>
+            <TouchableOpacity style={styles.editButton} onPress={() => router.push('/profile/settings' as any)}>
+              <Text style={styles.editButtonText}>Settings</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.shareButton}>
-              <Text style={styles.shareButtonText}>Share Profile</Text>
+            <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/orders' as any)}>
+              <Text style={styles.shareButtonText}>Orders</Text>
             </TouchableOpacity>
           </View>
         </View>

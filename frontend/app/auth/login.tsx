@@ -8,12 +8,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '../../store/authStore';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { notify } from '../../utils/notify';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!phone || !password) {
-      Alert.alert('Error', 'Please fill all fields');
+      notify('Error', 'Please fill all fields');
       return;
     }
 
@@ -33,7 +33,7 @@ export default function LoginScreen() {
       await login(phone, password);
       router.replace('/(tabs)/home');
     } catch (error: any) {
-      Alert.alert('Login Failed', error.response?.data?.detail || 'Invalid credentials');
+      notify('Login Failed', error.response?.data?.detail || 'Invalid credentials');
     } finally {
       setLoading(false);
     }
@@ -83,6 +83,15 @@ export default function LoginScreen() {
 
             <TouchableOpacity onPress={() => router.push('/auth/register')}>
               <Text style={styles.linkText}>Don't have an account? Register</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setPhone('9876543211');
+                setPassword('test123');
+              }}
+            >
+              <Text style={styles.demoText}>Use demo player: 9876543211 / test123</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -155,5 +164,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 16,
     fontSize: 14,
+  },
+  demoText: {
+    color: Colors.silver,
+    textAlign: 'center',
+    marginTop: 12,
+    fontSize: 13,
   },
 });

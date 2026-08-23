@@ -1,4 +1,4 @@
-export default {
+const Colors = {
   // 18 Cricket Network Brand Colors (Based on Logo)
   primary: '#DC2626',        // Bold Red (Logo primary)
   secondary: '#EF4444',      // Bright Red (Logo highlights)
@@ -59,3 +59,6 @@ export default {
   gradientBlack: ['#2a2a2a', '#000000'],         // Black gradient
   gradientRedGlow: ['#DC2626', '#EF4444', '#DC2626'], // Red glow
 };
+
+export { Colors };
+export default Colors;

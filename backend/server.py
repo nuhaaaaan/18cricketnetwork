@@ -11,6 +11,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import asyncio
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional, Dict, Any
@@ -25,13 +26,41 @@ import base64
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+from memory_db import MemoryDB
+from seed_data import seed_if_empty
+
+# MongoDB connection (falls back to an in-memory store so the app still runs)
+mongo_url = os.environ.get('MONGO_URL')
+DB_NAME = os.environ.get('DB_NAME', '18cricketnetwork')
+if os.environ.get('FORCE_MEMORY_DB') == '1':
+    mongo_url = None
+client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=4000) if mongo_url else None
+db = client[DB_NAME] if client is not None else MemoryDB()
+
+if isinstance(db, MemoryDB):
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        asyncio.run(seed_if_empty(db))
+
+class MongoJSONResponse(JSONResponse):
+    def render(self, content) -> bytes:
+        def convert(value):
+            if isinstance(value, ObjectId):
+                return str(value)
+            if isinstance(value, datetime):
+                return value.isoformat()
+            if isinstance(value, list):
+                return [convert(item) for item in value]
+            if isinstance(value, dict):
+                return {key: convert(item) for key, item in value.items()}
+            return value
+
+        return super().render(convert(content))
+
 
 # Create the main app
-app = FastAPI(title="18 Cricket Ecosystem API")
+app = FastAPI(title="18 Cricket Ecosystem API", default_response_class=MongoJSONResponse)
 api_router = APIRouter(prefix="/api")
 
 # JWT Secret
@@ -204,6 +233,14 @@ class TournamentCreate(BaseModel):
     prize_money: Optional[str] = None
     max_teams: int
     images: List[str] = []
+
+class TournamentRegistration(BaseModel):
+    team_name: str
+    contact_phone: Optional[str] = None
+    players: List[str] = []
+
+class AcademyLeadCreate(BaseModel):
+    message: Optional[str] = None
 
 class Match(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -760,11 +797,16 @@ async def get_academy(academy_id: str):
     return academy
 
 @api_router.post("/academies/{academy_id}/leads")
-async def create_academy_lead(academy_id: str, message: Optional[str] = None, current_user: dict = Depends(get_current_user)):
+async def create_academy_lead(
+    academy_id: str,
+    payload: Optional[AcademyLeadCreate] = None,
+    current_user: dict = Depends(get_current_user),
+):
     academy = await db.academies.find_one({"id": academy_id})
     if not academy:
         raise HTTPException(status_code=404, detail="Academy not found")
-    
+
+    message = payload.message if payload else None
     lead = AcademyLead(
         academy_id=academy_id,
         user_id=str(current_user['_id']),
@@ -822,6 +864,55 @@ async def get_tournament(tournament_id: str):
     tournament['start_date'] = tournament['start_date'].isoformat()
     tournament['end_date'] = tournament['end_date'].isoformat()
     return tournament
+
+@api_router.post("/tournaments/{tournament_id}/register")
+async def register_for_tournament(
+    tournament_id: str,
+    payload: TournamentRegistration,
+    current_user: dict = Depends(get_current_user),
+):
+    tournament = await db.tournaments.find_one({"id": tournament_id})
+    if not tournament:
+        raise HTTPException(status_code=404, detail="Tournament not found")
+    if tournament.get("status") == "completed":
+        raise HTTPException(status_code=400, detail="Tournament registration is closed")
+    if tournament.get("teams_registered", 0) >= tournament.get("max_teams", 0):
+        raise HTTPException(status_code=400, detail="Tournament is full")
+
+    existing = await db.tournament_registrations.find_one({
+        "tournament_id": tournament_id,
+        "user_id": str(current_user["_id"]),
+    })
+    if existing:
+        raise HTTPException(status_code=400, detail="You already registered a team")
+
+    registration = {
+        "id": str(uuid.uuid4()),
+        "tournament_id": tournament_id,
+        "user_id": str(current_user["_id"]),
+        "user_name": current_user["name"],
+        "team_name": payload.team_name,
+        "contact_phone": payload.contact_phone or current_user.get("phone"),
+        "players": payload.players,
+        "fee": tournament.get("registration_fee", 0),
+        "status": "confirmed",
+        "created_at": datetime.utcnow(),
+    }
+    result = await db.tournament_registrations.insert_one(registration)
+    registration["_id"] = str(result.inserted_id)
+    await db.tournaments.update_one({"id": tournament_id}, {"$inc": {"teams_registered": 1}})
+    return registration
+
+
+@api_router.get("/tournaments/{tournament_id}/registrations")
+async def get_tournament_registrations(tournament_id: str):
+    registrations = await db.tournament_registrations.find({"tournament_id": tournament_id}).to_list(100)
+    for row in registrations:
+        row["_id"] = str(row.get("_id", ""))
+        if hasattr(row.get("created_at"), "isoformat"):
+            row["created_at"] = row["created_at"].isoformat()
+    return registrations
+
 
 @api_router.get("/tournaments/{tournament_id}/matches")
 async def get_tournament_matches(tournament_id: str):
@@ -1867,10 +1958,46 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
             "bookings": bookings
         }
 
+def _public_docs(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    cleaned = []
+    for item in items:
+        row = dict(item)
+        row["_id"] = str(row.get("_id", ""))
+        for key in ("created_at", "start_date", "end_date", "expires_at", "match_date", "updated_at"):
+            value = row.get(key)
+            if hasattr(value, "isoformat"):
+                row[key] = value.isoformat()
+        cleaned.append(row)
+    return cleaned
+
+
+@api_router.get("/featured")
+async def get_featured():
+    products = await db.products.find({"is_featured": True}).limit(8).to_list(8)
+    if not products:
+        products = await db.products.find().limit(8).to_list(8)
+    tournaments = await db.tournaments.find({"status": "ongoing"}).limit(3).to_list(3)
+    if not tournaments:
+        tournaments = await db.tournaments.find().limit(3).to_list(3)
+    stories = await db.stories.find().limit(10).to_list(10)
+    matches = await db.matches.find({"status": "live"}).limit(3).to_list(3)
+    return {
+        "products": _public_docs(products),
+        "tournaments": _public_docs(tournaments),
+        "stories": _public_docs(stories),
+        "matches": _public_docs(matches),
+    }
+
+
 # Health check
 @api_router.get("/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+
+
+@app.get("/")
+async def root():
+    return {"name": "18 Cricket Network", "status": "ok"}
 
 # Include router
 # ==================== CHATBOT MODELS & ENDPOINTS ====================
@@ -2113,6 +2240,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+@app.on_event("startup")
+async def startup_db_and_seed():
+    global client, db
+    if client is not None:
+        try:
+            await client.admin.command("ping")
+            logger.info("Connected to MongoDB")
+        except Exception as exc:
+            logger.warning("MongoDB unavailable (%s). Using in-memory store.", exc)
+            db = MemoryDB()
+    elif not isinstance(db, MemoryDB):
+        db = MemoryDB()
+        logger.info("No MONGO_URL set. Using in-memory store.")
+
+    result = await seed_if_empty(db)
+    logger.info("Seed status: %s", result)
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
+    if client is not None:
+        client.close()

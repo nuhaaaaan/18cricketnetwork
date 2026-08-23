@@ -124,7 +124,7 @@ export default function SocialScreen() {
               color={likedPosts.has(post.id) ? Colors.like : Colors.text} 
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => router.push(`/comments/${post.id}` as any)}>
             <Ionicons name="chatbubble-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
@@ -144,7 +144,7 @@ export default function SocialScreen() {
           <Text style={styles.caption}> {post.content}</Text>
         </View>
         {post.comments > 0 && (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push(`/comments/${post.id}` as any)}>
             <Text style={styles.viewComments}>View all {post.comments} comments</Text>
           </TouchableOpacity>
         )}
@@ -169,7 +169,7 @@ export default function SocialScreen() {
               <Ionicons name="add-circle-outline" size={28} color={Colors.text} />
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/messages' as any)}>
             <Ionicons name="chatbubble-ellipses-outline" size={26} color={Colors.text} />
           </TouchableOpacity>
         </View>

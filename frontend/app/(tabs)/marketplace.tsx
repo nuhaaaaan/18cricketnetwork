@@ -20,7 +20,7 @@ import { useAuthStore } from '../../store/authStore';
 import Logo from '../../components/Logo';
 
 const { width } = Dimensions.get('window');
-const itemWidth = (width - 3) / 3;
+const itemWidth = (width - 36) / 2;
 
 interface Product {
   id: string;
@@ -39,7 +39,8 @@ interface Product {
 
 export default function MarketplaceScreen() {
   const router = useRouter();
-  const addItem = useCartStore((state) => state.addItem);
+  const cartItems = useCartStore((state) => state.items);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const user = useAuthStore((state) => state.user);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,6 +95,11 @@ export default function MarketplaceScreen() {
             onPress={() => router.push('/cart' as any)}
           >
             <Ionicons name="cart-outline" size={26} color={Colors.text} />
+            {cartCount > 0 && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{cartCount}</Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -163,6 +169,10 @@ export default function MarketplaceScreen() {
                     <Text style={styles.usedBadgeText}>USED</Text>
                   </View>
                 )}
+                <View style={styles.productMeta}>
+                  <Text style={styles.productName} numberOfLines={1}>{product.name}</Text>
+                  <Text style={styles.productPrice}>₹{product.price}</Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -197,6 +207,23 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 4,
+    position: 'relative',
+  },
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -6,
+    backgroundColor: Colors.primary,
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badgeText: {
+    color: Colors.white,
+    fontSize: 10,
+    fontWeight: '700',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -246,25 +273,40 @@ const styles = StyleSheet.create({
   productsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 1,
+    padding: 12,
+    justifyContent: 'space-between',
   },
   productCard: {
     width: itemWidth,
-    height: itemWidth,
-    padding: 1,
+    marginBottom: 16,
     position: 'relative',
+    backgroundColor: Colors.card,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   productImage: {
     width: '100%',
-    height: '100%',
+    height: itemWidth,
     backgroundColor: Colors.surface,
   },
   productImagePlaceholder: {
     width: '100%',
-    height: '100%',
+    height: itemWidth,
     backgroundColor: Colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  productMeta: {
+    padding: 10,
+  },
+  productName: {
+    color: Colors.text,
+    fontWeight: '600',
+  },
+  productPrice: {
+    color: Colors.primary,
+    fontWeight: '700',
+    marginTop: 4,
   },
   usedBadge: {
     position: 'absolute',

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "18cricket",
+    "slug": "18cricket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
+    "scheme": "18cricket",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash-icon.png",
@@ -34,7 +34,7 @@
     },
 
     "extra": {
-      "EXPO_PUBLIC_BACKEND_URL": "https://one8cricketnetwork-1.onrender.com"
+      "EXPO_PUBLIC_BACKEND_URL": "http://localhost:8001"
     }
   }
 }

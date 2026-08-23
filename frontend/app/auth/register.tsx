@@ -8,13 +8,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '../../store/authStore';
-import { Picker } from '@react-native-picker/picker';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { notify } from '../../utils/notify';
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     if (!phone || !name || !password) {
-      Alert.alert('Error', 'Please fill all required fields');
+      notify('Error', 'Please fill all required fields');
       return;
     }
 
@@ -37,7 +36,7 @@ export default function RegisterScreen() {
       await register(phone, name, password, userType, email);
       router.replace('/(tabs)/home');
     } catch (error: any) {
-      Alert.alert('Registration Failed', error.response?.data?.detail || 'Please try again');
+      notify('Registration Failed', error.response?.data?.detail || 'Please try again');
     } finally {
       setLoading(false);
     }
@@ -101,17 +100,21 @@ export default function RegisterScreen() {
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Account Type</Text>
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={userType}
-                  onValueChange={(itemValue) => setUserType(itemValue)}
-                  style={styles.picker}
-                >
-                  <Picker.Item label="Player" value="player" />
-                  <Picker.Item label="Vendor/Shop Owner" value="vendor" />
-                  <Picker.Item label="Academy Owner" value="academy" />
-                  <Picker.Item label="Tournament Organizer" value="tournament_organizer" />
-                </Picker>
+              <View style={styles.typeRow}>
+                {[
+                  ['player', 'Player'],
+                  ['vendor', 'Vendor'],
+                  ['academy', 'Academy'],
+                  ['tournament_organizer', 'Organizer'],
+                ].map(([value, label]) => (
+                  <TouchableOpacity
+                    key={value}
+                    style={[styles.typeChip, userType === value && styles.typeChipActive]}
+                    onPress={() => setUserType(value)}
+                  >
+                    <Text style={styles.typeText}>{label}</Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
 
@@ -176,14 +179,26 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     color: Colors.text,
   },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: Colors.border,
+  typeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  typeChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
-  picker: {
-    height: 50,
+  typeChipActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  typeText: {
+    color: Colors.text,
+    fontWeight: '600',
   },
   button: {
     backgroundColor: Colors.primary,

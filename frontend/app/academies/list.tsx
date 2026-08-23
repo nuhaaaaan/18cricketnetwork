@@ -77,7 +77,10 @@ export default function AcademiesListScreen() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.listContainer}>
-          {academies.map((academy) => (
+          {academies.filter((academy) => {
+            const haystack = `${academy.name} ${academy.city} ${academy.location}`.toLowerCase();
+            return haystack.includes(search.toLowerCase());
+          }).map((academy) => (
             <TouchableOpacity
               key={academy.id}
               style={styles.academyCard}

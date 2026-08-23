@@ -95,6 +95,13 @@ export default function WelcomeScreen() {
           >
             <Text style={styles.secondaryButtonText}>Log In</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.guestButton}
+            onPress={() => router.replace('/(tabs)/home')}
+          >
+            <Text style={styles.guestButtonText}>Browse as guest</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -175,5 +182,13 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
+  },
+  guestButton: {
+    alignItems: 'center',
+    padding: 8,
+  },
+  guestButtonText: {
+    color: Colors.silver,
+    fontSize: 14,
   },
 });

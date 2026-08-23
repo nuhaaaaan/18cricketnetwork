@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import Constants from 'expo-constants';
-
-const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL;
+import { API_URL } from '../utils/api';
 
 interface User {
   _id: string;
@@ -65,7 +63,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         phone,
         name,
-        email,
+        email: email || undefined,
         password,
         user_type: userType,
       });
