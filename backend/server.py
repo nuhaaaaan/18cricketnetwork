@@ -2351,6 +2351,22 @@ async def chat_with_bot(chat_message: ChatBotMessage):
 
 app.include_router(api_router)
 
+# ==================== COACHING MARKETPLACE ====================
+# Production coaching marketplace (real coaches only, RBAC approval, secure
+# certification storage, admin review). Mounted alongside the legacy routes.
+from coaching_marketplace import create_coaching_router, ensure_coaching_indexes
+
+app.include_router(create_coaching_router(db, get_current_user))
+
+
+@app.on_event("startup")
+async def _ensure_coaching_indexes():
+    try:
+        await ensure_coaching_indexes(db)
+    except Exception as exc:  # pragma: no cover - index creation is best-effort
+        logging.getLogger(__name__).warning("Coaching index setup skipped: %s", exc)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
