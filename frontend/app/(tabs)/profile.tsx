@@ -127,6 +127,27 @@ export default function ProfileScreen() {
           ))}
         </View>
 
+        {/* Coaching quick links */}
+        <View style={styles.menuSection}>
+          <TouchableOpacity style={styles.menuRow} onPress={() => router.push('/coaching/dashboard' as any)}>
+            <Ionicons name="ribbon-outline" size={22} color={Colors.primary} />
+            <Text style={styles.menuLabel}>Coach Dashboard</Text>
+            <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuRow} onPress={() => router.push('/coaching/partnership' as any)}>
+            <Ionicons name="school-outline" size={22} color={Colors.primary} />
+            <Text style={styles.menuLabel}>Become a Coach</Text>
+            <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
+          </TouchableOpacity>
+          {user?.user_type === 'admin' && (
+            <TouchableOpacity style={styles.menuRow} onPress={() => router.push('/admin/coaches' as any)}>
+              <Ionicons name="shield-checkmark-outline" size={22} color={Colors.primary} />
+              <Text style={styles.menuLabel}>Admin · Coach Review</Text>
+              <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
+            </TouchableOpacity>
+          )}
+        </View>
+
         {/* Logout Button */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color={Colors.error} />
@@ -301,6 +322,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  menuSection: {
+    marginTop: 16,
+    marginHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    overflow: 'hidden',
+  },
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  menuLabel: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.text,
   },
   logoutButton: {
     flexDirection: 'row',
