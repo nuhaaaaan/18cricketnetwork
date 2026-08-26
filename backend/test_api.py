@@ -1,78 +1,94 @@
 """
-Quick test script to verify the new API is working
+Quick smoke test to verify the core API is working end-to-end.
+
+Exercises the real endpoints (phone-based auth under the /api prefix) against a
+running server and asserts on the responses so it fails loudly if the app breaks.
+
+Usage:
+    # with the backend running on :8001
+    ./.venv/bin/python test_api.py
 """
 
+import sys
+import time
+
 import requests
-import json
 
 BASE_URL = "http://localhost:8001"
 
+
 def test_health():
-    """Test health check"""
     print("Testing health endpoint...")
-    response = requests.get(f"{BASE_URL}/health")
-    print(f"Status: {response.status_code}")
-    print(f"Response: {response.json()}\n")
+    r = requests.get(f"{BASE_URL}/api/health", timeout=10)
+    print(f"Status: {r.status_code} Response: {r.json()}\n")
+    assert r.status_code == 200, "health check failed"
+    assert r.json().get("status") == "healthy"
+
 
 def test_register():
-    """Test user registration"""
     print("Testing registration...")
+    phone = "9" + str(int(time.time() * 1000))[-9:]
     data = {
-        "email": "test@cricket18.com",
+        "phone": phone,
+        "name": "Smoke Test",
+        "email": f"smoke{phone}@cricket18.com",
+        "user_type": "player",
         "password": "testpass123",
-        "name": "Test Player",
-        "phone": "+1234567890",
-        "role": "player"
     }
-    response = requests.post(f"{BASE_URL}/api/v1/auth/register", json=data)
-    print(f"Status: {response.status_code}")
-    print(f"Response: {json.dumps(response.json(), indent=2)}\n")
-    return response.json()
+    r = requests.post(f"{BASE_URL}/api/auth/register", json=data, timeout=10)
+    print(f"Status: {r.status_code}\n")
+    assert r.status_code == 200, f"register failed: {r.text}"
+    body = r.json()
+    assert body.get("access_token"), "no access_token returned"
+    return phone, body["access_token"]
 
-def test_login():
-    """Test user login"""
+
+def test_login(phone):
     print("Testing login...")
-    data = {
-        "email": "test@cricket18.com",
-        "password": "testpass123"
-    }
-    response = requests.post(f"{BASE_URL}/api/v1/auth/login", json=data)
-    print(f"Status: {response.status_code}")
-    print(f"Response: {json.dumps(response.json(), indent=2)}\n")
-    return response.json()
+    r = requests.post(
+        f"{BASE_URL}/api/auth/login",
+        json={"phone": phone, "password": "testpass123"},
+        timeout=10,
+    )
+    print(f"Status: {r.status_code}\n")
+    assert r.status_code == 200, f"login failed: {r.text}"
+    return r.json()["access_token"]
+
 
 def test_profile(token):
-    """Test get profile"""
     print("Testing get profile...")
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.get(f"{BASE_URL}/api/v1/users/me", headers=headers)
-    print(f"Status: {response.status_code}")
-    print(f"Response: {json.dumps(response.json(), indent=2)}\n")
+    r = requests.get(
+        f"{BASE_URL}/api/auth/me",
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=10,
+    )
+    print(f"Status: {r.status_code}\n")
+    assert r.status_code == 200, f"profile failed: {r.text}"
+    assert r.json().get("phone"), "profile missing phone"
+
+
+def test_public_lists():
+    print("Testing public catalog endpoints...")
+    for path in ("/api/products", "/api/tournaments", "/api/grounds", "/api/academies"):
+        r = requests.get(f"{BASE_URL}{path}", timeout=10)
+        assert r.status_code == 200, f"{path} failed: {r.status_code}"
+        assert isinstance(r.json(), list), f"{path} did not return a list"
+    print("Catalog endpoints OK\n")
+
 
 if __name__ == "__main__":
     print("=" * 50)
-    print("18 Cricket Network API Test")
+    print("18 Cricket Network API Smoke Test")
     print("=" * 50 + "\n")
-    
     try:
         test_health()
-        
-        # Try to register
-        try:
-            reg_response = test_register()
-            token = reg_response.get("access_token")
-        except Exception as e:
-            print(f"Registration failed (user might exist): {e}")
-            # Try login instead
-            login_response = test_login()
-            token = login_response.get("access_token")
-        
-        if token:
-            test_profile(token)
-        
+        phone, token = test_register()
+        token = test_login(phone)
+        test_profile(token)
+        test_public_lists()
         print("=" * 50)
-        print("✓ Basic API tests completed!")
+        print("\u2713 All smoke tests passed!")
         print("=" * 50)
-    
-    except Exception as e:
-        print(f"Error during testing: {e}")
+    except Exception as e:  # noqa: BLE001
+        print(f"\u2717 Smoke test failed: {e}")
+        sys.exit(1)

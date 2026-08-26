@@ -1,0 +1,16 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/assets/*",
+      "/_expo/*",
+      "/*.{js,css,ico,png,jpg,jpeg,svg,gif,webp,woff,woff2,ttf,otf,map,json,txt}"
+    ]
+  },
+  "responseOverrides": {
+    "404": { "rewrite": "/index.html", "statusCode": 200 }
+  },
+  "globalHeaders": {
+    "cache-control": "no-cache"
+  }
+}

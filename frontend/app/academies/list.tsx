@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
+import EmptyState from '../../components/ui/EmptyState';
 
 interface Academy {
   id: string;
@@ -114,10 +115,13 @@ export default function AcademiesListScreen() {
             </TouchableOpacity>
           ))}
           {academies.length === 0 && (
-            <View style={styles.emptyContainer}>
-              <Ionicons name="school-outline" size={64} color={Colors.textSecondary} />
-              <Text style={styles.emptyText}>No academies found</Text>
-            </View>
+            <EmptyState
+              icon="school-outline"
+              title="No academies yet"
+              message="Academies haven't been listed here yet. As academy owners register and get verified, they'll appear."
+              actionLabel="Register an Academy"
+              onAction={() => router.push('/(tabs)/create' as any)}
+            />
           )}
         </ScrollView>
       )}
@@ -128,7 +132,7 @@ export default function AcademiesListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   academyCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.card,
     borderRadius: 12,
     marginBottom: 16,
     borderWidth: 1,

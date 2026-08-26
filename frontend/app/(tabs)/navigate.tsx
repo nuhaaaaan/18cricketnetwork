@@ -298,7 +298,7 @@ export default function NavigateScreen() {
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <SearchBar onSelectLocation={handleSelectLocation} onSearch={handleSearch} />
+        <SearchBar onSelectLocation={handleSelectLocation as any} onSearch={handleSearch} />
       </View>
 
       {/* Recenter Button */}

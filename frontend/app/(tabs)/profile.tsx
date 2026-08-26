@@ -1,322 +1,144 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { useAuthStore } from '../../store/authStore';
+import api from '../../utils/api';
+import { palette, spacing, radius, typography } from '../../constants/theme';
+import StatCard from '../../components/ui/StatCard';
+import EmptyState from '../../components/ui/EmptyState';
+import { Skeleton } from '../../components/ui/SkeletonLoader';
 
-const { width } = Dimensions.get('window');
-const itemWidth = (width - 3) / 3;
+const STAT_LABELS: Record<string, string> = {
+  products: 'Products',
+  orders: 'Orders',
+  bookings: 'Bookings',
+  academies: 'Academies',
+  tournaments: 'Tournaments',
+  users: 'Users',
+};
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, logout } = useAuthStore();
+  const [stats, setStats] = useState<Record<string, number> | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const stats = [
-    { label: 'Posts', value: '12' },
-    { label: 'Orders', value: '8' },
-    { label: 'Bookings', value: '5' },
-  ];
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await api.get('/stats/dashboard');
+      setStats(res.data ?? {});
+    } catch {
+      setStats({});
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const handleLogout = async () => {
     await logout();
     router.replace('/');
   };
 
+  const statEntries = stats ? Object.entries(stats).filter(([, v]) => typeof v === 'number') : [];
+
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <StatusBar style="light" />
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Ionicons name="lock-closed-outline" size={14} color={Colors.text} />
-          <Text style={styles.username}>{user?.name || 'username'}</Text>
-          <Ionicons name="chevron-down" size={16} color={Colors.text} />
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="add-circle-outline" size={28} color={Colors.text} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/profile/settings' as any)}>
-            <Ionicons name="menu-outline" size={28} color={Colors.text} />
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.username} numberOfLines={1}>{user?.name || 'My profile'}</Text>
+        <TouchableOpacity style={styles.iconButton} onPress={handleLogout} accessibilityLabel="Log out">
+          <Ionicons name="log-out-outline" size={24} color={palette.textPrimary} />
+        </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Profile Info */}
-        <View style={styles.profileSection}>
-          <View style={styles.profileTop}>
-            <View style={styles.avatarContainer}>
-              <View style={styles.avatar}>
-                <Ionicons name="person" size={40} color={Colors.primary} />
-              </View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
+        {/* Identity */}
+        <View style={styles.identity}>
+          <View style={styles.avatar}>
+            <Ionicons name="person" size={40} color={palette.primary} />
+          </View>
+          <Text style={styles.name}>{user?.name || 'Cricketer'}</Text>
+          {!!user?.user_type && (
+            <View style={styles.roleChip}>
+              <Text style={styles.roleText}>{user.user_type}</Text>
             </View>
-
-            <View style={styles.statsContainer}>
-              {stats.map((stat, index) => (
-                <View key={index} style={styles.stat}>
-                  <Text style={styles.statValue}>{stat.value}</Text>
-                  <Text style={styles.statLabel}>{stat.label}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.bioSection}>
-            <Text style={styles.displayName}>{user?.name}</Text>
-            <Text style={styles.bio}>Cricket Enthusiast 🏏</Text>
-            <Text style={styles.bio}>Playing since 2010</Text>
-          </View>
-
-          <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.editButton}>
-              <Text style={styles.editButtonText}>Edit Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.shareButton}>
-              <Text style={styles.shareButtonText}>Share Profile</Text>
-            </TouchableOpacity>
-          </View>
+          )}
+          {!!user?.phone && <Text style={styles.meta}>{user.phone}</Text>}
         </View>
 
-        {/* Story Highlights */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.highlightsContainer}>
-          <TouchableOpacity style={styles.highlightItem}>
-            <View style={styles.highlightCircle}>
-              <Ionicons name="add" size={32} color={Colors.textSecondary} />
-            </View>
-            <Text style={styles.highlightText}>New</Text>
-          </TouchableOpacity>
-          {['Gear', 'Matches', 'Training'].map((item, index) => (
-            <TouchableOpacity key={index} style={styles.highlightItem}>
-              <View style={styles.highlightCircle}>
-                <Ionicons name="baseball" size={28} color={Colors.text} />
-              </View>
-              <Text style={styles.highlightText}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {/* Tabs */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity style={styles.tab}>
-            <Ionicons name="grid" size={24} color={Colors.text} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Ionicons name="film-outline" size={24} color={Colors.textSecondary} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Ionicons name="person-outline" size={24} color={Colors.textSecondary} />
-          </TouchableOpacity>
+        {/* Real stats */}
+        <View style={styles.statsRow}>
+          {loading ? (
+            <>
+              <Skeleton height={64} radius={radius.md} style={{ flex: 1 }} />
+              <Skeleton height={64} radius={radius.md} style={{ flex: 1 }} />
+              <Skeleton height={64} radius={radius.md} style={{ flex: 1 }} />
+            </>
+          ) : statEntries.length > 0 ? (
+            statEntries.map(([key, value]) => (
+              <StatCard key={key} label={STAT_LABELS[key] || key} value={value} />
+            ))
+          ) : (
+            <StatCard label="Activity" value={0} />
+          )}
         </View>
 
-        {/* Grid */}
-        <View style={styles.grid}>
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <View key={item} style={styles.gridItem}>
-              <View style={styles.gridImagePlaceholder}>
-                <Ionicons name="baseball" size={32} color={Colors.textSecondary} />
-              </View>
-            </View>
-          ))}
+        {/* Content */}
+        <View style={styles.content}>
+          <EmptyState
+            icon="baseball-outline"
+            title="Your cricket journey starts here"
+            message="Posts, matches and achievements you create will appear on your profile."
+          />
         </View>
-
-        {/* Logout Button */}
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Ionicons name="log-out-outline" size={20} color={Colors.error} />
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
+  container: { flex: 1, backgroundColor: palette.background },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: palette.border,
   },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  username: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.text,
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  iconButton: {
-    padding: 4,
-  },
-  profileSection: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  profileTop: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  avatarContainer: {
-    marginRight: 28,
-  },
+  username: { ...typography.h2, color: palette.textPrimary, flex: 1 },
+  iconButton: { padding: 4 },
+  scroll: { paddingBottom: spacing.xxxl },
+  identity: { alignItems: 'center', paddingVertical: spacing.xl },
   avatar: {
-    width: 86,
-    height: 86,
-    borderRadius: 43,
-    backgroundColor: Colors.surface,
+    width: 92,
+    height: 92,
+    borderRadius: radius.pill,
+    backgroundColor: palette.surface,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: Colors.border,
+    borderColor: palette.primary,
   },
-  statsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  name: { ...typography.h1, color: palette.textPrimary, marginTop: spacing.md },
+  roleChip: {
+    backgroundColor: 'rgba(225,29,42,0.12)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 4,
+    borderRadius: radius.pill,
+    marginTop: spacing.sm,
   },
-  stat: {
-    alignItems: 'center',
-  },
-  statValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.text,
-  },
-  statLabel: {
-    fontSize: 13,
-    color: Colors.text,
-    marginTop: 2,
-  },
-  bioSection: {
-    marginBottom: 12,
-  },
-  displayName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 2,
-  },
-  bio: {
-    fontSize: 14,
-    color: Colors.text,
-    lineHeight: 18,
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  editButton: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-    paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  editButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  shareButton: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-    paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  shareButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  highlightsContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  highlightItem: {
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  highlightCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: Colors.surface,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: Colors.border,
-    marginBottom: 4,
-  },
-  highlightText: {
-    fontSize: 12,
-    color: Colors.text,
-  },
-  tabsContainer: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    padding: 1,
-  },
-  gridItem: {
-    width: itemWidth,
-    height: itemWidth,
-    padding: 1,
-  },
-  gridImagePlaceholder: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: Colors.surface,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    marginVertical: 24,
-    marginHorizontal: 16,
-    padding: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.error,
-  },
-  logoutText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.error,
-  },
+  roleText: { ...typography.micro, color: palette.primary, textTransform: 'capitalize' },
+  meta: { ...typography.caption, color: palette.textSecondary, marginTop: spacing.sm },
+  statsRow: { flexDirection: 'row', gap: spacing.md, paddingHorizontal: spacing.lg },
+  content: { paddingHorizontal: spacing.lg, marginTop: spacing.md },
 });

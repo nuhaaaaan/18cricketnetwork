@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../utils/api';
+import EmptyState from '../../components/ui/EmptyState';
 import { format } from 'date-fns';
 
 interface Tournament {
@@ -170,10 +171,13 @@ export default function TournamentsListScreen() {
             </TouchableOpacity>
           ))}
           {tournaments.length === 0 && (
-            <View style={styles.emptyContainer}>
-              <Ionicons name="trophy-outline" size={64} color={Colors.textSecondary} />
-              <Text style={styles.emptyText}>No tournaments found</Text>
-            </View>
+            <EmptyState
+              icon="trophy-outline"
+              title="No tournaments yet"
+              message="No tournaments have been created yet. Organizers can launch tournaments and they'll show up here."
+              actionLabel="Create a Tournament"
+              onAction={() => router.push('/(tabs)/create' as any)}
+            />
           )}
         </ScrollView>
       )}
@@ -184,7 +188,7 @@ export default function TournamentsListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -232,7 +236,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   tournamentCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.card,
     borderRadius: 12,
     marginBottom: 16,
     borderWidth: 1,
