@@ -107,7 +107,7 @@ export default function MarketplaceScreen() {
                   {p.images?.[0] ? (
                     <Image source={{ uri: p.images[0] }} style={styles.image} resizeMode="cover" />
                   ) : (
-                    <Ionicons name="baseball-outline" size={36} color={palette.primary} />
+                    <Ionicons name="image-outline" size={34} color={palette.textTertiary} />
                   )}
                   {p.is_used && <View style={styles.usedBadge}><Text style={styles.usedText}>USED</Text></View>}
                 </View>
