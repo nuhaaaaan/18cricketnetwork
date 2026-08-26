@@ -2461,10 +2461,22 @@ async def chat_with_bot(chat_message: ChatBotMessage):
 
 app.include_router(api_router)
 
+# CORS origins are configurable via CORS_ALLOW_ORIGINS (comma-separated) so a
+# preview/deployment can restrict which frontends may call the API. Defaults to
+# "*" for local development. Per the CORS spec the wildcard cannot be combined
+# with credentials, so credentials are only enabled for explicit origins.
+_cors_env = os.environ.get("CORS_ALLOW_ORIGINS", "*").strip()
+if _cors_env and _cors_env != "*":
+    _allow_origins = [o.strip() for o in _cors_env.split(",") if o.strip()]
+    _allow_credentials = True
+else:
+    _allow_origins = ["*"]
+    _allow_credentials = False
+
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=["*"],
+    allow_credentials=_allow_credentials,
+    allow_origins=_allow_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -5,6 +5,10 @@ import Constants from 'expo-constants';
 
 const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL;
 
+// Ensure every direct axios call (login/register) also bypasses the ngrok
+// browser-warning interstitial when the backend is served through a tunnel.
+axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
+
 interface User {
   _id: string;
   phone: string;

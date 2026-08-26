@@ -10,6 +10,10 @@ const api = axios.create({
   baseURL: `${API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
+    // When the backend is reached through an ngrok preview tunnel this skips
+    // ngrok's HTML browser-warning interstitial so XHR calls receive JSON.
+    // Harmless for non-ngrok backends.
+    'ngrok-skip-browser-warning': 'true',
   },
 });
 
