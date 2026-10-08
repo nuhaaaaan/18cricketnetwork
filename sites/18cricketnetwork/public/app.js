@@ -15,7 +15,8 @@ import {rankingsPage} from './rankings.js';
 import {marketplace,handleMarket,marketInput,loadMarketplace,marketDeepLink} from './marketplace.js';
 import {calculateMatch} from './scoring-engine.js';
 import {reportStudio,handleReport,reloadReport} from './report-studio.js';
-import {community,scorer as detailedScorer,performances,handleExperience} from './cricket-experience.js';
+import {community,performances,handleExperience} from './cricket-experience.js';
+import {scorer as detailedScorer} from './score-studio.js';
 (()=>{
 'use strict';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
