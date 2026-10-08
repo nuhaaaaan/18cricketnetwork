@@ -1,0 +1,360 @@
+{
+  "sourceRepository": "nuhaaaaan/18cricketnetwork",
+  "sourceBranch": "production-ready-version-october-26",
+  "sourceCommit": "8291ac7389b1f2dea174475a2b8b390300cdb8ba",
+  "lovableProjectId": "2e75602c-c29c-4198-8df1-39c279e4e36d",
+  "backendPreserved": true,
+  "status": "frontend-build-in-progress",
+  "features": [
+    {
+      "id": "home",
+      "name": "18CricketNetwork",
+      "offer": "One place to discover cricket people, venues, scoring, gear, food and services.",
+      "policy": "Use real profiles and listings. An interface or enquiry is not a promise of stock, booking availability or provider activation.",
+      "limits": "Sites remains a private pilot. The standalone preview shows the welcome page only until authentication and storage are activated. Native mobile distribution is not yet activated.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "players",
+      "name": "Player passports",
+      "offer": "Create a player identity with roles, batting and bowling preferences, and recorded performance.",
+      "policy": "Only edit profiles you own. Profile claims are not independently verified credentials.",
+      "limits": "A profile does not guarantee selection, recruitment or a verified ranking.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "teams",
+      "name": "Teams & clubs",
+      "offer": "Create teams and join or leave lineups within the network.",
+      "policy": "Only owners manage their team records; joining a listing is not final selection or a contract.",
+      "limits": "Roster membership is distinct from the squad snapshot used for match scoring.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "matches",
+      "name": "Match centre & scoring",
+      "offer": "Player-attributed scoring in a futuristic Match Theatre, with boundary/wicket effects, duck annotations and ledger-derived milestones alongside the existing scorecards and controls.",
+      "policy": "Enter actual umpire decisions. Competition score changes still require authorised approval. Animations do not change scores; previews are labelled and are not match data.",
+      "limits": "Initial loads, corrections and missed-event catch-up do not replay effects. Hat-tricks are conservative same-innings, legal, bowler-credited sequences. No Test cricket, super overs or automated DLS; field graphics are decorative, not tracking.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "tournaments",
+      "name": "Tournaments & leagues",
+      "offer": "Competition listings, registrations, linked fixtures and points derived from recorded results.",
+      "policy": "Creators and appointed competition admins control match approval; league authority can extend to linked tournaments.",
+      "limits": "No universal external tournament import or automated disciplinary adjudication.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "governance",
+      "name": "Competition permissions & safety",
+      "offer": "Admin appointments, score-change approval and content safety operations.",
+      "policy": "Only the competition creator appoints/removes admins. Routine text posts are not held in a general review queue; restricted patterns are rejected.",
+      "limits": "Pattern checks are not perfect detection. Image screening needs a provider; video uploads remain blocked until screening is connected.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "rankings",
+      "name": "Player & team rankings",
+      "offer": "Ranking logic uses eligible, reviewed match data with role and geographic/competition filters.",
+      "policy": "No fabricated rankings. Changed, duplicate, live or unverified scorecards do not qualify automatically.",
+      "limits": "Rankings remain empty where qualifying evidence is absent. Captaincy and fielding cannot be inferred from missing data.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "pickup",
+      "name": "Pickup cricket",
+      "offer": "Host a game and let members join or leave its lineup.",
+      "policy": "A join action is an expression of participation, not a paid venue reservation.",
+      "limits": "The platform does not guarantee attendance or venue permission.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "directory",
+      "name": "Venue discovery & ownership claims",
+      "offer": "A sourced directory of grounds, practice facilities and academies in the USA and India, with directions and ownership claims.",
+      "policy": "A directory entry is not a booking offer. Assignment requires private proof and platform verification of operating rights.",
+      "limits": "The directory is not exhaustive; location and operating details may need confirmation. Approval does not replace local permissions.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "grounds",
+      "name": "Grounds & reservations",
+      "offer": "Discover operator listings, reserve available hourly slots and navigate to venues.",
+      "policy": "Availability conflicts are checked. Reservation and any associated financial order must be reconciled before cancellation.",
+      "limits": "Older ground reservations do not themselves collect payment. A directory-only venue may not offer bookable slots.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "nets",
+      "name": "Net-session booking",
+      "offer": "Facilities publish lanes, hourly local-currency pricing and bookable practice slots.",
+      "policy": "One slot cannot be reserved twice. Booking snapshots retain the quoted price; the platform commission is 5%.",
+      "limits": "Only operator-published offers are bookable. No invented opening hours or lane availability.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "academies",
+      "name": "Academies",
+      "offer": "Academy discovery, operator listings and enquiries, plus sourced directory entries.",
+      "policy": "Unclaimed directory entries do not imply an academy is our partner. Operators must prove rights before assignment.",
+      "limits": "A listing is not independent accreditation or guaranteed admission.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "coaches",
+      "name": "Cricket & mindset coaching",
+      "offer": "Discover coaches, including mindset coaches, and request eligible paid sessions.",
+      "policy": "Prices come from the listing. Provider acceptance and verified payment precede paid fulfilment.",
+      "limits": "Provider qualifications and availability need verification; payment setup must be activated.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "services",
+      "name": "Cricket services",
+      "offer": "List and enquire about specialist cricket services, with supported paid-request workflows.",
+      "policy": "Owners describe scope and terms; the platform cannot guarantee service quality or professional licensing.",
+      "limits": "Only supported provider/payment flows can process a transaction.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "repairs",
+      "name": "Equipment repair & maintenance",
+      "offer": "Find repair providers, request work, approve quotes, track stages and attach carrier documents.",
+      "policy": "A quote needs customer approval. Private order documents are limited to participants; reference QR codes are not carrier-paid postage.",
+      "limits": "Carrier purchasing/drop-off integration and provider warranties are not automatic. Confirm manufacturer warranty implications.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "marketplace",
+      "name": "New & used cricket gear",
+      "offer": "Brand/category filters including One8, seller stores, comparison, wishlist, orders and declared returns.",
+      "policy": "Sellers must declare separate new/used return windows and postage terms. Buyers accept the snapshotted policy before ordering.",
+      "limits": "Brand logos identify filters, not partnerships. A QR/barcode identifies an item or return, not automatically a valid carrier label.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "hardware",
+      "name": "18 Shop & camera hardware",
+      "offer": "An official hardware catalogue/enquiry interface, owner-registered camera credentials and recording-session commands.",
+      "policy": "Only platform operations publish official products. Device credentials are shown once, stored hashed and revocable.",
+      "limits": "Planned products are not stock. Compatibility is unverified; the gateway handles commands/telemetry, not raw video ingest or encoding.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "drs",
+      "name": "Decision Review Studio",
+      "offer": "Two-view human-assisted referrals, dismissal/boundary checklists, replay references and immutable decision records.",
+      "policy": "18-camera broadcasts require distinct bowler-end and square-leg cameras, recording acknowledgements, heartbeats and operator-declared alignment. Inconclusive evidence retains the original.",
+      "limits": "Not ICC-certified or automatic DRS. Approved ball tracking/edge detection are not connected; LBW prediction cannot authorise OUT. Player-review clocks/quotas are disabled.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "broadcast",
+      "name": "Livestreams & LED displays",
+      "offer": "Supported cricket embeds and a futuristic fullscreen scoreboard with recorded match-moment effects.",
+      "policy": "Obtain rights and participant consent. Camera-managed streams must pass DRS readiness; external broadcasts remain separate. Effects never replace an umpire decision.",
+      "limits": "Five-second polling may miss effects for multiple intervening events, while retaining current scores. No upstream-stream control, direct LED protocols or completed hardware field tests.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "community",
+      "name": "Cricket social feed",
+      "offer": "Cricket posts, stories, likes, comments, bookmarks, reports and performance sharing.",
+      "policy": "Cricket-only content; restricted profanity, sexual, hate, sensitive and political content is rejected by available checks. Shared media requires permission.",
+      "limits": "Stories leave the feed after 24 hours, not necessarily underlying storage. Reels/video uploads await automatic video safety screening.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "media",
+      "name": "Media studio & sharing",
+      "offer": "Media listings, cricket highlights and generated performance cards for download or device sharing.",
+      "policy": "Only share media and statistics you have rights to publish. Uploads must pass supported safety checks.",
+      "limits": "Device share sheets vary. External social posting is user-controlled, not automatic cross-platform publishing.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "analytics",
+      "name": "Performance & match reports",
+      "offer": "Ledger-derived batting/bowling figures, wickets, moments, manual field maps, notes and replay links.",
+      "policy": "Private notes retain access restrictions. Report evidence is labelled with its origin and source scorecard version.",
+      "limits": "Manual field maps are not automated player tracking. No fabricated ball trajectories or video-derived statistics.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "live",
+      "name": "Global live scores",
+      "offer": "Read-only external cricket scores, competition discovery and follows from configured licensed feeds.",
+      "policy": "Display/redistribution permission is required. External scores never modify local scoring, rankings or tournament results.",
+      "limits": "Coverage depends on the provider, not a promise of every IPL, domestic or international match.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "food",
+      "name": "Athlete Fuel & team meals",
+      "offer": "Restaurant menus, individual/team orders, pickup and supported PitchRush delivery to practices, grounds or homes.",
+      "policy": "Restaurants pay a 5% order commission. Delivery tips go 100% to the assigned driver. Menus/prices are snapshotted for orders.",
+      "limits": "Restaurants need operational approval and payment/delivery activation. Nutritional claims are seller-provided, not medical advice.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "riders",
+      "name": "PitchRush drivers & riders",
+      "offer": "Driver enrolment, eligible funded jobs, road-distance quotes, pickup and photo or handover-code delivery proof.",
+      "policy": "Operators approve drivers. Only the assigned rider completes a job; road quotes set the offer and tips belong to the rider.",
+      "limits": "Maps and payouts need configured providers. Earnings shown as held are not bank-paid earnings. Food eligibility must be enabled for food jobs.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "navigation",
+      "name": "Maps & ground navigation",
+      "offer": "Ground directions without a booking, location-aware route guidance and eligible delivery navigation.",
+      "policy": "Location permission is optional. Private delivery addresses are restricted to authorised participants.",
+      "limits": "Provider-backed routing must be configured. This is not a full Google/Apple Maps replacement or safety guarantee.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "memberships",
+      "name": "18Basic, 18Gold & seller leads",
+      "offer": "Free Basic access, role-priced Gold plans, consented enquiries and eligible business analytics.",
+      "policy": "Visitor counts do not disclose anonymous visitors’ identities. Leads require explicit contact consent; detailed analytics/leads need active role-specific Gold.",
+      "limits": "Membership billing is not activated. Operator pilot grants and verified unexpired entitlements control access; non-seller prices are proposed.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "digital",
+      "name": "18Digital assistant",
+      "offer": "Premium text answers with browser voice input and spoken replies where supported.",
+      "policy": "Active Gold and a connected model provider are required. Server token/request budgets apply; clearing chat does not reset usage.",
+      "limits": "Voice processing depends on the browser/provider, not an always-listening Siri replacement. AI answers can be wrong; no unlimited-token promise.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "recruitment",
+      "name": "Scouting & opportunities",
+      "offer": "Recruitment listings, applications and enquiries connecting cricket talent with opportunities.",
+      "policy": "Owners manage listings; an application is not selection, employment or a verified scout endorsement.",
+      "limits": "No guarantee of placement or independent employer background checks.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "messages",
+      "name": "In-network messages",
+      "offer": "Message listing owners and view participant-restricted inbox conversations.",
+      "policy": "Messages are restricted to sender and recipient in the application; no claim of end-to-end encryption.",
+      "limits": "Email delivery, push notifications and external messaging services are not connected.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "workspace",
+      "name": "My workspace",
+      "offer": "A personal view of owned records, activity and supported account data export.",
+      "policy": "Server permissions still govern every edit. Browser cart preferences are separate from database records.",
+      "limits": "An export is not a complete server backup; feature-specific private records may require their own interface.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "account",
+      "name": "Registration & sign-in",
+      "offer": "Welcome-first access, role-based onboarding, explicit policy acknowledgements and hosted ChatGPT sign-in.",
+      "policy": "Verified identity email comes from the authentication boundary. Client-selected roles never grant admin authority.",
+      "limits": "Direct Google, Apple and WhatsApp authentication remain setup-pending. Native app authentication needs a separate compatible integration.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "payments",
+      "name": "Payments, returns & settlement",
+      "offer": "Server-priced orders, Stripe/US and Razorpay/India payment adapters, verified capture and controlled refunds/payouts.",
+      "policy": "No paid status without provider verification. Seller return terms are frozen on the order; new/used windows and postage are declared separately.",
+      "limits": "Provider keys, account approval and sandbox/end-to-end tests are required. Pilot defaults: new gear 8%, used gear 5%, grounds 5%, coaching/services 12%; actual order quotes prevail.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "feedback",
+      "name": "18’s Third Umpire",
+      "offer": "Private app reviews, bug reports and improvement suggestions, with a personal submission history.",
+      "policy": "Visible to the submitter and platform operations. Follow-up email consent is optional; up to five submissions per 24 hours.",
+      "limits": "Feedback email forwarding is not configured. A suggestion does not guarantee delivery of a feature.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy & platform policies",
+      "offer": "Feature-specific access controls for messages, leads, orders, ownership proof and operator notes.",
+      "policy": "Public listings are distinct from private evidence and contact data. Platform access controls are not a promise of encryption or complete regulatory compliance.",
+      "limits": "Formal operator identity/contact, retention/deletion schedules, disputes and jurisdiction-specific terms need finalisation before public launch. These operating notes are not final legal terms.",
+      "uiStatus": "pending-verification",
+      "apiConnection": "not-configured",
+      "nativeStatus": "not-built"
+    }
+  ]
+}
