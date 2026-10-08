@@ -13,11 +13,7 @@ test('independent preview rejects identity spoofing and every write',async()=>{
   assert.equal(vercelPreview(new Request('https://preview.local/api/account',{headers})).status,503);
 });
 
-test('real venue directory filters do not invent availability or ownership',async()=>{
-  const all=await vercelPreview(new Request('https://preview.local/api/directory/venues')).json();
-  assert.ok(all.counts.total>0);assert.equal(all.venues.length,all.counts.total);
-  assert.ok(all.venues.every(v=>v.sources.length&&v.bookingStatus==='directory-only'&&!v.owner));
-  const india=await vercelPreview(new Request('https://preview.local/api/directory/venues?country=IN&kind=ground')).json();
-  assert.ok(india.venues.length>0);assert.ok(india.venues.every(v=>v.country==='IN'&&v.kind==='ground'));
-  assert.equal(india.counts.total,all.counts.total);assert.equal(india.isAdmin,false);
+test('independent preview denies venue feature access before authentication activation',async()=>{
+ const r=vercelPreview(new Request('https://preview.local/api/directory/venues'));
+ assert.equal(r.status,503);assert.equal((await r.json()).code,'LAUNCH_SETUP_REQUIRED');
 });

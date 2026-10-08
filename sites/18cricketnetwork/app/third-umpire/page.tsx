@@ -1,3 +1,5 @@
+import {NetworkGate} from '../network-gate';
+export const dynamic='force-dynamic';
 import Script from 'next/script';
 import {shell} from '../../web/shell.js';
-export default function ThirdUmpire(){return <><div dangerouslySetInnerHTML={{__html:shell}}/><Script src="/app.js" type="module" strategy="afterInteractive"/></>}
+export default function ThirdUmpire(){return <NetworkGate><><div dangerouslySetInnerHTML={{__html:shell}}/><Script src="/app.js" type="module" strategy="afterInteractive"/></></NetworkGate>}

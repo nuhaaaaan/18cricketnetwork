@@ -7,12 +7,12 @@ fetch('/api/status').then(r=>r.json()).then(status=>{
       if(connection.textContent.includes('Browsing preview'))return;
       connection.replaceChildren();
       const note=document.createElement('div');note.className='notice';
-      note.textContent='Browsing preview · Explore features and researched venues. Registration, bookings, orders and uploads will open after account and storage services are connected.';
+      note.textContent='Welcome preview · Sign-in and storage activation are required before feature access opens.';
       connection.append(note);
     };
     new MutationObserver(update).observe(connection,{childList:true});update();
   }
   const identity=document.getElementById('identityArea');
-  if(identity){identity.textContent='Registration is not open on this preview. You can explore roles below and browse the network.';identity.classList.add('notice');}
+  if(identity){identity.textContent='Sign-in is not configured on this standalone preview. Features remain locked until account and storage services are activated.';identity.classList.add('notice');}
   const divider=document.querySelector('.auth-divider span');if(divider)divider.textContent='BROWSING PREVIEW';
 }).catch(()=>{});

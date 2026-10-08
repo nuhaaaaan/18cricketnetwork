@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
+import '../public/welcome.css';
 import './experience.css';
 import '../public/drs.css';
 import './guide.css';

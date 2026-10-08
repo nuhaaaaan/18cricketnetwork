@@ -1,2 +1,4 @@
+import {NetworkGate} from '../network-gate';
+export const dynamic='force-dynamic';
 import Script from 'next/script';
-export default function Payment(){return <main className="payment-page"><span className="eyebrow">18 / SECURE CHECKOUT</span><h1 id="paymentTitle">Verifying your payment</h1><p id="paymentStatus" role="status">Checking with the provider…</p><a id="backToOrder" href="/#marketplace">Return to orders ↗</a><Script src="/payment-return.js" strategy="afterInteractive"/></main>}
+export default function Payment(){return <NetworkGate><main className="payment-page"><span className="eyebrow">18 / SECURE CHECKOUT</span><h1 id="paymentTitle">Verifying your payment</h1><p id="paymentStatus" role="status">Checking with the provider…</p><a id="backToOrder" href="/#marketplace">Return to orders ↗</a><Script src="/payment-return.js" strategy="afterInteractive"/></main></NetworkGate>}
