@@ -9,6 +9,7 @@ export const categories=[
 {id:'tournament_organizer',icon:'◇',label:'Tournament organizer',description:'Create competitions, fixtures and team registrations.'},
 {id:'umpire',icon:'◉',label:'Umpire',description:'Offer officiating services and connect with organizers.'},
 {id:'vendor',icon:'▣',label:'Gear seller',description:'List equipment and connect with the cricket community.'},
+{id:'restaurant',icon:'◉',label:'Sports restaurant',description:'Fuel athletes and teams with healthy menus, pickup and PitchRush delivery.'},
 {id:'service_provider',icon:'⚒',label:'Service provider',description:'Offer repairs, fitness, photography and cricket services.'},
 {id:'fan',icon:'♡',label:'Fan / supporter',description:'Follow the game, share moments and join the conversation.'}
 ];

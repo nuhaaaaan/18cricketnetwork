@@ -1,0 +1,1407 @@
+[
+  {
+    "id": "in-narendra-modi-stadium",
+    "name": "Narendra Modi Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Gujarat",
+    "city": "Ahmedabad",
+    "address": "Stadium Road, Motera, Sabarmati, Ahmedabad 380005",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-m-chinnaswamy-stadium",
+    "name": "M. Chinnaswamy Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": "Mahatma Gandhi Road, near Cubbon Road, Bengaluru 560001",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-m-a-chidambaram-stadium",
+    "name": "M.A. Chidambaram Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": "Victoria Hostel Road, Chepauk, Chennai 600005",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-arun-jaitley-stadium",
+    "name": "Arun Jaitley Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Delhi",
+    "city": "New Delhi",
+    "address": "Bahadur Shah Zafar Marg, New Delhi 110002",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-hpca-stadium",
+    "name": "HPCA Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Himachal Pradesh",
+    "city": "Dharamshala",
+    "address": "HPCA Cricket Stadium, Kangra District, Dharamshala 176215",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-eden-gardens",
+    "name": "Eden Gardens",
+    "kind": "ground",
+    "country": "IN",
+    "state": "West Bengal",
+    "city": "Kolkata",
+    "address": "Eden Garden Road, Kolkata 700021",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-bharat-ratna-shri-atal-bihari-vajpayee-ekana-cricket-stadium",
+    "name": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Uttar Pradesh",
+    "city": "Lucknow",
+    "address": "Sector 7, Amar Shaheed Path, Gomti Nagar, Lucknow 226010",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-wankhede-stadium",
+    "name": "Wankhede Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": "D Road, Churchgate, Mumbai 400020",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-mca-international-stadium",
+    "name": "MCA International Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Pune",
+    "address": "Gahunje, Maharashtra 412101",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-rajiv-gandhi-international-stadium",
+    "name": "Rajiv Gandhi International Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Telangana",
+    "city": "Hyderabad",
+    "address": "Rajiv Gandhi International Stadium Road, Uppal, Hyderabad 500039",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-greenfield-international-stadium",
+    "name": "Greenfield International Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Kerala",
+    "city": "Thiruvananthapuram",
+    "address": "Karyavattom, Thiruvananthapuram 695581",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-barsapara-cricket-stadium",
+    "name": "Barsapara Cricket Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Assam",
+    "city": "Guwahati",
+    "address": "ACA Stadium, Barsapara, Guwahati 781018",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-aca-vdca-stadium",
+    "name": "ACA VDCA Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Andhra Pradesh",
+    "city": "Visakhapatnam",
+    "address": "Pothinamallayya Palem, Visakhapatnam 530041",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-barabati-stadium",
+    "name": "Barabati Stadium",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Odisha",
+    "city": "Cuttack",
+    "address": "Barabati Stadium, Cuttack 753005",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.bcci.tv/venues?map=1",
+    "sources": [
+      {
+        "url": "https://www.bcci.tv/venues?map=1",
+        "title": "BCCI official venue directory"
+      }
+    ],
+    "description": "BCCI-listed international cricket venue.",
+    "amenities": [
+      "Floodlights"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-azad-maidan",
+    "name": "Azad Maidan",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+        "title": "Mumbai Cricket Association ground directory"
+      }
+    ],
+    "description": "Association-listed community cricket ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cross-maidan",
+    "name": "Cross Maidan",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+        "title": "Mumbai Cricket Association ground directory"
+      }
+    ],
+    "description": "Association-listed community cricket ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-oval-maidan",
+    "name": "Oval Maidan",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/churchgate-to-mumbai-central",
+        "title": "Mumbai Cricket Association ground directory"
+      }
+    ],
+    "description": "Association-listed community cricket ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-shivaji-park-maidan",
+    "name": "Shivaji Park Maidan",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.mumbaicricket.com/dadar-to-borivali",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/dadar-to-borivali",
+        "title": "Mumbai Cricket Association ground directory"
+      }
+    ],
+    "description": "Association-listed community cricket ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-central-maidan",
+    "name": "Central Maidan",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Thane",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.mumbaicricket.com/dadar-to-thane",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/dadar-to-thane",
+        "title": "Mumbai Cricket Association ground directory"
+      }
+    ],
+    "description": "Association-listed community cricket ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-iisc-gymkhana-cricket-ground",
+    "name": "IISc Gymkhana Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-south-western-railways-institute-cricket-ground",
+    "name": "South Western Railways Institute Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-nra-palace-ground-cricket-ground",
+    "name": "NRA Palace Ground Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-hal-sports-club-cricket-ground",
+    "name": "HAL Sports Club Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-nal-sports-executive-committee-cricket-ground",
+    "name": "NAL Sports Executive Committee Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-central-college-cricket-pavilion-cricket-ground",
+    "name": "Central College Cricket Pavilion Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-mico-sports-club-cricket-ground",
+    "name": "MICO Sports Club Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-reva-institute-of-technology-and-management-cricket-ground",
+    "name": "Reva Institute of Technology and Management Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-hmt-limited-sports-club-cricket-ground",
+    "name": "HMT Limited Sports Club Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-rail-wheel-factory-sports-association-cricket-ground",
+    "name": "Rail Wheel Factory Sports Association Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-st-joseph-s-indian-high-school-cricket-ground",
+    "name": "St Joseph’s Indian High School Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-infosys-cricket-club-cricket-ground",
+    "name": "Infosys Cricket Club Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-jp-nagar-stadium-cricket-ground",
+    "name": "JP Nagar Stadium Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-bel-sports-club-cricket-ground",
+    "name": "BEL Sports Club Cricket Ground",
+    "kind": "ground",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cricketkarnataka.com/grounds.aspx",
+    "sources": [
+      {
+        "url": "https://www.cricketkarnataka.com/grounds.aspx",
+        "title": "KSCA Karnataka Grounds directory"
+      }
+    ],
+    "description": "Cricket ground listed by the state association; public access needs operator confirmation.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-berhampur",
+    "name": "Cricket Academy of Pathans Berhampur",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Odisha",
+    "city": "Berhampur",
+    "address": "Sams Ground, Berhampur, Ganjam, Odisha 760006",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-bhubaneswar",
+    "name": "Cricket Academy of Pathans Bhubaneswar",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Odisha",
+    "city": "Bhubaneswar",
+    "address": "Loyola School, Chandrasekharpur, Bhubaneswar 751013",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-jaipur",
+    "name": "Cricket Academy of Pathans Jaipur",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Rajasthan",
+    "city": "Jaipur",
+    "address": "Kokali, Ward 17, Mukandpura Road, Bhakrota, Jaipur 302026",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-malihabad",
+    "name": "Cricket Academy of Pathans Malihabad",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Uttar Pradesh",
+    "city": "Malihabad",
+    "address": "Siddhartha Global School, Saiyad Bada, Mohan Road, Malihabad, Lucknow 226102",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-pune",
+    "name": "Cricket Academy of Pathans Pune",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Pune",
+    "address": "Memanwadi Phata, Mirawadi, Daund, Maharashtra 412207",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-guntur",
+    "name": "Cricket Academy of Pathans Guntur",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Andhra Pradesh",
+    "city": "Guntur",
+    "address": "Vijay Kumar Memorial Ground, opposite Kesavreddy School, NH5 Service Road, Namburu, Guntur 522508",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-lucknow-bkt",
+    "name": "Cricket Academy of Pathans Lucknow BKT",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Uttar Pradesh",
+    "city": "Lucknow",
+    "address": "Chandrika Devi Road, opposite Ambkeshwar Institute AGI, Bakshi Ka Talab 226201",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-jammu",
+    "name": "Cricket Academy of Pathans Jammu",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Jammu and Kashmir",
+    "city": "Jammu",
+    "address": "KC International School, Akhnoor Road, Paloura, Jammu 180002",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-muzaffarpur",
+    "name": "Cricket Academy of Pathans Muzaffarpur",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Bihar",
+    "city": "Muzaffarpur",
+    "address": "Tirhut College of Physical Education, Krishnandan Sahay Nagar, Jhapaha, Muzaffarpur 842314",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-karnal",
+    "name": "Cricket Academy of Pathans Karnal",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Haryana",
+    "city": "Karnal",
+    "address": "SS International School, Newal Road, ITI Chowk, Karnal 132001",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-dibrugarh",
+    "name": "Cricket Academy of Pathans Dibrugarh",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Assam",
+    "city": "Dibrugarh",
+    "address": "Sansys Smart School, Tingrai Chariali, Tingrai Nepali Gaon, Dibrugarh 786602",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-godhra",
+    "name": "Cricket Academy of Pathans Godhra",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Gujarat",
+    "city": "Godhra",
+    "address": "Vijay Sports Academy, Survey 701, Daruniya Bypass Road, Dev Talavadi Mandir Road, Godhra",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-panvel",
+    "name": "Cricket Academy of Pathans Panvel",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Panvel",
+    "address": "Karnala Sports Academy, opposite Kalsekar College, New Panvel, Raigad",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-madhubani",
+    "name": "Cricket Academy of Pathans Madhubani",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Bihar",
+    "city": "Madhubani",
+    "address": "Indian Public School, Stadium Road, Madhubani 847212",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-ajmer",
+    "name": "Cricket Academy of Pathans Ajmer",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Rajasthan",
+    "city": "Ajmer",
+    "address": "Ajmer-Jaipur Highway, opposite Gegal Police Station, Gegal, Ajmer 305023",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-gopalganj",
+    "name": "Cricket Academy of Pathans Gopalganj",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Bihar",
+    "city": "Gopalganj",
+    "address": "Semra East, Thawe-Gopalganj Road, Gopalganj 841440",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-cricket-academy-of-pathans-alwar",
+    "name": "Cricket Academy of Pathans Alwar",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Rajasthan",
+    "city": "Alwar",
+    "address": "Chikani, Rajasthan 301028",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricketacademyofpathans.com/centres/",
+    "sources": [
+      {
+        "url": "https://cricketacademyofpathans.com/centres/",
+        "title": "Cricket Academy of Pathans official centre directory"
+      }
+    ],
+    "description": "Cricket coaching centre in the operator’s directory.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-thoraipakkam",
+    "name": "Super Kings Academy Thoraipakkam",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": "361 Madha Koil Street, Vivekananda Nagar, Thoraipakkam, Chennai",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/facility-pricing",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/facility-pricing",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-guru-nanak",
+    "name": "Super Kings Academy Guru Nanak",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-srmc",
+    "name": "Super Kings Academy SRMC",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-vanagaram",
+    "name": "Super Kings Academy Vanagaram",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-akshar-arbol",
+    "name": "Super Kings Academy Akshar Arbol",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-ottiyambakkam",
+    "name": "Super Kings Academy Ottiyambakkam",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-arumbakkam",
+    "name": "Super Kings Academy Arumbakkam",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Chennai",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/studentenrollment",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/studentenrollment",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-super-kings-academy-trichy-kamala-niketan",
+    "name": "Super Kings Academy Trichy – Kamala Niketan",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Tamil Nadu",
+    "city": "Tiruchirappalli",
+    "address": "Kamala Niketan Montessori School, Tiruchirappalli",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.superkingsacademy.com/news-details/3003/3",
+    "sources": [
+      {
+        "url": "https://www.superkingsacademy.com/news-details/3003/3",
+        "title": "Super Kings Academy official centre information"
+      }
+    ],
+    "description": "Operator-listed cricket training centre.",
+    "amenities": [
+      "Cricket coaching"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-sharad-pawar-indoor-cricket-academy",
+    "name": "Sharad Pawar Indoor Cricket Academy",
+    "kind": "practice",
+    "country": "IN",
+    "state": "Maharashtra",
+    "city": "Mumbai",
+    "address": "Bandra-Kurla Complex, Mumbai",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.mumbaicricket.com/sharad-pawar",
+    "sources": [
+      {
+        "url": "https://www.mumbaicricket.com/sharad-pawar",
+        "title": "Mumbai Cricket Association indoor academy"
+      }
+    ],
+    "description": "Indoor cricket training facility operated by the Mumbai association.",
+    "amenities": [
+      "Indoor cricket"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "in-just-cricket-academy",
+    "name": "Just Cricket Academy",
+    "kind": "academy",
+    "country": "IN",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "address": "No. 7/1, Itgalpura village, Rajanukunte, Bengaluru, Karnataka 560064",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.justcric.com/",
+    "sources": [
+      {
+        "url": "https://www.justcric.com/",
+        "title": "Just Cricket Academy official site"
+      }
+    ],
+    "description": "Cricket academy with outdoor training wickets and indoor practice nets.",
+    "amenities": [
+      "Indoor astro nets",
+      "Outdoor turf wickets",
+      "Matting wickets",
+      "Gym"
+    ],
+    "verifiedAt": "2026-10-07"
+  }
+]

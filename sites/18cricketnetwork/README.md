@@ -1,3 +1,9 @@
+# Current feature documentation
+
+The user-facing guide at `/about` is the current reference for feature offers, operating policies, best practices and limits. Each main network section also includes an About panel. In particular, membership billing, independent Google/Microsoft OAuth, raw camera streaming and automatic tracking are not activated; video/reel uploads are blocked until safety screening is connected. Older implementation notes elsewhere describe architecture and must not be read as provider readiness claims.
+
+Feature-source changes must pass `node scripts/check-feature-guide.mjs` before building. Follow `docs/DOCUMENTATION-RELEASE-CHECKLIST.md` to review guides and refresh their source fingerprints. Documentation is maintained with releases, not automatically invented by a model. Existing content is original operational guidance, not final jurisdiction-specific legal terms.
+
 # 18CricketNetwork
 
 A published private web application based on the product scope in `nuhaaaaan/18cricketnetwork` (main commit `85239b407c1b40b241b6d0f3d9da5922e78c9be9`). It uses the repository's official logo, with an original futuristic dark interface, red accents, an animated cricket-ball scene and responsive navigation. No Expo dependency. No seeded people, statistics, listings or availability.

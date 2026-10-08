@@ -1,0 +1,1174 @@
+[
+  {
+    "id": "us-grand-prairie-stadium",
+    "name": "Grand Prairie Cricket Stadium",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Grand Prairie",
+    "address": "1600 Lone Star Parkway, Grand Prairie, TX 75050",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.visitgrandprairietx.com/Things-To-Do/Attractions/Major-League-Cricket-Stadium",
+    "sources": [
+      {
+        "url": "https://www.visitgrandprairietx.com/Things-To-Do/Attractions/Major-League-Cricket-Stadium",
+        "title": "Major League Cricket Stadium - Visit Grand Prairie"
+      }
+    ],
+    "description": "Cricket stadium used for Major League Cricket.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-church-street-park",
+    "name": "Church Street Park",
+    "kind": "ground",
+    "country": "US",
+    "state": "North Carolina",
+    "city": "Morrisville",
+    "address": "5817 Cricket Pitch Way, Morrisville, NC",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.morrisvillenc.gov/Things-To-Do/Professional-Cricket",
+    "sources": [
+      {
+        "url": "https://www.morrisvillenc.gov/Things-To-Do/Professional-Cricket",
+        "title": "Professional Cricket | Town of Morrisville"
+      }
+    ],
+    "description": "Town cricket venue that has hosted Major League Cricket.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-oakland-coliseum",
+    "name": "Oakland Coliseum",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "Oakland",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.majorleaguecricket.com/news/255",
+    "sources": [
+      {
+        "url": "https://www.majorleaguecricket.com/news/255",
+        "title": "Tickets for 2026 Season Now on Sale | MLC"
+      }
+    ],
+    "description": "Multipurpose stadium used for Major League Cricket in 2026.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-knight-riders-pomona",
+    "name": "Knight Riders Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "Pomona",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.majorleaguecricket.com/news/255",
+    "sources": [
+      {
+        "url": "https://www.majorleaguecricket.com/news/255",
+        "title": "Tickets for 2026 Season Now on Sale | MLC"
+      }
+    ],
+    "description": "Cricket venue introduced in the 2026 Major League Cricket season.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-central-broward-stadium",
+    "name": "Central Broward Park and Broward County Stadium",
+    "kind": "ground",
+    "country": "US",
+    "state": "Florida",
+    "city": "Lauderhill",
+    "address": "3700 NW 11th Place, Lauderhill, FL 33311",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://www.broward.org/Parks/Support/Documents/2026.05.01CBPOveriewPAB.pdf",
+    "sources": [
+      {
+        "url": "https://www.broward.org/Parks/Support/Documents/2026.05.01CBPOveriewPAB.pdf",
+        "title": "Central Broward Park Overview | Broward County"
+      },
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "County cricket stadium with an international cricket history.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-marymoor-cricket",
+    "name": "Marymoor Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Washington",
+    "city": "Redmond",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://cdn.kingcounty.gov/-/media/king-county/depts/dnrp/nature-recreation/parks-recreation/parks/marymoor/marymoor-special-events-guide-2024.pdf?hash=FD4873475E5ADE33514CB2AB12A9AC7F&rev=b310a617c6504ba78933160878c6e28d",
+    "sources": [
+      {
+        "url": "https://cdn.kingcounty.gov/-/media/king-county/depts/dnrp/nature-recreation/parks-recreation/parks/marymoor/marymoor-special-events-guide-2024.pdf?hash=FD4873475E5ADE33514CB2AB12A9AC7F&rev=b310a617c6504ba78933160878c6e28d",
+        "title": "Marymoor Special Events Guide | King County"
+      }
+    ],
+    "description": "Park cricket field with a permanent pitch.",
+    "amenities": [
+      "permanent pitch",
+      "restrooms",
+      "parking"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-lyon-oaks-cricket",
+    "name": "Lyon Oaks Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "Michigan",
+    "city": "Wixom",
+    "address": "52221 Pontiac Trail, Wixom, MI 48393",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.oakgov.com/home/showpublisheddocument/14409/638107718718270000",
+    "sources": [
+      {
+        "url": "https://www.oakgov.com/home/showpublisheddocument/14409/638107718718270000",
+        "title": "Park and Outdoor Recreation Investment Plan | Oakland County"
+      }
+    ],
+    "description": "County park with a cricket pitch.",
+    "amenities": [
+      "cricket pitch"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-van-cortlandt",
+    "name": "Van Cortlandt Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "New York",
+    "city": "Bronx",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://nycgovparks.org/parks/VanCortlandtPark",
+    "sources": [
+      {
+        "url": "https://nycgovparks.org/parks/VanCortlandtPark",
+        "title": "Van Cortlandt Park | NYC Parks"
+      }
+    ],
+    "description": "Public park with cricket fields.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-flushing-meadows",
+    "name": "Flushing Meadows Corona Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "New York",
+    "city": "Queens",
+    "address": null,
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://nycgovparks.org/parks/flushing-meadows-corona-park",
+    "sources": [
+      {
+        "url": "https://nycgovparks.org/parks/flushing-meadows-corona-park",
+        "title": "Flushing Meadows Corona Park | NYC Parks"
+      }
+    ],
+    "description": "Public park offering cricket among its sports.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-marine-park",
+    "name": "Marine Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "New York",
+    "city": "Brooklyn",
+    "address": "Flatbush, Gerritsen and Fillmore Avenues, Brooklyn, NY",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://nycgovparks.org/parks/marine-park",
+    "sources": [
+      {
+        "url": "https://nycgovparks.org/parks/marine-park",
+        "title": "Marine Park | NYC Parks"
+      }
+    ],
+    "description": "Brooklyn park with cricket fields.",
+    "amenities": [
+      "restrooms"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-sam-houston",
+    "name": "Sam Houston Trail Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Irving",
+    "address": "101 E. Interstate 635, Irving, TX",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+    "sources": [
+      {
+        "url": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+        "title": "New and Enhanced Cricket Fields | City of Irving"
+      }
+    ],
+    "description": "City cricket fields included in completed improvements.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-mountain-creek",
+    "name": "Mountain Creek Preserve Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Irving",
+    "address": "1005 E. Hunter Ferrell Road, Irving, TX",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+    "sources": [
+      {
+        "url": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+        "title": "New and Enhanced Cricket Fields | City of Irving"
+      }
+    ],
+    "description": "City cricket fields included in completed improvements.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-harrington",
+    "name": "W.O. Harrington Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Irving",
+    "address": "5350 Valley View Lane, Irving, TX",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+    "sources": [
+      {
+        "url": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+        "title": "New and Enhanced Cricket Fields | City of Irving"
+      }
+    ],
+    "description": "City cricket fields included in completed improvements.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-riverside-irving",
+    "name": "Riverside Complex at Spring Trail Park",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Irving",
+    "address": "Riverside Drive and Royal Lane, Irving, TX",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+    "sources": [
+      {
+        "url": "https://irvingtx.gov/index.php?project=143&projectsection=24&section=cip-parks-projects",
+        "title": "New and Enhanced Cricket Fields | City of Irving"
+      }
+    ],
+    "description": "City cricket fields included in completed improvements.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-miller-park",
+    "name": "Albert C. Miller Park Practice Cricket Pitch",
+    "kind": "practice",
+    "country": "US",
+    "state": "Pennsylvania",
+    "city": "Exton",
+    "address": "220 Miller Way, Exton, PA 19341",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.westwhiteland.org/Facilities/Facility/Details/Albert-C-Miller-Park-1",
+    "sources": [
+      {
+        "url": "https://www.westwhiteland.org/Facilities/Facility/Details/Albert-C-Miller-Park-1",
+        "title": "Albert C. Miller Park | West Whiteland Township"
+      }
+    ],
+    "description": "Township park providing a practice cricket pitch.",
+    "amenities": [
+      "practice cricket pitch",
+      "parking",
+      "restrooms"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-exton-park",
+    "name": "Exton Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Pennsylvania",
+    "city": "Exton",
+    "address": "200 Church Farm Lane, Exton, PA",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.westwhiteland.org/m/newsflash/Archive/Item/648?arcId=1345",
+    "sources": [
+      {
+        "url": "https://www.westwhiteland.org/m/newsflash/Archive/Item/648?arcId=1345",
+        "title": "Township Secures Park Grant | West Whiteland Township"
+      }
+    ],
+    "description": "Township multi-use fields include a cricket pitch.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-keney-park",
+    "name": "Keney Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Connecticut",
+    "city": "Hartford",
+    "address": "337 Vine Street, Hartford, CT 06112",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.hartfordct.gov/Government/Departments/Public-Works/Parks-Directory",
+    "sources": [
+      {
+        "url": "https://www.hartfordct.gov/Government/Departments/Public-Works/Parks-Directory",
+        "title": "Parks Directory | City of Hartford"
+      },
+      {
+        "url": "https://www.hartfordct.gov/files/assets/public/v/1/mayors-office/mayors-office-documents/mayor-bronin-sotc-3-27-23.pdf",
+        "title": "State of the City Address | City of Hartford"
+      }
+    ],
+    "description": "City park with an established cricket community.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-riverside-hartford",
+    "name": "Riverside Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Connecticut",
+    "city": "Hartford",
+    "address": "20 Leibert Road, Hartford, CT 06120",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.hartfordct.gov/Government/Departments/Public-Works/Parks-Directory",
+    "sources": [
+      {
+        "url": "https://www.hartfordct.gov/Government/Departments/Public-Works/Parks-Directory",
+        "title": "Parks Directory | City of Hartford"
+      }
+    ],
+    "description": "Riverfront park with a cricket field.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-prairie-view",
+    "name": "Prairie View Cricket Complex",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Prairie View",
+    "address": "Richards Road at Highway 290, Prairie View, TX 77445",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://pvcricketcomplex.com/",
+    "sources": [
+      {
+        "url": "https://pvcricketcomplex.com/",
+        "title": "Prairie View Cricket Complex"
+      },
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "Cricket complex offering turf grounds and practice areas.",
+    "amenities": [
+      "turf wickets",
+      "practice areas"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-moosa-stadium",
+    "name": "Moosa Cricket Stadium",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Pearland",
+    "address": "5515 McKeever Road #100, Pearland, TX 77584",
+    "latitude": null,
+    "longitude": null,
+    "level": "international",
+    "website": "https://mcs.moosastadium.com/",
+    "sources": [
+      {
+        "url": "https://mcs.moosastadium.com/",
+        "title": "Moosa Cricket Stadium"
+      },
+      {
+        "url": "https://news.minorleaguecricket.com/2022/07/06/international-cricket-stars-to-feature-in-houston-cricket-festival-on-sunday-july-24/",
+        "title": "Houston Cricket Festival | Minor League Cricket"
+      }
+    ],
+    "description": "Private cricket stadium with match fields and practice pitches.",
+    "amenities": [
+      "floodlights",
+      "dressing rooms",
+      "showers",
+      "practice pitches"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-indoor-cricket-usa",
+    "name": "Indoor Cricket USA",
+    "kind": "academy",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Whippany",
+    "address": "9 Whippany Road, Building C Unit 3, Whippany, NJ",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://indoorcricketusa.com/",
+    "sources": [
+      {
+        "url": "https://indoorcricketusa.com/",
+        "title": "Indoor Cricket USA"
+      }
+    ],
+    "description": "Indoor academy offering youth cricket coaching.",
+    "amenities": [
+      "indoor training"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-united-sports-arena",
+    "name": "United Sports Arena",
+    "kind": "practice",
+    "country": "US",
+    "state": "Massachusetts",
+    "city": "Franklin",
+    "address": "839 Upper Union Street, Franklin, MA 02038",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.unitedsportsarena.com/",
+    "sources": [
+      {
+        "url": "https://www.unitedsportsarena.com/",
+        "title": "United Sports Arena"
+      },
+      {
+        "url": "https://www.unitedsportsarena.com/contact-us",
+        "title": "Contact Us | United Sports Arena"
+      }
+    ],
+    "description": "Indoor cricket facility offering coaching and lane rentals.",
+    "amenities": [
+      "indoor lanes",
+      "bowling machines",
+      "gym",
+      "pro shop"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-lords-indoor-sports",
+    "name": "Lords Indoor Sports",
+    "kind": "practice",
+    "country": "US",
+    "state": "Texas",
+    "city": "Plano",
+    "address": "2621 Summit Avenue, Suite 200, Plano, TX 75074",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://lordsindoorsports.com/",
+    "sources": [
+      {
+        "url": "https://lordsindoorsports.com/",
+        "title": "Lords Indoor Sports"
+      }
+    ],
+    "description": "Indoor cricket venue with training and court rentals.",
+    "amenities": [
+      "indoor fields",
+      "batting lanes",
+      "batting simulator"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-22yards-austin",
+    "name": "22Yards Austin",
+    "kind": "practice",
+    "country": "US",
+    "state": "Texas",
+    "city": "Leander",
+    "address": "15905 Ronald Reagan Boulevard, Building 1, Leander, TX 78641",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://22yardsaustin.com/",
+    "sources": [
+      {
+        "url": "https://22yardsaustin.com/",
+        "title": "22Yards Austin"
+      }
+    ],
+    "description": "Indoor cricket venue offering lanes and coaching.",
+    "amenities": [
+      "indoor lanes",
+      "bowling machines"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-cricmax-old-bridge",
+    "name": "CricMax Old Bridge",
+    "kind": "academy",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Old Bridge",
+    "address": "4440 Bordentown Avenue, Old Bridge, NJ 08857",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricmax.com/about-us/",
+    "sources": [
+      {
+        "url": "https://cricmax.com/about-us/",
+        "title": "About Us | CricMax"
+      }
+    ],
+    "description": "Cricket coaching location listed by CricMax.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-cricmax-cromwell",
+    "name": "CricMax ATI Cromwell",
+    "kind": "academy",
+    "country": "US",
+    "state": "Connecticut",
+    "city": "Cromwell",
+    "address": "14 Alcap Ridge, Cromwell, CT",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricmax.com/about-us/",
+    "sources": [
+      {
+        "url": "https://cricmax.com/about-us/",
+        "title": "About Us | CricMax"
+      }
+    ],
+    "description": "Cricket coaching location listed by CricMax.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-cricmax-south-windsor",
+    "name": "CricMax South Windsor",
+    "kind": "academy",
+    "country": "US",
+    "state": "Connecticut",
+    "city": "South Windsor",
+    "address": "185 Commerce Way, South Windsor, CT",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://cricmax.com/about-us/",
+    "sources": [
+      {
+        "url": "https://cricmax.com/about-us/",
+        "title": "About Us | CricMax"
+      }
+    ],
+    "description": "Cricket coaching location listed by CricMax.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-dreamcricket-somerset",
+    "name": "DreamCricket Academy Somerset",
+    "kind": "academy",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Somerset",
+    "address": "400 Apgar Drive, Suite K, Somerset, NJ 08873",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.dreamcricket.com/academy-home/",
+    "sources": [
+      {
+        "url": "https://www.dreamcricket.com/academy-home/",
+        "title": "DreamCricket Academy"
+      }
+    ],
+    "description": "Indoor academy with batting lanes and coaching.",
+    "amenities": [
+      "bowling machines",
+      "fitness center",
+      "pro shop",
+      "video analysis"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-pine-grove-manor",
+    "name": "Pine Grove Manor Elementary School Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Somerset",
+    "address": "130 Highland Avenue, Somerset, NJ",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.dreamcricket.com/academy-home/",
+    "sources": [
+      {
+        "url": "https://www.dreamcricket.com/academy-home/",
+        "title": "DreamCricket Academy"
+      }
+    ],
+    "description": "School ground identified as DreamCricket academy home ground.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-thunderbolts-academy",
+    "name": "Seattle Thunderbolts Cricket Academy",
+    "kind": "academy",
+    "country": "US",
+    "state": "Washington",
+    "city": "Redmond",
+    "address": "15320 NE 92nd Street, Redmond, WA 98052",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.thunderboltscricketacademy.com/",
+    "sources": [
+      {
+        "url": "https://www.thunderboltscricketacademy.com/",
+        "title": "Seattle Thunderbolts Cricket Academy"
+      }
+    ],
+    "description": "Redmond cricket academy offering training and lane rentals.",
+    "amenities": [
+      "indoor cricket"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-washington-cricket-academy",
+    "name": "Washington Cricket Academy",
+    "kind": "academy",
+    "country": "US",
+    "state": "Virginia",
+    "city": "Sterling",
+    "address": "21598 Atlantic Boulevard, Suite 130, Sterling, VA 20166",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.washingtoncricketacademy.org/contact-us",
+    "sources": [
+      {
+        "url": "https://www.washingtoncricketacademy.org/contact-us",
+        "title": "Contact Us | Washington Cricket Academy"
+      }
+    ],
+    "description": "Nonprofit academy supporting youth cricket in the DC region.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-master-strokes-katy",
+    "name": "Master Strokes Cricket America - Cricbase USA Katy",
+    "kind": "academy",
+    "country": "US",
+    "state": "Texas",
+    "city": "Katy",
+    "address": "510 Mason Road, Suite S, Katy, TX 77450",
+    "latitude": null,
+    "longitude": null,
+    "level": "training",
+    "website": "https://www.mscacricket.com/",
+    "sources": [
+      {
+        "url": "https://www.mscacricket.com/",
+        "title": "Master Strokes Cricket America"
+      }
+    ],
+    "description": "Academy training location at Cricbase USA.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-hanover-park",
+    "name": "Hanover Park Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "Illinois",
+    "city": "Hanover Park",
+    "address": "1919 Walnut Avenue, Hanover Park, IL 60133",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-las-colinas-polo",
+    "name": "Las Colinas Polo Grounds",
+    "kind": "ground",
+    "country": "US",
+    "state": "Texas",
+    "city": "Irving",
+    "address": "600 E Royal Lane, Irving, TX 75039",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-acac-park",
+    "name": "ACAC Park 1",
+    "kind": "ground",
+    "country": "US",
+    "state": "Missouri",
+    "city": "Wentzville",
+    "address": "9620 Highway DD, Wentzville, MO 63385",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-veterans-field",
+    "name": "Veterans Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Virginia",
+    "city": "Woodbridge",
+    "address": "14300 Veterans Drive, Woodbridge, VA 22191",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-howe-athletic",
+    "name": "Howe Athletic Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Somerset",
+    "address": "538 Elizabeth Avenue, Somerset, NJ",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-mercer-county",
+    "name": "Mercer County Park Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "New Jersey",
+    "city": "Princeton Junction",
+    "address": "334 South Post Road, Princeton Junction, NJ 08550",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-silver-star",
+    "name": "Silver Star Recreation Center Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "Florida",
+    "city": "Orlando",
+    "address": "2801 N Apopka Vineland Road, Orlando, FL 32818",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-morgan-hill",
+    "name": "Morgan Hill Outdoor Sports Center",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "Morgan Hill",
+    "address": "16500 Condit Road, Morgan Hill, CA 95037",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-woodley-park",
+    "name": "Woodley Park Cricket Complex",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "Van Nuys",
+    "address": "6350 Woodley Avenue, Van Nuys, CA 91406",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.laparks.org/sites/default/files/pdf/commissioner/2024/may16/24-100.pdf",
+    "sources": [
+      {
+        "url": "https://www.laparks.org/sites/default/files/pdf/commissioner/2024/may16/24-100.pdf",
+        "title": "Woodley Park Board Report | Los Angeles Recreation and Parks"
+      }
+    ],
+    "description": "Los Angeles park with cricket fields.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-canyonside",
+    "name": "Canyonside Park Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "San Diego",
+    "address": "12350 Black Mountain Road, San Diego, CA 92129",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+    "sources": [
+      {
+        "url": "https://news.minorleaguecricket.com/2022/06/24/grounds-guide-attending-minor-league-matches/",
+        "title": "Grounds Guide | Minor League Cricket"
+      },
+      {
+        "url": "https://www.sandiego.gov/sites/default/files/2026-05/prbr20260521a-item101.pdf",
+        "title": "Canyonside Community Park General Development Plan | City of San Diego"
+      }
+    ],
+    "description": "League cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-arroyo-park-davis",
+    "name": "Arroyo Park Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "California",
+    "city": "Davis",
+    "address": "2000 Shasta Drive, Davis, CA 95616",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.cityofdavis.org/Home/Components/FacilityDirectory/FacilityDirectory/280/2926",
+    "sources": [
+      {
+        "url": "https://www.cityofdavis.org/Home/Components/FacilityDirectory/FacilityDirectory/280/2926",
+        "title": "Arroyo Park - Cricket Field | City of Davis"
+      }
+    ],
+    "description": "City cricket field at Arroyo Park.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-tollgate-farms",
+    "name": "Tollgate Farms Park Cricket Ground",
+    "kind": "ground",
+    "country": "US",
+    "state": "Washington",
+    "city": "North Bend",
+    "address": "1300 W North Bend Way, North Bend, WA 98045",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.northbendwa.gov/Facilities/Facility/Details/36",
+    "sources": [
+      {
+        "url": "https://www.northbendwa.gov/Facilities/Facility/Details/36",
+        "title": "Tollgate Farm Park | City of North Bend"
+      }
+    ],
+    "description": "Public park with playfields used for cricket.",
+    "amenities": [
+      "restrooms",
+      "parking"
+    ],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-atlanta-cricket-fields",
+    "name": "Atlanta Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Cumming",
+    "address": "5325 Keith Bridge Road, Cumming, GA 30041",
+    "latitude": null,
+    "longitude": null,
+    "level": "club",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      },
+      {
+        "url": "https://www.atlantacricketfields.com/",
+        "title": "Atlanta Cricket Fields"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-bell-memorial",
+    "name": "Bell Memorial Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Milton",
+    "address": "15245 Bell Park Road, Milton, GA 30004",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-bennett-park",
+    "name": "Bennett Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Cumming",
+    "address": "5930 Burruss Mill Road, Cumming, GA 30041",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-best-friend",
+    "name": "Best Friend Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Norcross",
+    "address": "6224 Jimmy Carter Boulevard, Norcross, GA 30071",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-cauley-creek",
+    "name": "Cauley Creek Park Cricket Field",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Johns Creek",
+    "address": "7255 Bell Road, Johns Creek, GA 30097",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "id": "us-central-park-cumming",
+    "name": "Central Park Cricket Fields",
+    "kind": "ground",
+    "country": "US",
+    "state": "Georgia",
+    "city": "Cumming",
+    "address": "2300 Keith Bridge Road, Cumming, GA 30040",
+    "latitude": null,
+    "longitude": null,
+    "level": "grassroots",
+    "website": "https://www.atlantacricketleague.org/Grounds",
+    "sources": [
+      {
+        "url": "https://www.atlantacricketleague.org/Grounds",
+        "title": "Grounds | Atlanta Cricket League"
+      }
+    ],
+    "description": "League-listed cricket venue.",
+    "amenities": [],
+    "verifiedAt": "2026-10-07"
+  }
+]

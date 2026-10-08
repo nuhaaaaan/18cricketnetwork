@@ -1,0 +1,15 @@
+# Source-backed directory and seller ownership
+
+Initial import: 110 distinct physical locations, 50 USA and 60 India. USA: 38 grounds, 4 practice facilities, 8 academies across 15 states. India: 33 grounds, 1 practice facility, 26 academies across 17 states/union territories. Locations are counted once by their primary category; an academy offering nets is not counted again as a separate facility. This is researched starting coverage, not all venues in either country.
+
+The two data JSON files preserve official municipal, operator, association and league source URLs. All entries have names, cities, states, countries, primary category, level, description and source-check date. Street addresses, amenities and exact coordinates are recorded only when supported; unknown coordinates remain null. A source check verifies identity/location, not current public access or booking availability. Some league source lists are older. Owners must confirm current details before activating booking listings.
+
+Migration 0009 imports immutable public facts into directory_venues with INSERT OR IGNORE. No invented operators, rates, schedules, booking inventory or availability are inserted. Listings show source links, address uncertainty and Google/Apple Maps address directions. Counts and filters come from the database API, not hardcoded UI totals. Booking offers remain distinct operator-created listings.
+
+During account registration, business categories include a link to claim a listed venue as a seller. The account must select the matching ground-owner, academy or practice-facility category. A claimant supplies business identity, operating relationship, a note, authenticity/authority declarations and private evidence. At least one lease, property deed, operator authorization or municipal permit is required; a business license alone is insufficient evidence of rights to a specific venue. A business license or utility bill can supplement authority proof.
+
+Only PLATFORM_ADMIN_EMAIL can inspect all claims and evidence and approve/reject. Approval requires an explicit attestation that identity, address and current operating rights were verified, plus a reason. An atomic update assigns the venue to that account. Competing approvals cannot assign the same venue twice. Rejected claims retain their decision and audit details. Proof IDs from other accounts or public uploads are rejected. The My verified venues view lists assigned locations; operators then publish their actual booking/pricing offers.
+
+Proofs stay private in R2; public directory queries contain no evidence or private contact details. Users should redact SSNs, bank details, unrelated IDs and signatures while preserving necessary business/authority/address information. A retention/deletion policy and formal ownership-dispute process should be agreed before public launch.
+
+Checks cover imported counts, filtering, registration requirements, evidence isolation, unauthorized decisions, assignment and competing claims. Browser interaction verification is pending.
