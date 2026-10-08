@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {"types": ["node"]},
+  "include": ["next-env.d.ts", "deployment/**/*.d.ts", "app/**/*.ts", "app/**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "build", "examples", "vite.config.ts"]
+}
