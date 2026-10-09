@@ -67,9 +67,9 @@ test('licensed partner scores support additional leagues without guessing missin
 });
 async function foodFixture(country='US'){
  const env=fixture();env.PLATFORM_ADMIN_EMAIL='admin@example.test';env.PLATFORM_ADMIN_USER_ID='admin';
- const data={name:'Isolated synthetic test restaurant',description:'Test-only sports menu',country,city:'Test city',state:'Test state',postal:country==='US'?'01608':'560001',pickupAddress:'Test kitchen address',contactPhone:'test phone',permitReference:'TEST-ONLY-PERMIT',hours:'Test hours',prepMinutes:30,pickup:true,pitchRush:true,postalCodes:country==='US'?'01608':'560001',pickupPoint:{lat:42,lng:-71},taxBps:800,taxConfirmed:true,feeAccepted:true,foodSafetyAccepted:true,healthyEatingAccepted:true,policy:'Synthetic test cancellation and issue terms'};
+ const data={name:'Isolated synthetic test restaurant',description:'Test-only sports menu',country,city:'Test city',state:'Test state',postal:country==='US'?'01608':'560001',pickupAddress:'Test kitchen address',contactPhone:'test phone',permitReference:'TEST-ONLY-PERMIT',hours:'Test hours',prepMinutes:30,pickup:true,pitchRush:true,postalCodes:country==='US'?'01608':'560001',pickupPoint:{lat:42,lng:-71},taxBps:800,taxConfirmed:true,feeAccepted:true,foodSafetyAccepted:true,healthyEatingAccepted:true,ingredientInventory:'brown rice,200,no\nchickpeas,100,no',ingredientsComplete:true,healthPolicyAccepted:true,policy:'Synthetic test cancellation and issue terms'};
  assert.equal((await call(env,'food/profile','POST',{data},'bob')).status,200);
- const item={name:'Test meal',description:'Synthetic test item',ingredients:'Declared test ingredients',allergens:'Contains test allergen; cross-contact declared',dietaryTags:'vegetarian',priceMinor:1000,stock:30,available:true};
+ const item={name:'Test meal',description:'Synthetic test item',ingredients:'brown rice,200,no\nchickpeas,100,no',preparation:'Steamed',ingredientsComplete:true,healthPolicyAccepted:true,allergens:'Contains test allergen; cross-contact declared',dietaryTags:'vegetarian',priceMinor:1000,stock:30,available:true};
  const meal=await call(env,'food/menu','POST',{data:item},'bob');assert.equal(meal.status,201);
  assert.equal((await call(env,'food/catalog')).data.restaurants.length,0);
  await call(env,'food/review','POST',{owner:'bob',version:1,status:'approved',note:'Verified only inside isolated synthetic test'},'admin');
@@ -78,6 +78,30 @@ async function foodFixture(country='US'){
  return {env,p,m,data,item,address:{name:'Test buyer',phone:'test phone',country,line1:'Private test ground address',city:'Test city',state:'Test state',postal:data.postal,point:{lat:42.01,lng:-71.01}},request:{restaurantId:p.owner,restaurantVersion:p.version,items:[{id:m.id,version:m.version,quantity:3}],delivery:'Pickup',address:{name:'Test buyer',phone:'test phone'},destination:'Ground',teamName:'Synthetic test team',tipMinor:0,policyAccepted:true,allergensReviewed:true}};
 }
 async function foodAction(f,id,action,user='bob',extra={}){const o=(await call(f.env,'food/orders','GET',undefined,user==='admin'?'bob':user)).data.find(o=>o.id===id);return call(f.env,'food/orders/'+id,'POST',{version:o.version,action,...extra},user)}
+test('18 Health requires disclosure, derives scores server-side and keeps organic evidence private',async()=>{
+ const f=await foodFixture(),{env,item}=f;
+ assert.equal((await call(env,'food/profile','POST',{data:{...f.data,ingredientsComplete:false},version:3},'bob')).status,400);
+ assert.equal((await call(env,'food/menu','POST',{data:{...item,healthPolicyAccepted:false}},'bob')).status,400);
+ const added=await call(env,'food/menu','POST',{data:{...item,ingredients:'mystery ingredient,100,no',healthRating:{score:10},organicEvidence:'PRIVATE_TEST_EVIDENCE'}},'bob');assert.equal(added.status,201);assert.equal(added.data.healthRating.score,null);
+ const catalog=(await call(env,'food/catalog')).data;assert.equal(catalog.restaurants[0].healthRating.score,null);assert.equal(catalog.restaurants[0].healthRating.ratedMeals,1);assert.equal(catalog.menu.find(m=>m.id===added.data.id).healthRating.score,null);assert.equal(JSON.stringify(catalog).includes('PRIVATE_TEST_EVIDENCE'),false);
+ assert.equal((await call(env,'food/menu','POST',{id:added.data.id,version:1,data:item},'alice')).status,400);
+ assert.equal((await call(env,'food/review','POST',{owner:'bob',version:3,status:'approved',organicVerified:true,note:'Synthetic evidence test'},'admin')).status,400);
+ const config=(await call(env,'food/health/config')).data;assert.equal(config.localEnabled,true);assert.equal(config.paidReviewEnabled,false);
+ const original=globalThis.fetch;let requests=0;try{globalThis.fetch=async()=>{requests++;throw Error('No network expected')};assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:1,externalProcessingAccepted:true},'bob')).status,503);assert.equal(requests,0);}finally{globalThis.fetch=original}
+});
+test('optional health AI is consented, owner scoped, cached and invalidated by recipe edits',async()=>{
+ const f=await foodFixture(),env={...f.env,HEALTH_OPENAI_ENABLED:'true',HEALTH_OPENAI_MODEL:'synthetic-model',OPENAI_API_KEY:'synthetic-key'},original=globalThis.fetch;let requests=0;
+ try{globalThis.fetch=async(url,opts)=>{requests++;assert.equal(url,'https://api.openai.com/v1/chat/completions');const input=JSON.parse(opts.body);assert.equal(input.store,false);assert.equal(input.max_completion_tokens,1000);assert.equal(JSON.stringify(input).includes('TEST-ONLY-PERMIT'),false);return Response.json({choices:[{message:{content:'Synthetic advisory observations; not medical advice'}}]})};
+ assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:1},'bob')).status,400);
+ assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:1,externalProcessingAccepted:true},'alice')).status,404);
+ assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:0,externalProcessingAccepted:true},'bob')).status,409);
+ assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:1,externalProcessingAccepted:true},'bob')).status,200);
+ assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:2,externalProcessingAccepted:true},'bob')).data.cached,true);assert.equal(requests,1);
+ assert.equal((await call(env,'food/catalog')).data.menu[0].aiReview,undefined);
+ assert.equal((await call(env,'food/menu','POST',{id:f.m.id,version:2,data:{...f.item,ingredients:'sugar,100,yes'}},'bob')).status,200);const meal=(await call(env,'food/menu','GET',undefined,'bob')).data[0];assert.equal(meal.aiReview,undefined);assert.equal(meal.healthRating.score,2);
+ const day=new Date().toISOString().slice(0,10);await env.DB.prepare('UPDATE assistant_usage SET requests=5 WHERE scope=? AND period=?').bind('health:bob',day).run();assert.equal((await call(env,'food/health/review','POST',{id:f.m.id,version:3,externalProcessingAccepted:true},'bob')).status,429);assert.equal(requests,1);
+ }finally{globalThis.fetch=original}
+});
 async function testOnlyPaidFood(f,id){const r=await f.env.DB.prepare('SELECT data FROM commerce_orders WHERE id=?').bind(id).first(),d=JSON.parse(r.data);d.paymentStatus='paid';await f.env.DB.prepare('UPDATE commerce_orders SET data=? WHERE id=?').bind(JSON.stringify(d),id).run()}
 test('food restaurant onboarding, menu declarations, approvals and private order boundaries',async()=>{
  const f=await foodFixture();assert.equal(f.p.permitReference,undefined);assert.equal((await call(f.env,'food/applications')).status,403);assert.equal((await call(f.env,'food/profile')).data.profile,null);

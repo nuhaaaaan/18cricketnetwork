@@ -1,5 +1,16 @@
 # Release notes
 
+## 2026-10-09 — Ingredient transparency and 18 Health Rating
+
+- Required complete ingredient inventories, quantities and health-policy acknowledgement for restaurant signup/applications; recipes include cooking method and optional per-100g nutrition. TXT/CSV imports support editable disclosures.
+- Added a Python-authored local expert-system foundation exported for Worker inference, provisional 0–10 ingredient indices, cooking/nutrition adjustments, unknown-ingredient no-score behavior and transparent rating breakdowns. No paid API is used for local scoring.
+- Added menu-average restaurant ratings with complete coverage requirements and a prominent food-page policy prioritizing wellbeing, ingredient transparency and evidence-backed organic sourcing. Organic evidence stays private; explicit operator review does not imply meal certification or improve nutrition scores.
+- Added optional consented, owner-scoped OpenAI advisory reviews with hard daily quotas, caching and revision checks. Credentials, model and enable flag remain unconfigured; no live API calls were made.
+- Older restaurants/recipes require disclosure updates for new order requests. Existing order history/fulfillment remains intact. Published rating methodology explains platform heuristics, uncertainty and lack of clinical validation.
+
+Validation: Python/Worker parity, disclosure/score/privacy/optional-provider regressions, full automated suite, security checks and production build. Browser visual QA unavailable.
+
+
 ## 2026-10-09 — Format-aware scoring and competition foundations
 
 - Added T10, T20, ODI, 40-over/custom, Test/first-class and 100-ball profiles. Multi-innings scoring supports declarations, forfeited innings, configured follow-on thresholds, draws and innings victories.
