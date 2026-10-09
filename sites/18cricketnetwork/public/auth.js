@@ -1,3 +1,4 @@
+import './cricket-motion.js';
 import {profileComplete} from './entry-policy.js';
 import {categories} from './account-roles.js';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

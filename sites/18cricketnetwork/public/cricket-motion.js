@@ -1,0 +1,3 @@
+export {cricketMotion} from './cricket-motion-markup.js';
+function sync(){let paused=false;try{paused=sessionStorage.getItem('18-motion-paused')==='true'}catch{}document.documentElement.classList.toggle('cricket-motion-paused',paused);document.querySelectorAll('[data-cricket-motion]').forEach(b=>{b.setAttribute('aria-pressed',String(paused));b.textContent=paused?'Resume cricket motion':'Pause cricket motion'})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-cricket-motion]');if(!b)return;const paused=!document.documentElement.classList.contains('cricket-motion-paused');try{sessionStorage.setItem('18-motion-paused',String(paused))}catch{}sync()});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync);else sync();

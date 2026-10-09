@@ -1,5 +1,15 @@
 # Release notes
 
+## 2026-10-09 — 18Next Innings and cricket entrance motion
+
+- Expanded Opportunities into a dedicated cricket careers portal at /careers, open to every completed account.
+- Added grassroots through international categories, role filters, posting, private applications, review statuses, withdrawal and closing.
+- Added layered cricket ball/bat/wicket entrance graphics to homepage, login, signup and About, with pause and reduced-motion support.
+- International listings remain self-declared, with no ICC affiliation or verified-employer claim.
+
+Validation: permission and application lifecycle regressions, full suite and production build; browser visual verification unavailable.
+
+
 ## 2026-10-09 — 18Ads and Settings & privacy
 
 - Added owner-scoped campaign requests, four impression budget plans from $4.99 to $299, cancellation and honest zero delivery metrics.

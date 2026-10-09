@@ -14,6 +14,7 @@ import '../public/expenses.css';
 import './spatial-ui.css';
 import './navigation.css';
 import './ads-settings.css';
+import './cricket-motion.css';
 import {quickAccessShell} from '../web/quick-access-shell.js';
 export const metadata:Metadata={title:'18CricketNetwork | The next era of cricket',description:'Your cricket universe. Players, teams, matches, grounds, coaching, gear and community, connected by 18 Cricket AI.',icons:{icon:'/favicon.png'}};
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><div dangerouslySetInnerHTML={{__html:quickAccessShell}}/>{children}<Script src="/network-shortcuts.js" type="module" strategy="afterInteractive"/><Script src="/launch-preview.js" strategy="afterInteractive"/></body></html>}
