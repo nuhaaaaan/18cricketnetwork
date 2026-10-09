@@ -141,6 +141,27 @@
       "when": 1791575066857,
       "tag": "0019_rainy_wolfpack",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1791577514804,
+      "tag": "0020_stale_randall",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1791577670419,
+      "tag": "0021_skinny_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1791582926395,
+      "tag": "0022_simple_warbound",
+      "breakpoints": true
     }
   ]
 }

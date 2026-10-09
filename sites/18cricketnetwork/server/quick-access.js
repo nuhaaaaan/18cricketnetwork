@@ -1,0 +1,24 @@
+import {workspaceNavigation} from '../public/workspace-policy.js';
+import {calculateMatch} from '../public/scoring-engine.js';
+import {scorecard} from './scoring.js';
+const json=(d,s=200)=>new Response(JSON.stringify(d),{status:s,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
+const rows=async(DB,sql,...args)=>(await DB.prepare(sql).bind(...args).all()).results;
+export function matchSummary(r){const d=JSON.parse(r.data);let score;try{score=d.proScoring?calculateMatch(d):scorecard(d);}catch{score=null;}const completed=!!score?.result||['completed','abandoned','cancelled'].includes(d.status);return {id:r.id,name:d.name,teamA:d.teamA,teamB:d.teamB,date:d.date,time:d.time,status:completed?'completed':(d.events?.length||['live','in_progress'].includes(d.status))?'live':'scheduled',score:score?`${(score.state||score.first).runs}/${(score.state||score.first).wickets} · ${(score.state||score.first).overs} overs`:null};}
+export async function quickAccess(request,env,path,user,body){if(path[0]!=='quick-access')return null;const DB=env.DB;
+ if(request.method==='GET'&&path[1]==='match'&&path[2]){const r=await DB.prepare("SELECT * FROM records WHERE id=? AND type='matches'").bind(path[2]).first();if(!r)return json({error:'Match not found'},404);return json({...JSON.parse(r.data),id:r.id,typeKey:r.type,owner:r.owner,version:r.version,created:r.created});}
+ if(request.method==='POST'&&path[1]==='read-message'){const b=await body();if(typeof b.id!=='string'||b.id.length>100)return json({error:'Choose a message'},400);const r=await DB.prepare("SELECT id FROM records WHERE id=? AND type='messages' AND json_extract(data,'$.recipient')=?").bind(b.id,user).first();if(!r)return json({error:'Message not found'},404);await DB.prepare('INSERT INTO message_reads(owner,message_id,read_at) VALUES(?,?,?) ON CONFLICT(owner,message_id) DO NOTHING').bind(user,r.id,new Date().toISOString()).run();return json({ok:true});}
+ if(request.method!=='GET'||path.length!==1)return json({error:'Endpoint not found'},404);
+ const account=await DB.prepare('SELECT data FROM accounts WHERE owner=?').bind(user).first();const profile=JSON.parse(account.data);const workspace=workspaceNavigation(profile);
+ const [notifications,unread,received,messageCount,hubs]=await Promise.all([
+ rows(DB,'SELECT * FROM team_notifications WHERE owner=? ORDER BY created DESC,id DESC LIMIT 50',user),
+ DB.prepare('SELECT COUNT(*) AS n FROM team_notifications WHERE owner=? AND read_at IS NULL').bind(user).first(),
+ rows(DB,"SELECT r.id,r.data,r.created,m.read_at FROM records r LEFT JOIN message_reads m ON m.message_id=r.id AND m.owner=? WHERE r.type='messages' AND json_extract(r.data,'$.recipient')=? ORDER BY r.created DESC,r.id DESC LIMIT 20",user,user),
+ DB.prepare("SELECT COUNT(*) AS n FROM records r WHERE r.type='messages' AND json_extract(r.data,'$.recipient')=? AND NOT EXISTS(SELECT 1 FROM message_reads m WHERE m.owner=? AND m.message_id=r.id)").bind(user,user).first(),
+ rows(DB,"SELECT h.team_id,h.data FROM team_hubs h WHERE EXISTS(SELECT 1 FROM json_each(h.data,'$.members') m WHERE json_extract(m.value,'$.userId')=? AND json_extract(m.value,'$.status')='active') LIMIT 100",user)
+ ]);
+ const fixtureIds=new Set(hubs.flatMap(h=>JSON.parse(h.data).fixtures.filter(f=>f.status!=='cancelled').map(f=>f.matchId).filter(Boolean)).slice(0,80));
+ const matches=await rows(DB,"SELECT * FROM records WHERE type='matches' AND (owner=? OR json_array_length(data,'$.events')>0 OR json_extract(data,'$.status') IN ('live','in_progress')"+(fixtureIds.size?' OR id IN ('+[...fixtureIds].map(()=>'?').join(',')+')':'')+") ORDER BY created DESC,id DESC LIMIT 100",user,...fixtureIds);
+ const summaries=matches.map(r=>({...matchSummary(r),mine:r.owner===user||fixtureIds.has(r.id)})).filter(m=>m.mine&&m.status!=='completed'||m.status==='live').sort((a,b)=>Number(b.status==='live')-Number(a.status==='live')||Number(b.mine)-Number(a.mine));
+ const fixtures=hubs.flatMap(h=>JSON.parse(h.data).fixtures.filter(f=>!f.matchId&&f.status!=='cancelled'&&Date.parse(f.startsAt)>Date.now()-6*3600000&&Date.parse(f.startsAt)<Date.now()+7*86400000).map(f=>({id:f.id,teamId:h.team_id,name:f.title,startsAt:f.startsAt,status:'scheduled',mine:true}))).sort((a,b)=>a.startsAt.localeCompare(b.startsAt)).slice(0,20);
+ return json({workspace:{role:workspace.role,label:workspace.label,roles:workspace.roles.map(r=>({id:r.id,label:r.label}))},activity:{unread:unread.n,items:notifications.map(n=>({...JSON.parse(n.data),id:n.id,teamId:n.team_id,created:n.created,read:!!n.read_at}))},messages:{unread:messageCount.n,items:received.map(r=>({id:r.id,name:JSON.parse(r.data).name,preview:JSON.parse(r.data).body.slice(0,180),created:r.created,read:!!r.read_at}))},matches:[...summaries,...fixtures].slice(0,30),delivery:'in-app; updates while this page is open'});
+}

@@ -1,5 +1,18 @@
 # Release notes
 
+## 2026-10-09 — Format-aware scoring and competition foundations
+
+- Added T10, T20, ODI, 40-over/custom, Test/first-class and 100-ball profiles. Multi-innings scoring supports declarations, forfeited innings, configured follow-on thresholds, draws and innings victories.
+- Added separate Super Over/Super Five rounds, legal-ball versus faced-ball accounting, counting dead-ball adjudication, authorized replacement bowlers, secondary fielders, reduced quotas and official DLS entry/reference workflows.
+- Undo appends an audit event without removing the original; five-run awards remain available after a result. Optimistic revision checks and optional command IDs protect scoring from duplicate effects.
+- Updated scorer, broadcast, reports, performance totals and reviewed statistical rankings for regular innings and format-aware outcomes.
+- Added provisional aggregate-ball NRR, all-out/DLS contributions, no-result/draw points and persisted tournament structure/seed plans. Automatic later-stage scheduling and final tie-break adjudication are not activated.
+- Added a free Fantasy XI hub, frozen role/price pools, 11-player/budget/team constraints, private entries, captain multipliers, atomic timestamp/first-delivery locks and live contest leaderboards. No fees or cash prizes.
+- Added tested deterministic bench-swap and ring/hysteresis policy primitives. Automatic participation feeds, global skill ratings and production ring awards remain pending.
+- Added schema-only contest/entry migration and user-facing feature limitations. Existing globe-first home, careers, 18Ads and settings are preserved.
+
+Validation: full automated regression suite, format/fantasy/API rule cases, security artifact checks and production build. Browser visual verification unavailable in this environment. No ICC certification or automated professional DLS claim.
+
 ## 2026-10-09 — Globe-first homepage composition
 
 - Made the red cricket-ball globe and Your game / Your people / One universe the opening hero for signed-in and discovery views.
