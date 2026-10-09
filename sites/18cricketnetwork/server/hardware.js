@@ -1,3 +1,4 @@
+import {readJson,rateLimit} from './security.js';
 import {admin} from './payments.js';
 import {canAdminMatch} from './governance.js';
 import {videoMoment} from '../public/match-report.js';
@@ -22,7 +23,7 @@ async function update(DB,table,r,data){const terminal=table==='camera_sessions'&
 export async function ingestCamera(request,env){
  const token=request.headers.get('Authorization')?.match(/^Bearer (cam_[a-f0-9]{64})$/)?.[1];if(!token)fail('Camera credential required',401);
  const r=await env.DB.prepare('SELECT * FROM hardware_devices WHERE token_hash=?').bind(await hash(token)).first();if(!r)fail('Invalid or revoked camera credential',401);const d=JSON.parse(r.data);if(d.disabled)fail('Camera disabled',403);
- const raw=await request.text();if(raw.length>12000)fail('Telemetry request too large',413);let b;try{b=JSON.parse(raw)}catch{fail('Invalid JSON')}
+ await rateLimit(env.DB,r.id,'camera',120);const b=await readJson(request,12000);
  if(b.action==='heartbeat'){
   d.lastSeen=now();d.firmware=text(b.firmware,80);await update(env.DB,'hardware_devices',r,d);
   const sessions=(await env.DB.prepare('SELECT * FROM camera_sessions WHERE device_id=? ORDER BY created DESC LIMIT 30').bind(r.id).all()).results;

@@ -157,3 +157,13 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+# Never track runtime credentials or generated caches
+.env
+.env.*
+!.env.example
+**/.metro-cache/
+**/.expo/
+**/node_modules/
+*.pem
+*.key

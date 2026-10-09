@@ -52,3 +52,5 @@ export const carpoolMessages=sqliteTable('carpool_messages',{id:text('id').prima
 export const carpoolBlocks=sqliteTable('carpool_blocks',{owner:text('owner').notNull(),target:text('target').notNull(),created:text('created').notNull()},t=>[uniqueIndex('carpool_block_pair').on(t.owner,t.target)]);
 export const carpoolReports=sqliteTable('carpool_reports',{id:text('id').primaryKey(),owner:text('owner').notNull(),rideId:text('ride_id').notNull(),data:text('data').notNull(),created:text('created').notNull()},t=>[index('carpool_reports_created').on(t.created)]);
 export const expenseGroups=sqliteTable('expense_groups',{id:text('id').primaryKey(),owner:text('owner').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),created:text('created').notNull(),updated:text('updated').notNull()},t=>[index('expense_groups_owner').on(t.owner)]);
+
+export const apiRateLimits=sqliteTable('api_rate_limits',{key:text('key').primaryKey(),bucket:integer('bucket').notNull(),count:integer('count').notNull(),expires:integer('expires').notNull()},t=>[index('api_rate_limits_expiry').on(t.expires)]);

@@ -261,7 +261,7 @@ export default function YourScreen() {
 
 **Backend** (`backend/.env`):
 ```env
-EMERGENT_LLM_KEY=sk-emergent-63076Bb9c045bF69dA
+EMERGENT_LLM_KEY=REPLACE_WITH_RUNTIME_LLM_KEY
 ```
 
 ### **Dependencies**

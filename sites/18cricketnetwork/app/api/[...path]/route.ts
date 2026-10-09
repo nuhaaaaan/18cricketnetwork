@@ -9,6 +9,8 @@ const dispatch=async(request:Request):Promise<Response>=>{
 export const GET=dispatch;
 export const POST=dispatch;
 export const PUT=dispatch;
+export const PATCH=dispatch;
+export const OPTIONS=dispatch;
 export const DELETE=dispatch;
 
 export const HEAD=dispatch;
