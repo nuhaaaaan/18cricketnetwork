@@ -1,5 +1,16 @@
 # Release notes
 
+## 2026-10-09 — Globe-first homepage composition
+
+- Made the red cricket-ball globe and Your game / Your people / One universe the opening hero for signed-in and discovery views.
+- Moved personal workspace below the hero and opened ecosystem discovery without a duplicate hero or bat scene.
+- Replaced bat/wicket scene on login, signup and About with the existing red globe asset and restrained orbital motion.
+- Reduced mobile hero copy, removed orbit-card secondary text, used two-column discovery cards where space allows and minimized the assistant dock.
+- Moved home feature guidance to the bottom and hid the redundant account notice on Overview.
+
+Validation: full automated suite and production build; browser visual verification unavailable.
+
+
 ## 2026-10-09 — 18Next Innings and cricket entrance motion
 
 - Expanded Opportunities into a dedicated cricket careers portal at /careers, open to every completed account.
