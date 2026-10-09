@@ -120,6 +120,20 @@
       "when": 1791565859481,
       "tag": "0016_fine_nighthawk",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1791567035770,
+      "tag": "0017_massive_luckman",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1791567488974,
+      "tag": "0018_lonely_gorgon",
+      "breakpoints": true
     }
   ]
 }
