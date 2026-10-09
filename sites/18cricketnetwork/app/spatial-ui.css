@@ -1,0 +1,159 @@
+/* 18 visual language: glass for navigation, quiet surfaces for work, depth for discovery. */
+:root {
+  --glass-base: #101c30;
+  --glass-fill: linear-gradient(145deg, #23344cdd, #101b30ee);
+  --glass-edge: #c4deff29;
+  --glass-radius: 20px;
+  --depth-panel: 0 16px 44px #02071138, inset 0 1px 0 #e4efff0c;
+  --depth-floating: 0 28px 80px #02071199, inset 0 1px 0 #ffffff1a;
+  --muted: #b0bfd3;
+}
+body {
+  background: radial-gradient(ellipse at 85% 0%, #3539672e, transparent 45%),
+    radial-gradient(ellipse at 8% 70%, #1750501c, transparent 48%), #080f20;
+}
+/* Opaque defaults remain readable without backdrop-filter support. */
+.sidebar {
+  background: #101a2d;
+  border-right: 1px solid var(--glass-edge);
+  box-shadow: 12px 0 44px #03081326;
+}
+main > header {
+  background: #101a2d;
+  border-bottom-color: var(--glass-edge);
+}
+:is(.chat-panel, .team-voice-dock, dialog) {
+  background: #132137;
+  border: 1px solid #c4deff38;
+  border-radius: 24px;
+  box-shadow: var(--depth-floating);
+}
+dialog::backdrop { background: #030817b8; }
+@supports ((backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px))) {
+  .sidebar, main > header {
+    background: #101a2deb;
+    -webkit-backdrop-filter: blur(18px) saturate(115%);
+    backdrop-filter: blur(18px) saturate(115%);
+  }
+  :is(.chat-panel, .team-voice-dock, dialog) {
+    background: #132137f2;
+    -webkit-backdrop-filter: blur(22px) saturate(115%);
+    backdrop-filter: blur(22px) saturate(115%);
+  }
+}
+/* Repeatable cards use a frosted finish without costly nested blurs. */
+:is(.card, .feature-card, .row-card, .huddle-panel, .activity, .fuel-restaurant,
+  .live-match-card, .umpire-review, .auth-card, .guide-hero, .umpire-form-panel) {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--depth-panel);
+}
+:is(.huddle-hero, .fuel-hero, .umpire-hero) {
+  background: radial-gradient(ellipse at 95% 15%, #8185d52e, transparent 60%),
+    linear-gradient(125deg, #17263ceb, #101b30f5);
+  border-color: #c4deff32;
+  border-radius: 28px;
+  box-shadow: var(--depth-panel);
+  padding: clamp(24px, 3.4vw, 46px);
+}
+:is(.huddle-hero, .fuel-hero, .umpire-hero) p { color: #c3cee0; line-height: 1.75; }
+:is(.grid, .list, .guide-grid, .fuel-grid, .live-match-grid) { gap: 20px; }
+.huddle-layout { gap: 24px; }
+:is(.huddle-panel, .card, .feature-card, .row-card) { padding: clamp(20px, 2.3vw, 30px); }
+:is(.huddle-fixture, .carpool-request, .expense-balances article, .score-teams > div) {
+  background: #0c1729;
+  border-color: #b9d1f51c;
+  border-radius: 16px;
+  box-shadow: none;
+}
+:is(.huddle-chat-log article, .carpool-chat article) { background: #18263a; }
+:is(.huddle-team, .tabs button) { box-shadow: none; }
+.sidebar nav a { border: 1px solid transparent; border-radius: 12px; }
+.sidebar nav a.active {
+  background: linear-gradient(110deg, #7bece51b, #b8a4ff0c);
+  border-color: #a3ede62e;
+  box-shadow: inset 3px 0 0 #91e7df;
+}
+:is(button, .primary, .universe-secondary) { border-radius: 12px; }
+button { background: #ffffff06; border-color: #c4deff28; }
+:is(button.primary, .primary) {
+  background: #94e9df;
+  border-color: #c5fff066;
+  color: #082724 !important;
+  box-shadow: 0 6px 18px #5ed2c017;
+}
+:is(button.primary, .primary):hover { background: #b1f4e9; border-color: #d5fff7; }
+:is(button, a):focus-visible { outline: 2px solid #b7fff1; outline-offset: 4px; }
+:is(input, select, textarea) {
+  background: #0b1526;
+  color: #f1f5ff;
+  border-color: #a9c7ec38;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 3px #0003;
+}
+:is(input, textarea)::placeholder { color: #97a9bf; opacity: 1; }
+select option { background: #132137; color: #f1f5ff; }
+.tag { border-radius: 7px; background: #153a36; color: #b2efe0; border-color: #88e0c733; }
+.notice { background: #242319; color: #e0d3a4; border-color: #dfcb7530; }
+.feature-about { background: #102a28; border-color: #95e1c52b; box-shadow: none; }
+/* Depth belongs to decorative objects, never to forms, scores or payment amounts. */
+.universe-scene { perspective: 1200px; }
+:is(.orbit-product, .arena .callout) {
+  border-color: #e5f1ff40;
+  box-shadow: 0 18px 38px #0005, inset 0 1px 0 #ffffff22;
+}
+.huddle-orbit {
+  background: radial-gradient(circle at 30% 20%, #9cf8e92a, transparent 58%), #153034;
+  border-color: #a4eee657;
+  box-shadow: inset 0 1px 0 #fff3, 16px 24px 40px #02071666;
+  transform: perspective(800px) rotateY(-14deg) rotateX(6deg);
+}
+.expense-emblem {
+  padding: 20px;
+  border: 1px solid #d2bdff42;
+  border-radius: 24px;
+  background: linear-gradient(150deg, #8c75ca20, #161d31);
+  box-shadow: 12px 20px 34px #02071666, inset 0 1px 0 #ffffff1c;
+  transform: perspective(850px) rotateY(-12deg) rotateX(5deg);
+}
+:is(.price, .metric, .score-display, .expense-balances strong) { font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.feature-card, .universe-product) { transition: transform 180ms ease, box-shadow 180ms ease; }
+  :is(.feature-card, .universe-product):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 48px #02071166, inset 0 1px 0 #ffffff1c;
+  }
+}
+@media (max-width: 650px) {
+  :root { --glass-radius: 16px; }
+  main > header { background: #101a2df5; }
+  :is(.grid, .list, .guide-grid, .huddle-layout) { gap: 16px; }
+  :is(.huddle-hero, .fuel-hero, .umpire-hero) { border-radius: 20px; padding: 24px 20px; }
+  :is(.card, .feature-card, .row-card, .huddle-panel) { padding: 20px; }
+  :is(.chat-panel, .team-voice-dock, dialog) { border-radius: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.huddle-orbit, .expense-emblem, .umpire-signal) { transform: none; }
+  :is(.feature-card, .universe-product):hover { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :is(.sidebar, main > header, .chat-panel, .team-voice-dock, dialog) {
+    background: #101c30;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :is(.card, .feature-card, .row-card, .huddle-panel, .activity, .auth-card) {
+    background: #101c30;
+    border-color: #91a6c4;
+    box-shadow: none;
+  }
+  :root { --muted: #d1dced; }
+}
+@media print {
+  body { background: white; color: black; }
+  :is(.card, .feature-card, .row-card, .huddle-panel, .expense-balances article) {
+    background: white; color: black; box-shadow: none; border-color: #aaa;
+  }
+  .expense-balances strong { color: black; }
+}
