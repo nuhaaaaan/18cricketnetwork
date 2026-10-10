@@ -1,5 +1,14 @@
 # Release notes
 
+## 2026-10-10 — 18 Match Command scorer
+
+- Rebuilt player-attributed scoring around a compact live score, red seam-ball identity, striker/non-striker/bowler cards and a large labelled run pad. Guided extras/wicket entry reuses the validated scoring engine.
+- Added Score, Scorecard, Insights and Match Controls views, expandable current-innings delivery attribution, full innings scorecards and an opaque high-contrast Daylight Mode.
+- Added server-acknowledged saving states, explicit awaiting-approval/failed states, an in-flight command guard and confirmation describing the exact effective event before audited undo. No offline queue or automated DLS calculation is claimed.
+- Preserved T10, T20, ODI, 40-over/custom, Hundred and Test/first-class rules; removed the decorative theatre introduction while actively scoring. Existing reduced-motion match effects remain optional.
+
+Validation: format/UI/command-guard regression tests, full automated suite, feature-guide/security checks and production build. Browser visual QA unavailable in the current environment.
+
 ## 2026-10-09 — Cricket-led navigation symbols
 
 - Replaced abstract menu glyphs with a shared SVG line-icon set covering every feature, quick access and header tools. Cricket symbols include ball seams, bats, wickets, helmets, pitches, nets, trophies and scoreboards; business tools retain recognizable payment, food, message and device symbols.

@@ -16,6 +16,7 @@ import './spatial-ui.css';
 import './navigation.css';
 import './ads-settings.css';
 import './cricket-motion.css';
+import '../public/match-command.css';
 import './home-composition.css';
 import {quickAccessShell} from '../web/quick-access-shell.js';
 export const metadata:Metadata={title:'18CricketNetwork | The next era of cricket',description:'Your cricket universe. Players, teams, matches, grounds, coaching, gear and community, connected by 18 Cricket AI.',icons:{icon:'/favicon.png'}};

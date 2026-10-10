@@ -2,16 +2,17 @@ import {matchDetails} from './match-setup.js';
 import {scorer as classicScorer} from './cricket-experience.js';
 import {calculateMatch} from './scoring-engine.js';
 import {createMomentTracker} from './score-moments.js';
+import {commandPanels,commandTheme} from './match-command.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tracker=createMomentTracker();let timer,queue=[],active=false;
 let motion=true;try{motion=localStorage.getItem('18-score-motion')!=='off'}catch{}
 const field=()=>`<div class="score-field" aria-hidden="true"><div class="score-orbit orbit-one"></div><div class="score-orbit orbit-two"></div><div class="score-pitch"><i></i><b></b></div>${Array.from({length:7},(_,i)=>`<span class="field-dot dot-${i}"></span>`).join('')}<span class="field-label">18 / MATCH THEATRE</span></div>`;
-export function scoreHero(m,v){const s=v.state;return `<div class="score-hero"><div class="score-hero-copy"><div class="score-channel"><span></span>18 NETWORK / MATCHDAY 2126</div><h2>${esc(m.teamA)} <em>vs</em> ${esc(m.teamB)}</h2><p>${esc(m.name)}${m.location?' · '+esc(m.location):''}</p><div class="score-primary"><span>${s.runs}<small>/${s.wickets}</small></span><div><b>${esc(s.team)}</b><small>${v.rules.key==='Hundred'?s.balls+' balls':s.overs+' overs'} · ${esc(v.result?'Complete':v.status)}</small></div></div><div class="score-telemetry"><div><small>RUN RATE</small><b>${s.rate.toFixed(2)}</b></div><div><small>${v.target?'REQUIRED RATE':'PARTNERSHIP'}</small><b>${v.target?v.requiredRate.toFixed(2):s.partnershipRuns}</b></div><div><small>${v.target?'TARGET':'FORMAT'}</small><b>${v.target?v.target:esc(v.rules.label)}</b></div></div></div>${field()}</div>`}
+export function scoreHero(m,v,command=false){const s=v.state;return `<div class="score-hero"><div class="score-hero-copy"><div class="score-channel"><span></span>${command?'18 / MATCH COMMAND':'18 NETWORK / MATCHDAY'}</div><h2>${esc(m.teamA)} <em>vs</em> ${esc(m.teamB)}</h2><p>${esc(m.name)}${m.location?' · '+esc(m.location):''}</p><div class="score-primary"><span>${s.runs}<small>/${s.wickets}</small></span><div><b>${esc(s.team)}</b><small>${v.rules.key==='Hundred'?s.balls+' balls':s.overs+' overs'} · ${esc(v.result?'Complete':v.status)}</small></div></div><div class="score-telemetry"><div><small>${v.rules.key==='Hundred'?'RUNS / 5 BALLS':'RUN RATE'}</small><b>${s.rate.toFixed(2)}</b></div><div><small>${v.target?'REQUIRED RATE':'PARTNERSHIP'}</small><b>${v.target?v.requiredRate.toFixed(2):s.partnershipRuns}</b></div><div><small>${v.target?'TARGET':'FORMAT'}</small><b>${v.target?v.target:esc(v.rules.label)}</b></div></div></div>${command?'<div class="command-ball" aria-hidden="true"><i></i><b>18</b></div>':field()}</div>`}
 export function scorer(m,c){
   if(!m.proScoring)return classicScorer(m,c);
   const v=calculateMatch(m),ducks=Object.values(v.state.batters).filter(p=>p.status==='out'&&p.runs===0&&p.dismissal!=='timed_out'&&p.dismissal!=='retired_out');
   if(typeof document!=='undefined')queueMicrotask(()=>{if(document.querySelector('.future-score')?.dataset.match===m.id){const moments=tracker.observe(m);if(tracker.corrected)clearMoments();showMoments(moments);}});
-  return `<section class="future-score" data-match="${esc(m.id)}">${scoreHero(m,v)}<div class="score-command-bar"><span>${c.own(m)?'SCORER COMMAND DECK':'SPECTATOR SCORECARD'} · RECORDED MATCH DATA</span><button type="button" data-score-motion aria-pressed="${motion}">Match animations: ${motion?'on':'off'}</button></div>${ducks.length?`<div class="score-annotations">${ducks.map(p=>`<span>DUCK · ${esc(p.name)} · 0 (${p.balls})</span>`).join('')}</div>`:''}${matchDetails(m,c)}${classicScorer(m,c)}</section>`;
+  return `<section class="future-score match-command" data-match="${esc(m.id)}" data-command-theme="${commandTheme()}">${scoreHero(m,v,true)}<div class="score-command-bar"><span>${c.own(m)?'SCORER COMMAND DECK':'SPECTATOR SCORECARD'} · RECORDED MATCH DATA</span><button type="button" data-score-motion aria-pressed="${motion}">Match animations: ${motion?'on':'off'}</button></div>${ducks.length?`<div class="score-annotations">${ducks.map(p=>`<span>DUCK · ${esc(p.name)} · 0 (${p.balls})</span>`).join('')}</div>`:''}${commandPanels(m,c,v,classicScorer(m,{...c,own:()=>false}),matchDetails(m,c))}</section>`;
 }
 export function showMoments(moments,preview=false){
   if(typeof document==='undefined'||document.visibilityState==='hidden')return;
@@ -37,7 +38,8 @@ if(typeof document!=='undefined'){
   const watch=new MutationObserver(()=>{
     if(!document.querySelector('.future-score'))tracker.reset();
     const view=document.querySelector('#view');
-    if(view&&document.querySelector('#crumb')?.textContent==='Match centre'&&!view.querySelector('.match-theatre-intro')){
+    if(view?.querySelector('.future-score'))view.querySelector('.match-theatre-intro')?.remove();
+    if(view&&!view.querySelector('.future-score')&&document.querySelector('#crumb')?.textContent==='Match centre'&&!view.querySelector('.match-theatre-intro')){
       view.insertAdjacentHTML('afterbegin',`<section class="match-theatre-intro"><div><span class="score-channel">18 / MATCH THEATRE · 2126</span><h1>Every ball.<br><em>A bigger moment.</em></h1><p>Your match deserves a world-stage scorecard. Open a recorded match to score, follow the innings or send it to the big screen.</p><div class="score-preview-controls"><small>VISUAL EFFECT PREVIEW · NO MATCH DATA</small>${[['four','FOUR'],['six','SIX'],['wicket','WICKET'],['duck','DUCK'],['hattrick','HAT-TRICK'],['milestone','CENTURY']].map(([k,n])=>`<button data-score-preview="${k}">${n}</button>`).join('')}</div></div>${field()}</section>`);
     }
   });watch.observe(document.body,{childList:true,subtree:true});
