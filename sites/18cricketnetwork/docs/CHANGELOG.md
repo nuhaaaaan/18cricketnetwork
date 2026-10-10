@@ -1,5 +1,13 @@
 # Release notes
 
+## 2026-10-09 — Cricket-led navigation symbols
+
+- Replaced abstract menu glyphs with a shared SVG line-icon set covering every feature, quick access and header tools. Cricket symbols include ball seams, bats, wickets, helmets, pitches, nets, trophies and scoreboards; business tools retain recognizable payment, food, message and device symbols.
+- Reused the icons in role cards and homepage workspace/discovery shortcuts, with fixed responsive sizes, inherited contrast and text labels. Decorative SVGs are hidden from assistive technology; icon-only actions retain accessible names.
+- Corrected the umpire workspace report destination to the existing Performance route.
+
+Validation: automated suite, feature-guide/security checks and production build. Browser visual QA unavailable in the current environment.
+
 ## 2026-10-09 — Ingredient transparency and 18 Health Rating
 
 - Required complete ingredient inventories, quantities and health-policy acknowledgement for restaurant signup/applications; recipes include cooking method and optional per-100g nutrition. TXT/CSV imports support editable disclosures.
