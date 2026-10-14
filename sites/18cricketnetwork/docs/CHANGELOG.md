@@ -1,5 +1,16 @@
 # Release notes
 
+## 2026-10-14 — 18 Franchise, Scout and Business operational workspaces
+
+- Added private franchise, group, league, academy and business workspaces with authenticated-email invitation acceptance, role changes, revocation and a shared revision boundary protecting concurrent permission/workflow changes.
+- Added typed scouting, squad scenarios, contracts/NOC tracking, availability, analysis/training, clinical notes, travel, accommodation, sponsorship rights, supplier assessments, procurement, matchday incidents/accreditation, fan campaigns, data rights and integration registers.
+- Added immutable approved season rule packs and scenario checks for budget, currency, duplicate players, squad size, overseas players and retentions. No league rules are silently assumed.
+- Added RFQ-to-quotation-to-order-to-delivery-to-invoice workflows with financial approval, frozen quotation amounts, assigned supplier visibility, delivery reporting and manual external reconciliation references.
+- Added private R2 PDF/TXT/CSV attachments, department-filtered JSON exports, bounded audit history and independently authorised group portfolios. Clinical notes and files remain medical-role-only; public records/search do not receive enterprise data.
+- Added a responsive department workspace, cricket icons, navigation and role shortcuts, source-reviewed feature policies, additive D1 migration and an explicit enterprise-readiness runbook.
+
+Validation: organisation/department/supplier isolation, invitation acceptance/revocation, stale/concurrent writes, private clinical documents/exports, rules and procurement regression coverage plus the full suite and production/security checks. Browser visual verification unavailable. External SSO, licensed feeds, automated payments/contracts, ticketing, wearables, immutable audit, independent security certification and load/recovery evidence remain activation work; this is an operational pilot.
+
 ## 2026-10-10 — 18 Match Command scorer
 
 - Rebuilt player-attributed scoring around a compact live score, red seam-ball identity, striker/non-striker/bowler cards and a large labelled run pad. Guided extras/wicket entry reuses the validated scoring engine.

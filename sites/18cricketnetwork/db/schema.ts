@@ -1,5 +1,7 @@
 import {sql} from 'drizzle-orm';
 import { sqliteTable, text, integer, uniqueIndex, index } from 'drizzle-orm/sqlite-core';
+// A versioned aggregate keeps membership revocation and workflow writes in one CAS boundary.
+export const franchiseWorkspaces=sqliteTable('franchise_workspaces',{id:text('id').primaryKey(),owner:text('owner').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),created:text('created').notNull(),updated:text('updated').notNull()},t=>[index('franchise_owner_updated').on(t.owner,t.updated)]);
 export const cricketContests=sqliteTable('cricket_contests',{id:text('id').primaryKey(),matchId:text('match_id').notNull(),owner:text('owner').notNull(),lockAt:text('lock_at').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),created:text('created').notNull()},t=>[index('cricket_contests_match').on(t.matchId)]);
 export const cricketEntries=sqliteTable('cricket_entries',{id:text('id').primaryKey(),contestId:text('contest_id').notNull(),owner:text('owner').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),created:text('created').notNull()},t=>[uniqueIndex('cricket_entry_member').on(t.contestId,t.owner)]);
 export const drsSetups=sqliteTable('drs_setups',{matchId:text('match_id').primaryKey(),owner:text('owner').notNull(),data:text('data').notNull(),version:integer('version').notNull().default(1),updated:text('updated').notNull()});
